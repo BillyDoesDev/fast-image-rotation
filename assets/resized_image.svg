@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="132.45921mm"
+   height="91.106422mm"
+   viewBox="0 0 132.45921 91.106422"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.3.2 (091e20ef0f, 2023-11-25, custom)"
+   sodipodi:docname="resized_image.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#ffffff"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="mm"
+     inkscape:zoom="1.5144501"
+     inkscape:cx="284.59176"
+     inkscape:cy="167.05734"
+     inkscape:window-width="1920"
+     inkscape:window-height="1023"
+     inkscape:window-x="0"
+     inkscape:window-y="33"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <defs
+     id="defs1">
+    <marker
+       style="overflow:visible"
+       id="Triangle"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path135" />
+    </marker>
+  </defs>
+  <path
+     id="path19"
+     style="fill:none;stroke:#848cc8;stroke-width:0.484475;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#Triangle)"
+     d="M 35.241834,85.968627 35.045687,1.7204022" />
+  <path
+     id="path21"
+     style="fill:none;stroke:#848cc8;stroke-width:0.484475;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#Triangle)"
+     d="m 35.241834,85.968627 95.496976,0.16245" />
+  <rect
+     style="fill:none;stroke:#999999;stroke-width:0.507;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:0.507, 2.028;stroke-dashoffset:0"
+     id="rect2"
+     width="66.230408"
+     height="38.32909"
+     x="-12.617625"
+     y="53.784023"
+     ry="0"
+     transform="rotate(-30)" />
+  <path
+     id="path20"
+     style="fill:none;stroke:#848cc8;stroke-width:0.484475;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+     d="M 35.241834,85.968627 H 0.24223749" />
+  <path
+     style="fill:none;stroke:#848cc8;stroke-width:0.507;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:0.507, 2.028;stroke-dashoffset:0;stroke-opacity:1"
+     d="M 92.486569,52.965884 V 86.081107"
+     id="path4" />
+  <path
+     style="fill:none;stroke:#848cc8;stroke-width:0.507;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:0.507, 2.028;stroke-dashoffset:0;stroke-opacity:1"
+     d="M 15.964825,52.887134 V 85.968627"
+     id="path5" />
+  <path
+     style="fill:none;stroke:#848cc8;stroke-width:0.507;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:0.507, 2.028;stroke-dashoffset:0;stroke-opacity:1"
+     d="M 73.322032,19.771931 H 35.087714"
+     id="path6" />
+  <text
+     xml:space="preserve"
+     style="font-weight:bold;font-size:4.51146px;line-height:0.9;font-family:'Hack NF';-inkscape-font-specification:'Hack NF Bold';letter-spacing:0px;fill:#848cc8;fill-opacity:1;stroke:#848cc8;stroke-width:1.75812;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+     x="-46.751068"
+     y="-81.703041"
+     id="text6"
+     transform="scale(-1)"><tspan
+       sodipodi:role="line"
+       id="tspan6"
+       style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.51146px;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman,  Italic';fill:#848cc8;fill-opacity:1;stroke:none;stroke-width:1.75812;stroke-dasharray:none;stroke-dashoffset:0"
+       x="-46.751068"
+       y="-81.703041">θ</tspan></text>
+  <path
+     style="fill:none;fill-opacity:1;stroke:#848cc8;stroke-width:0.507168;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+     d="m 42.164563,82.303197 c 0,0 1.78604,1.54522 0.702377,3.65234"
+     id="path7"
+     sodipodi:nodetypes="cc" />
+  <text
+     xml:space="preserve"
+     style="font-weight:bold;font-size:2.80502px;line-height:0.9;font-family:'Hack NF';-inkscape-font-specification:'Hack NF Bold';letter-spacing:0px;fill:none;stroke:#848cc8;stroke-width:1.09312;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+     x="-59.749359"
+     y="131.53912"
+     id="text7"
+     transform="scale(-1,1)"><tspan
+       sodipodi:role="line"
+       id="tspan7"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.80502px;font-family:'Hack NF';-inkscape-font-specification:'Hack NF';fill:#767676;fill-opacity:1;stroke:none;stroke-width:1.09312;stroke-dasharray:none;stroke-dashoffset:0"
+       x="-59.749359"
+       y="131.53912" /></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.12612px;line-height:0.9;font-family:'Hack NF';-inkscape-font-specification:'Hack NF';letter-spacing:0px;fill:#848cc8;fill-opacity:1;stroke:#848cc8;stroke-width:0.507168;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+     x="58.10006"
+     y="90.223984"
+     id="text8"><tspan
+       sodipodi:role="line"
+       id="tspan8"
+       style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.12612px;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman,  Italic';fill:#848cc8;fill-opacity:1;stroke:none;stroke-width:0.507168"
+       x="58.10006"
+       y="90.223984">x cos(θ)</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.12612px;line-height:0.9;font-family:'Hack NF';-inkscape-font-specification:'Hack NF';letter-spacing:0px;fill:#848cc8;fill-opacity:1;stroke:#848cc8;stroke-width:0.507168;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+     x="19.162428"
+     y="89.76989"
+     id="text9"><tspan
+       sodipodi:role="line"
+       id="tspan9"
+       style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.12612px;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman,  Italic';fill:#848cc8;fill-opacity:1;stroke:none;stroke-width:0.507168"
+       x="19.162428"
+       y="89.76989">y sin(θ)</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.12612px;line-height:0.9;font-family:'Hack NF';-inkscape-font-specification:'Hack NF';letter-spacing:0px;fill:#848cc8;fill-opacity:1;stroke:#848cc8;stroke-width:0.507168;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+     x="61.392159"
+     y="69.109108"
+     id="text10"><tspan
+       sodipodi:role="line"
+       id="tspan10"
+       style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.12612px;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman,  Italic';fill:#848cc8;fill-opacity:1;stroke:none;stroke-width:0.507168"
+       x="61.392159"
+       y="69.109108">x</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.12612px;line-height:0.9;font-family:'Hack NF';-inkscape-font-specification:'Hack NF';letter-spacing:0px;fill:#848cc8;fill-opacity:1;stroke:#848cc8;stroke-width:0.507168;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+     x="25.065504"
+     y="67.746864"
+     id="text11"><tspan
+       sodipodi:role="line"
+       id="tspan11"
+       style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.12612px;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman,  Italic';fill:#848cc8;fill-opacity:1;stroke:none;stroke-width:0.507168"
+       x="25.065504"
+       y="67.746864">y</tspan></text>
+  <path
+     style="fill:none;fill-opacity:1;stroke:#ff7f2a;stroke-width:0.507168;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+     d="M 92.486569,52.965884 V 13.882926"
+     id="path11" />
+  <path
+     style="fill:none;fill-opacity:1;stroke:#ff7f2a;stroke-width:0.507168;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+     d="M 73.322032,19.771931 H 111.86836"
+     id="path12" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.12612px;line-height:0.9;font-family:'Hack NF';-inkscape-font-specification:'Hack NF';letter-spacing:0px;fill:#848cc8;fill-opacity:1;stroke:#848cc8;stroke-width:0.507168;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+     x="82.830093"
+     y="61.983372"
+     id="text14"><tspan
+       sodipodi:role="line"
+       id="tspan14"
+       style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.12612px;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman,  Italic';fill:#848cc8;fill-opacity:1;stroke:none;stroke-width:0.507168"
+       x="82.830093"
+       y="61.983372">90 - θ</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.12612px;line-height:0.9;font-family:'Hack NF';-inkscape-font-specification:'Hack NF';letter-spacing:0px;fill:#848cc8;fill-opacity:1;stroke:#848cc8;stroke-width:0.507168;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+     x="89.641365"
+     y="45.06876"
+     id="text16"><tspan
+       sodipodi:role="line"
+       id="tspan16"
+       style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.12612px;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman,  Italic';fill:#848cc8;fill-opacity:1;stroke:none;stroke-width:0.507168"
+       x="89.641365"
+       y="45.06876">θ</tspan></text>
+  <rect
+     style="fill:none;stroke:#999999;stroke-width:0.507;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0"
+     id="rect1"
+     width="66.230408"
+     height="38.32909"
+     x="35.129364"
+     y="47.752026"
+     ry="0" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.12612px;line-height:0.9;font-family:'Hack NF';-inkscape-font-specification:'Hack NF';letter-spacing:0px;fill:#848cc8;fill-opacity:1;stroke:#848cc8;stroke-width:0.507168;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+     x="82.507027"
+     y="33.917667"
+     id="text17"><tspan
+       sodipodi:role="line"
+       id="tspan17"
+       style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.12612px;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman,  Italic';fill:#848cc8;fill-opacity:1;stroke:none;stroke-width:0.507168"
+       x="82.507027"
+       y="33.917667">y</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.12612px;line-height:0.9;font-family:'Hack NF';-inkscape-font-specification:'Hack NF';letter-spacing:0px;fill:#848cc8;fill-opacity:1;stroke:#848cc8;stroke-width:0.507168;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+     x="93.972633"
+     y="33.463589"
+     id="text18"><tspan
+       sodipodi:role="line"
+       id="tspan18"
+       style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.12612px;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman,  Italic';fill:#848cc8;fill-opacity:1;stroke:none;stroke-width:0.507168"
+       x="93.972633"
+       y="33.463589">y cos(θ)</tspan></text>
+  <circle
+     style="fill:#ff7f2a;fill-opacity:1;stroke:none;stroke-width:2.75327;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+     id="path18"
+     cx="101.26174"
+     cy="47.888226"
+     r="0.73182386" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.12612px;line-height:0.9;font-family:'Hack NF';-inkscape-font-specification:'Hack NF';letter-spacing:0px;fill:#848cc8;fill-opacity:1;stroke:#848cc8;stroke-width:0.507168;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+     x="103.62191"
+     y="48.44833"
+     id="text19"><tspan
+       sodipodi:role="line"
+       id="tspan19"
+       style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.12612px;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman,  Italic';fill:#848cc8;fill-opacity:1;stroke:none;stroke-width:0.507168"
+       x="103.62191"
+       y="48.44833">P (x, y)</tspan></text>
+</svg>
