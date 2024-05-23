@@ -25,7 +25,7 @@ yes.
 **Stage 1: The naive rotation matrix approach**
 
 - First, we calculate the new dimensions of the image to fit the rotation.</br>
-<img src="assets/resized_image.png" /></br>
+<img src="./assets/resized_image.png" /></br>
 *the figure above represents the new size of the image after rotation by an angle $\theta$*
 
 - Next, we decide on a centre for rotation (in this case, the centre of the image $(cx, xy)$), and apply the rotation matrix for each pixel coordinate, $(x, y)$ of the image
