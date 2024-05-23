@@ -1,4 +1,4 @@
-# [SAMSUMG PRISM_24VI24KIIT] Fast Parallel Image Rotation Algorithm
+# Fast Parallel Image Rotation Algorithm
 
 **Abstract**</br>
 yes.
