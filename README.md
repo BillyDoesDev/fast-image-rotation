@@ -14,6 +14,15 @@ yes.
     # optionally install `zlib` for Halide in case your system doesn't already have it
     ```
 
+- Clone this repo, download and extract the [binary release of Halide](https://github.com/halide/Halide/releases) for your system and place it in the current working directory.
+    > **Note:** You may have to modify the `CMakeLists.txt` file accordingly.
+
+    ```make
+    # Add include directories for Halide
+    include_directories(${PROJECT_SOURCE_DIR}/Halide-17.0.1-x86-64-linux/include)
+    ```
+    Also, make sure you have the `zlib` and `OpenCV` binaries in your path.
+
 - Build the thing
     ```sh
     mkdir build
