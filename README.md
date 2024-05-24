@@ -10,6 +10,8 @@ yes.
     # the following instructions are for arch
     # packages and procedures may vary
     sudo pacman -Sy glew fmt vtk hdf5 opencv
+
+    # optionally install `zlib` for Halide in case your system doesn't already have it
     ```
 
 - Build the thing
