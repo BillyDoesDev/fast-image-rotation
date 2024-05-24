@@ -1,6 +1,7 @@
 #include <cmath>
 #include <iostream>
 #include <opencv2/opencv.hpp>
+#include "Halide-17.0.1-x86-64-linux/include/Halide.h"
 
 using namespace cv;
 using namespace std;
