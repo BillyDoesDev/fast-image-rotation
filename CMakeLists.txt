@@ -18,6 +18,7 @@ find_package(ZLIB REQUIRED)
 find_package(JPEG REQUIRED)
 find_package(PNG REQUIRED)
 find_package(OpenCV REQUIRED)
+# find_library(DL_LIBRARY dl)
 
 if(NOT JPEG_FOUND)
     message(FATAL_ERROR "JPEG library not found")
@@ -41,3 +42,6 @@ target_link_libraries(${PROJECT_NAME} JPEG::JPEG)
 
 # Link against PNG
 target_link_libraries(${PROJECT_NAME} PNG::PNG)
+
+target_link_libraries(${PROJECT_NAME} dl)
+target_link_libraries(${PROJECT_NAME} pthread)
