@@ -1,107 +1,105 @@
-// Halide tutorial lesson 1: Getting started with Funcs, Vars, and Exprs
+// Halide tutorial lesson 2: Processing images
 
-// This lesson demonstrates basic usage of Halide as a JIT compiler for imaging.
+// This lesson demonstrates how to pass in input images and manipulate
+// them.
 
 // On linux, you can compile and run it like so:
-// g++ lesson_01*.cpp -g -I <path/to/Halide.h> -L <path/to/libHalide.so> -lHalide -lpthread -ldl -o lesson_01 -std=c++17
-// LD_LIBRARY_PATH=<path/to/libHalide.so> ./lesson_01
+// g++ lesson_02*.cpp -g -I <path/to/Halide.h> -I <path/to/tools/halide_image_io.h> -L <path/to/libHalide.so> -lHalide `libpng-config --cflags --ldflags` -ljpeg -lpthread -ldl -o lesson_02 -std=c++17
+// LD_LIBRARY_PATH=<path/to/libHalide.so> ./lesson_02
 
 // On os x:
-// g++ lesson_01*.cpp -g -I <path/to/Halide.h> -L <path/to/libHalide.so> -lHalide -o lesson_01 -std=c++17
-// DYLD_LIBRARY_PATH=<path/to/libHalide.dylib> ./lesson_01
+// g++ lesson_02*.cpp -g -I <path/to/Halide.h> -I <path/to/tools/halide_image_io.h> -L <path/to/libHalide.so> -lHalide `libpng-config --cflags --ldflags` -ljpeg -o lesson_02 -std=c++17
+// DYLD_LIBRARY_PATH=<path/to/libHalide.dylib> ./lesson_02
 
 // If you have the entire Halide source tree, you can also build it by
 // running:
-//    make tutorial_lesson_01_basics
+//    make tutorial_lesson_02_input_image
 // in a shell with the current directory at the top of the halide
 // source tree.
 
 // The only Halide header file you need is Halide.h. It includes all of Halide.
-#include <Halide.h>
+#include "Halide.h"
+#include <opencv2/opencv.hpp>
 
-// We'll also include stdio for printf.
-#include <stdio.h>
+// Include some support code for loading pngs.
+#include "halide_image_io.h"
+using namespace Halide::Tools;
 
 int main(int argc, char **argv) {
 
     // This program defines a single-stage imaging pipeline that
-    // outputs a grayscale diagonal gradient.
+    // brightens an image.
 
-    // A 'Func' object represents a pipeline stage. It's a pure
-    // function that defines what value each pixel should have. You
-    // can think of it as a computed image.
-    Halide::Func gradient;
+    // First we'll load the input image we wish to brighten.
+    Halide::Buffer<uint8_t> input = load_image("../assets/test.png");
 
-    // Var objects are names to use as variables in the definition of
-    // a Func. They have no meaning by themselves.
-    Halide::Var x, y;
+    // See figures/lesson_02_input.jpg for a smaller version.
 
-    // We typically use Vars named 'x' and 'y' to correspond to the x
-    // and y axes of an image, and we write them in that order. If
-    // you're used to thinking of images as having rows and columns,
-    // then x is the column index, and y is the row index.
+    // Next we define our Func object that represents our one pipeline
+    // stage.
+    Halide::Func brighter;
 
-    // Funcs are defined at any integer coordinate of its variables as
-    // an Expr in terms of those variables and other functions.
-    // Here, we'll define an Expr which has the value x + y. Vars have
-    // appropriate operator overloading so that expressions like
-    // 'x + y' become 'Expr' objects.
-    Halide::Expr e = x + y;
+    // Our Func will have three arguments, representing the position
+    // in the image and the color channel. Halide treats color
+    // channels as an extra dimension of the image.
+    Halide::Var x, y, c;
 
-    // Now we'll add a definition for the Func object. At pixel x, y,
-    // the image will have the value of the Expr e. On the left hand
-    // side we have the Func we're defining and some Vars. On the right
-    // hand side we have some Expr object that uses those same Vars.
-    gradient(x, y) = e;
+    // Normally we'd probably write the whole function definition on
+    // one line. Here we'll break it apart so we can explain what
+    // we're doing at every step.
 
-    // This is the same as writing:
+    // For each pixel of the input image.
+    Halide::Expr value = input(x, y, c);
+
+    // Cast it to a floating point value.
+    value = Halide::cast<float>(value);
+
+    // Multiply it by 1.5 to brighten it. Halide represents real
+    // numbers as floats, not doubles, so we stick an 'f' on the end
+    // of our constant.
+    value = value * 1.5f;
+
+    // Clamp it to be less than 255, so we don't get overflow when we
+    // cast it back to an 8-bit unsigned int.
+    value = Halide::min(value, 255.0f);
+
+    // Cast it back to an 8-bit unsigned integer.
+    value = Halide::cast<uint8_t>(value);
+
+    // Define the function.
+    brighter(x, y, c) = value;
+
+    // The equivalent one-liner to all of the above is:
     //
-    //   gradient(x, y) = x + y;
+    // brighter(x, y, c) = Halide::cast<uint8_t>(min(input(x, y, c) * 1.5f, 255));
     //
-    // which is the more common form, but we are showing the
-    // intermediate Expr here for completeness.
+    // In the shorter version:
+    // - I skipped the cast to float, because multiplying by 1.5f does
+    //   that automatically.
+    // - I also used an integer constant as the second argument in the
+    //   call to min, because it gets cast to float to be compatible
+    //   with the first argument.
+    // - I left the Halide:: off the call to min. It's unnecessary due
+    //   to Koenig lookup.
 
-    // That line of code defined the Func, but it didn't actually
-    // compute the output image yet. At this stage it's just Funcs,
-    // Exprs, and Vars in memory, representing the structure of our
-    // imaging pipeline. We're meta-programming. This C++ program is
-    // constructing a Halide program in memory. Actually computing
-    // pixel data comes next.
+    // Remember, all we've done so far is build a representation of a
+    // Halide program in memory. We haven't actually processed any
+    // pixels yet. We haven't even compiled that Halide program yet.
 
-    // Now we 'realize' the Func, which JIT compiles some code that
-    // implements the pipeline we've defined, and then runs it.  We
-    // also need to tell Halide the domain over which to evaluate the
-    // Func, which determines the range of x and y above, and the
-    // resolution of the output image. Halide.h also provides a basic
-    // templatized image type we can use. We'll make an 800 x 600
-    // image.
-    Halide::Buffer<int32_t> output = gradient.realize({800, 600});
+    // So now we'll realize the Func. The size of the output image
+    // should match the size of the input image. If we just wanted to
+    // brighten a portion of the input image we could request a
+    // smaller size. If we request a larger size Halide will throw an
+    // error at runtime telling us we're trying to read out of bounds
+    // on the input image.
+    Halide::Buffer<uint8_t> output =
+        brighter.realize({input.width(), input.height(), input.channels()});
 
-    // Halide does type inference for you. Var objects represent
-    // 32-bit integers, so the Expr object 'x + y' also represents a
-    // 32-bit integer, and so 'gradient' defines a 32-bit image, and
-    // so we got a 32-bit signed integer image out when we call
-    // 'realize'. Halide types and type-casting rules are equivalent
-    // to C.
+    // Save the output for inspection. It should look like a bright parrot.
+    save_image(output, "brighter.png");
 
-    // Let's check everything worked, and we got the output we were
-    // expecting:
-    for (int j = 0; j < output.height(); j++) {
-        for (int i = 0; i < output.width(); i++) {
-            // We can access a pixel of an Buffer object using similar
-            // syntax to defining and using functions.
-            if (output(i, j) != i + j) {
-                printf("Something went wrong!\n"
-                       "Pixel %d, %d was supposed to be %d, but instead it's %d\n",
-                       i, j, i + j, output(i, j));
-                return -1;
-            }
-        }
-    }
+    // See figures/lesson_02_output.jpg for a small version of the output.
 
-    // Everything worked! We defined a Func, then called 'realize' on
-    // it to generate and run machine code that produced an Buffer.
     printf("Success!\n");
-
     return 0;
 }
