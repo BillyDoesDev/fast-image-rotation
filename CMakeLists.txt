@@ -6,7 +6,9 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(SOURCE_FILES
-    scheduling_demo.cpp
+    parallel_rotation.cpp
+    # shear_rotation.cpp
+    # opencv_demo.cpp
 )
 
 # Include directories for Halide and its tools
@@ -17,7 +19,7 @@ include_directories(${PROJECT_SOURCE_DIR}/Halide-17.0.1-x86-64-linux/share/Halid
 find_package(ZLIB REQUIRED)
 find_package(JPEG REQUIRED)
 find_package(PNG REQUIRED)
-# find_package(OpenCV REQUIRED)
+find_package(OpenCV REQUIRED)
 # find_library(DL_LIBRARY dl)
 
 if(NOT JPEG_FOUND)
@@ -32,15 +34,10 @@ add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 # Link against Halide
 target_link_libraries(${PROJECT_NAME} ${PROJECT_SOURCE_DIR}/Halide-17.0.1-x86-64-linux/lib/libHalide.a)
-# target_link_libraries(${PROJECT_NAME} ${OpenCV_LIBS})
+target_link_libraries(${PROJECT_NAME} ${OpenCV_LIBS})
 
-# Link against Zlib
 target_link_libraries(${PROJECT_NAME} ZLIB::ZLIB)
-
-# Link against JPEG
 target_link_libraries(${PROJECT_NAME} JPEG::JPEG)
-
-# Link against PNG
 target_link_libraries(${PROJECT_NAME} PNG::PNG)
 
 target_link_libraries(${PROJECT_NAME} dl)

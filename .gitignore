@@ -3,3 +3,5 @@ build/
 log.py
 Halide-17.0.1-x86-64-linux/
 tutorial/
+env/
+outputs/
