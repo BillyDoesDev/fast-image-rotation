@@ -6,9 +6,21 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(SOURCE_FILES
-    parallel_rotation.cpp
+    # parallel_rotation.cpp
     # shear_rotation.cpp
     # opencv_demo.cpp
+    # dsp_image_rot.cpp
+
+    ### UNCOMMENT FOR AUTOSCHEDULING GENERATION ###
+    # autoscheduling.cpp
+    # Halide-17.0.1-x86-64-linux/share/Halide/tools/GenGen.cpp
+    ###############################################
+
+    ### UNCOMMENT FOR AUTOSCHEDULING RUNNING ###
+    autoschedule_run.cpp
+    build/auto_schedule_false.a
+    build/auto_schedule_true.a
+    ############################################
 )
 
 # Include directories for Halide and its tools
@@ -33,7 +45,13 @@ endif()
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 # Link against Halide
-target_link_libraries(${PROJECT_NAME} ${PROJECT_SOURCE_DIR}/Halide-17.0.1-x86-64-linux/lib/libHalide.a)
+target_link_libraries(${PROJECT_NAME} ${PROJECT_SOURCE_DIR}/Halide-17.0.1-x86-64-linux/lib/libHalide.so)
+
+### UNCOMMENT FOR AUTOSCHEDULING RUNNING ###
+target_link_libraries(${PROJECT_NAME} ${PROJECT_SOURCE_DIR}/build/auto_schedule_false.a)
+target_link_libraries(${PROJECT_NAME} ${PROJECT_SOURCE_DIR}/build/auto_schedule_true.a)
+############################################
+
 target_link_libraries(${PROJECT_NAME} ${OpenCV_LIBS})
 
 target_link_libraries(${PROJECT_NAME} ZLIB::ZLIB)
