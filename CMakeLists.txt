@@ -11,15 +11,20 @@ set(SOURCE_FILES
     # opencv_demo.cpp
     # dsp_image_rot.cpp
 
+    # utils/dlr_opencv.cpp
+    utils/subhadeep.cpp
+
     ### UNCOMMENT FOR AUTOSCHEDULING GENERATION ###
     # autoscheduling.cpp
+    # rotate_auto_schedule.cpp
     # Halide-17.0.1-x86-64-linux/share/Halide/tools/GenGen.cpp
     ###############################################
 
     ### UNCOMMENT FOR AUTOSCHEDULING RUNNING ###
-    autoschedule_run.cpp
-    build/auto_schedule_false.a
-    build/auto_schedule_true.a
+    # autoschedule_run.cpp
+    # rotate_auto_run.cpp
+    # build/auto_schedule_false.a
+    # build/auto_schedule_true.a
     ############################################
 )
 
@@ -48,8 +53,8 @@ add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 target_link_libraries(${PROJECT_NAME} ${PROJECT_SOURCE_DIR}/Halide-17.0.1-x86-64-linux/lib/libHalide.so)
 
 ### UNCOMMENT FOR AUTOSCHEDULING RUNNING ###
-target_link_libraries(${PROJECT_NAME} ${PROJECT_SOURCE_DIR}/build/auto_schedule_false.a)
-target_link_libraries(${PROJECT_NAME} ${PROJECT_SOURCE_DIR}/build/auto_schedule_true.a)
+# target_link_libraries(${PROJECT_NAME} ${PROJECT_SOURCE_DIR}/build/auto_schedule_true.a)
+# target_link_libraries(${PROJECT_NAME} ${PROJECT_SOURCE_DIR}/build/auto_schedule_false.a)
 ############################################
 
 target_link_libraries(${PROJECT_NAME} ${OpenCV_LIBS})
