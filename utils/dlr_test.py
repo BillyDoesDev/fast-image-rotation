@@ -19,8 +19,8 @@ for y in range(m):
 angle = 30
 alpha = radians(30)
 
-nrt = ceil(m * sin(alpha) + n * cos(alpha)) + 1 # 1 extra pixel just for clearance
-mrt = ceil(m * cos(alpha) + n * sin(alpha)) + 1
+nrt = ceil(m * sin(alpha)) + n
+mrt = ceil(m * cos(alpha) + n * sin(alpha))
 print(f"{nrt=}, {mrt=}")
 
 rot = []
