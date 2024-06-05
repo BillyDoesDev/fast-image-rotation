@@ -12,7 +12,7 @@ set(SOURCE_FILES
     # dsp_image_rot.cpp
 
     # utils/dlr_opencv.cpp
-    utils/subhadeep.cpp
+    utils/hermite.cpp
 
     ### UNCOMMENT FOR AUTOSCHEDULING GENERATION ###
     # autoscheduling.cpp
