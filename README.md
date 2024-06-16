@@ -1,7 +1,7 @@
 # Fast Parallel Image Rotation Algorithm
 
 **Abstract**</br>
-yes.
+yes. heehhehehe
 
 ## Setup and building
 
