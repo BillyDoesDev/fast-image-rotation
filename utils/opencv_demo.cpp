@@ -6,7 +6,7 @@ using namespace cv;
 using namespace std;
 
 int main(int argc, char** argv) {
-    Mat img = imread("../assets/Lenna_test_image.png", IMREAD_COLOR);
+    Mat img = imread("../assets/fish.png");
     if (!img.data) {
         printf("No image data \n");
         return -1;
@@ -56,7 +56,7 @@ int main(int argc, char** argv) {
         }
     }
 
-    imwrite("../outputs/opencv_output.png", rotated);
+    imwrite("../outputs/opencv_rotation_mat_output.png", rotated);
 
     return 0;
 }

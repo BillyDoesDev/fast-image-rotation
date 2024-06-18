@@ -1,56 +1,59 @@
 #include <opencv2/opencv.hpp>
 #include <cmath>
+#include <iostream>
 
-cv::Mat rotateImage(const cv::Mat& src, double angle) {
-    // Convert angle to radians
-    double radians = angle * CV_PI / 180.0;
-
-    // Calculate the size of the output image
-    int diagonal = std::sqrt(src.rows * src.rows + src.cols * src.cols);
-    cv::Size dstSize(diagonal, diagonal);
-
-    // Center of rotation
-    cv::Point2f center(dstSize.width / 2.0f, dstSize.height / 2.0f);
-
-    // Create the transformation matrices for the reflections
-    cv::Mat M1 = (cv::Mat_<double>(2, 3) << 0, 1, 0, 1, 0, 0); // Reflect across y = x
-    cv::Mat M2 = (cv::Mat_<double>(2, 3) << 0, -1, center.x + center.y, -1, 0, center.x + center.y); // Reflect across y = -x
-
-    // Apply the first reflection
-    cv::Mat reflected1;
-    cv::warpAffine(src, reflected1, M1, dstSize);
-
-    // Apply the second reflection
-    cv::Mat reflected2;
-    cv::warpAffine(reflected1, reflected2, M2, dstSize);
-
-    // Return the final rotated image
-    return reflected2;
-}
-
-int main(int argc, char** argv) {
-    // if (argc != 3) {
-    //     std::cerr << "Usage: " << argv[0] << " <image_path> <angle>" << std::endl;
-    //     return -1;
-    // }
-
+int main() {
     // Load the image
-    cv::Mat src = cv::imread("../assets/Lenna_test_image.png");
-    if (src.empty()) {
-        std::cerr << "Error loading image" << std::endl;
+    cv::Mat img = cv::imread("../assets/fish.png");
+    if (img.empty()) {
+        std::cerr << "Error loading image!" << std::endl;
         return -1;
     }
 
-    // Parse the rotation angle
-    double angle = 45.0;
+    int m = img.rows;
+    int n = img.cols;
 
-    // Rotate the image
-    cv::Mat rotated = rotateImage(src, angle);
+    double angle = 30;
+    double alpha = angle * M_PI / 180.0;
 
-    // Display the result
-    // cv::imshow("Rotated Image", rotated);
-    // cv::waitKey(0);
-    cv::imwrite("../outputs/dlr_opencv_out.png", rotated);
+    double sin_alpha = std::sin(alpha);
+    double cos_alpha = std::cos(alpha);
+    int nrt = static_cast<int>(std::ceil(m * sin_alpha)) + n;
+    int mrt = static_cast<int>(std::ceil(m * cos_alpha + n * sin_alpha));
+
+    // std::cout << "nrt=" << nrt << ", mrt=" << mrt << std::endl;
+
+    cv::Mat rot = cv::Mat::zeros(mrt, nrt, img.type());
+
+    int x_offset = static_cast<int>(std::ceil(m * sin_alpha));
+
+    double rise = n * sin_alpha;
+    double run = n * cos_alpha;
+    int max_start_y = static_cast<int>(std::ceil(m * cos_alpha));
+    auto fs = [&](int y) { return y / std::tan(alpha + M_PI / 2); };
+
+    double y_incr = std::floor(n / rise);
+    double x_incr = std::floor(n / run);
+
+    if (y_incr > x_incr) {
+        int mod_factor = static_cast<int>(y_incr / x_incr);
+        for (int line = 0; line < max_start_y; ++line) {
+            int a = static_cast<int>(std::ceil(fs(line)));
+            int b = line;
+            for (int pixel = 0; pixel < n; ++pixel) {
+                rot.at<cv::Vec3b>(b, a + x_offset) = img.at<cv::Vec3b>(line, pixel);
+                rot.at<cv::Vec3b>(b + 1, a + x_offset) = img.at<cv::Vec3b>(line, pixel);
+
+                a += 1;
+                if (pixel > 0 && pixel % mod_factor == 0) {
+                    b += 1;
+                }
+            }
+        }
+    }
+
+    // Save the rotated image
+    cv::imwrite("../outputs/opencv_dlr_rotated_image.png", rot);
 
     return 0;
 }

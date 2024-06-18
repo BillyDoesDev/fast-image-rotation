@@ -6,13 +6,18 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(SOURCE_FILES
-    # parallel_rotation.cpp
+    # utils/parallel_rotation.cpp
     # shear_rotation.cpp
-    # opencv_demo.cpp
+    # utils/opencv_demo.cpp
     # dsp_image_rot.cpp
+    # utils/subhadeep.cpp
+    # utils/opencv_warpAffine.cpp
 
-    # utils/dlr_opencv.cpp
-    utils/hermite.cpp
+    utils/dlr_opencv.cpp
+    # utils/dlr_opencv_sse.cpp
+    # utils/dlr_halide.cpp
+    # utils/hermite.cpp
+    # utils/rotation_h.cpp
 
     ### UNCOMMENT FOR AUTOSCHEDULING GENERATION ###
     # autoscheduling.cpp
@@ -65,3 +70,5 @@ target_link_libraries(${PROJECT_NAME} PNG::PNG)
 
 target_link_libraries(${PROJECT_NAME} dl)
 target_link_libraries(${PROJECT_NAME} pthread)
+
+# add_compile_options(-mavx2)

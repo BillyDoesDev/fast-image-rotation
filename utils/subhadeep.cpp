@@ -122,7 +122,7 @@ int main(int argc, char **argv) {
         // Save the output image using Halide's save_image function
         save_image(output, outputImagePath);
 
-        std::cout << "Affine transformation applied and output saved successfully!" << std::endl;
+        // std::cout << "Affine transformation applied and output saved successfully!" << std::endl;
     } catch (const Halide::Error &e) {
         std::cerr << "Halide Error: " << e.what() << std::endl;
         return -1;
