@@ -13,7 +13,7 @@ set(SOURCE_FILES
     # utils/subhadeep.cpp
     # utils/opencv_warpAffine.cpp
 
-    utils/dlr_opencv.cpp
+    utils/benchmark.cpp
     # utils/dlr_opencv_sse.cpp
     # utils/dlr_halide.cpp
     # utils/hermite.cpp
@@ -34,8 +34,8 @@ set(SOURCE_FILES
 )
 
 # Include directories for Halide and its tools
-include_directories(${PROJECT_SOURCE_DIR}/Halide-17.0.1-x86-64-linux/include)
-include_directories(${PROJECT_SOURCE_DIR}/Halide-17.0.1-x86-64-linux/share/Halide/tools)
+# include_directories(${PROJECT_SOURCE_DIR}/Halide-17.0.1-x86-64-linux/include)
+# include_directories(${PROJECT_SOURCE_DIR}/Halide-17.0.1-x86-64-linux/share/Halide/tools)
 
 # Find packages
 find_package(ZLIB REQUIRED)
@@ -55,7 +55,7 @@ endif()
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 # Link against Halide
-target_link_libraries(${PROJECT_NAME} ${PROJECT_SOURCE_DIR}/Halide-17.0.1-x86-64-linux/lib/libHalide.so)
+# target_link_libraries(${PROJECT_NAME} ${PROJECT_SOURCE_DIR}/Halide-17.0.1-x86-64-linux/lib/libHalide.so)
 
 ### UNCOMMENT FOR AUTOSCHEDULING RUNNING ###
 # target_link_libraries(${PROJECT_NAME} ${PROJECT_SOURCE_DIR}/build/auto_schedule_true.a)
