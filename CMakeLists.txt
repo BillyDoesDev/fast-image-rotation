@@ -5,6 +5,10 @@ project(darotator LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# set(CMAKE_CXX_COMPILER /usr/bin/g++)
+# set(CMAKE_C_COMPILER /path/to/your/custom/gcc)
+
+
 set(SOURCE_FILES
     # utils/parallel_rotation.cpp
     # shear_rotation.cpp
@@ -13,7 +17,8 @@ set(SOURCE_FILES
     # utils/subhadeep.cpp
     # utils/opencv_warpAffine.cpp
 
-    utils/benchmark.cpp
+    dlr.cpp
+    # utils/benchmark.cpp
     # utils/dlr_opencv_sse.cpp
     # utils/dlr_halide.cpp
     # utils/hermite.cpp
@@ -38,19 +43,19 @@ set(SOURCE_FILES
 # include_directories(${PROJECT_SOURCE_DIR}/Halide-17.0.1-x86-64-linux/share/Halide/tools)
 
 # Find packages
-find_package(ZLIB REQUIRED)
-find_package(JPEG REQUIRED)
-find_package(PNG REQUIRED)
+# find_package(ZLIB REQUIRED)
+# find_package(JPEG REQUIRED)
+# find_package(PNG REQUIRED)
 find_package(OpenCV REQUIRED)
 # find_library(DL_LIBRARY dl)
 
-if(NOT JPEG_FOUND)
-    message(FATAL_ERROR "JPEG library not found")
-endif()
+# if(NOT JPEG_FOUND)
+#     message(FATAL_ERROR "JPEG library not found")
+# endif()
 
-if(NOT PNG_FOUND)
-    message(FATAL_ERROR "PNG library not found")
-endif()
+# if(NOT PNG_FOUND)
+#     message(FATAL_ERROR "PNG library not found")
+# endif()
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
@@ -64,11 +69,12 @@ add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 target_link_libraries(${PROJECT_NAME} ${OpenCV_LIBS})
 
-target_link_libraries(${PROJECT_NAME} ZLIB::ZLIB)
-target_link_libraries(${PROJECT_NAME} JPEG::JPEG)
-target_link_libraries(${PROJECT_NAME} PNG::PNG)
+# target_link_libraries(${PROJECT_NAME} ZLIB::ZLIB)
+# target_link_libraries(${PROJECT_NAME} JPEG::JPEG)
+# target_link_libraries(${PROJECT_NAME} PNG::PNG)
 
-target_link_libraries(${PROJECT_NAME} dl)
-target_link_libraries(${PROJECT_NAME} pthread)
+# target_link_libraries(${PROJECT_NAME} dl)
+# target_link_libraries(${PROJECT_NAME} pthread)
 
 # add_compile_options(-mavx2)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -fopenmp")

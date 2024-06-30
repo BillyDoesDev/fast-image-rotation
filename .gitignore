@@ -6,3 +6,8 @@ tutorial/
 env/
 outputs/
 build-dir/
+spam*
+a.out
+log*
+lol*
+lmao*
