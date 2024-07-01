@@ -17,7 +17,9 @@ set(SOURCE_FILES
     # utils/subhadeep.cpp
     # utils/opencv_warpAffine.cpp
 
-    dlr.cpp
+    ass.cpp
+    # original_bread.cpp
+
     # utils/benchmark.cpp
     # utils/dlr_opencv_sse.cpp
     # utils/dlr_halide.cpp
@@ -77,4 +79,4 @@ target_link_libraries(${PROJECT_NAME} ${OpenCV_LIBS})
 # target_link_libraries(${PROJECT_NAME} pthread)
 
 # add_compile_options(-mavx2)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -fopenmp")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp")

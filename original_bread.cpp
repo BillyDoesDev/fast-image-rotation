@@ -12,7 +12,6 @@ void rotate(const Mat &img, Mat &rot, int mrt, int nrt, int x_offset, int y_offs
             bool horizontal, bool negate_coords, bool flip_range, bool z4_flip_outer = false, bool z4_use_abs_mapping = false) {
 
     double src_i = 0;
-    int shift = negate_coords ? -1 : 1;
     int start, stop, increment;
     int a, b, a_, b_;
 
@@ -41,7 +40,6 @@ void rotate(const Mat &img, Mat &rot, int mrt, int nrt, int x_offset, int y_offs
         i_inc = 1;
     }
 
-    // #pragma omp parallel for shared(img, rot) private(i_, px, x_, y_, x, y, a, b, a_, b_)
     for (int i = i_start; z4_flip_outer ? i > i_stop : i < i_stop; i += i_inc) {
         x_ = fs(i);
         y_ = i;
@@ -88,11 +86,16 @@ void rotate(const Mat &img, Mat &rot, int mrt, int nrt, int x_offset, int y_offs
 }
 
 int main(int argc, char const *argv[]) {
-    Mat img = cv::imread("../assets/fish.png");
+    if (argc < 4) {
+        printf("Usage: program input_path output_path angle\n");
+        return -1;
+    }
+
+    Mat img = cv::imread(argv[1]);
     int m = img.rows;
     int n = img.cols;
 
-    double angle = 360.0;
+    double angle = std::stod(argv[3]);
     double alpha = (M_PI * angle) / 180.0;
 
     double sin_alpha = abs(sin(alpha));
@@ -112,7 +115,6 @@ int main(int argc, char const *argv[]) {
 
     // zone 1 and 5
     if ((0 <= angle && angle <= 45) || (180 < angle && angle <= 225)) {
-        printf("zone 1 or 5\n");
         x_offset = ceil(m * sin_alpha);
         y_offset = 0;
         fs = [tan_alpha_](int y) { return y / tan_alpha_; };
@@ -127,7 +129,6 @@ int main(int argc, char const *argv[]) {
 
     // zone 2 and 6
     else if ((45 < angle && angle <= 90) || (225 < angle && angle <= 270)) {
-        printf("zone 2 or 6\n");
         x_offset = ceil(m * sin_alpha);
         y_offset = 0;
         fs = [tan_alpha](int y) { return y / tan_alpha; };
@@ -142,7 +143,6 @@ int main(int argc, char const *argv[]) {
 
     // zone 3 and 7
     else if ((90 < angle && angle <= 135) || (270 < angle && angle <= 315)) {
-        printf("zone 3 or 7\n");
         x_offset = nrt;
         y_offset = ceil(m * cos_alpha);
         fs = [tan_alpha](int y) { return y / tan_alpha; };
@@ -157,7 +157,6 @@ int main(int argc, char const *argv[]) {
 
     // zone 4 and 8
     else if ((135 < angle && angle <= 180) || (315 < angle && angle <= 360)) {
-        printf("zone 4 or 8\n");
         x_offset = ceil(n * cos_alpha);
         y_offset = 0;
         fs = [tan_alpha_](int y) { return y / tan_alpha_; };
@@ -167,7 +166,7 @@ int main(int argc, char const *argv[]) {
 
         outer_limit = ceil(m * cos_alpha);
         last_px = n;
-
+        
         // TERRIBLE CODE WARNING
         // zone 4 sucks ass dude
         if (135 < angle && angle <= 180)
@@ -176,7 +175,7 @@ int main(int argc, char const *argv[]) {
             rotate(img, rot, mrt, nrt, x_offset, y_offset, delta_x, delta_y, delta_i, fs, outer_limit, last_px, true, true, false, true, true);
     }
 
-    cv::imwrite("../lol.png", rot);
+    cv::imwrite(argv[2], rot);
 
     return 0;
 }
