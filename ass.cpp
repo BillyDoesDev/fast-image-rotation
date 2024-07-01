@@ -55,7 +55,7 @@ void rotate(const Mat &img, Mat &rot, int mrt, int nrt, int x_offset, int y_offs
         return;
     }
 
-#pragma omp parallel for
+// #pragma omp parallel for
     for (int i = 0; i < outer_limit; i++) {
         double src_i = i * delta_i;
 
