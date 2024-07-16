@@ -1,5 +1,5 @@
 # fast-image-rotation-aarch64
-'A fast, parallel image rotation algorithm, based on DLR.
+A fast, parallel image rotation algorithm, based on DLR.
 
 ## Setting up the dev environment for arrch64
 
