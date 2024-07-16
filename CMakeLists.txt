@@ -5,7 +5,11 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Get all the cpp files in the utils directory
-file(GLOB SOURCE_FILES "utils/*.cpp")
+file(GLOB SOURCE_FILES
+    "utils/*.cpp"
+    "existing_algorithms/*.cpp"
+    "proposed_algorithm/*.cpp"
+)
 
 set(CMAKE_PREFIX_PATH ${PROJECT_SOURCE_DIR}/opencv/bleh/install)
 find_package(OpenCV REQUIRED)

@@ -12,3 +12,4 @@ docs/report/*
 !docs/report/*tex
 !docs/report/*pdf
 !docs/report/*bib
+setup_git.sh

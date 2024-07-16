@@ -65,10 +65,10 @@ qemu-aarch64-static ./name_of_your_binary
 
 ## Sample Execution
 
-As of now, the way the project is structured, all the files in the `./utils/` directory get compiled only. The files ending with a `__b` (both cpp files, and their corresponding binaries) signify that these files are being used for benchmarking.
+The files ending with a `__b` (both cpp files, and their corresponding binaries) signify that these files are being used for benchmarking.
 
 > **[IMPORTANT]**  
-> In this repository, the **final working file** is `./utils/dlr__b.cpp`, and as such, that's the file you should be interested in compiling and executing.
+> In this repository, the **final working file** is `./proposed_algorithm/dlr__b.cpp`, and as such, that's the file you should be interested in compiling and executing.
 
 **Usage:**
 ```sh
