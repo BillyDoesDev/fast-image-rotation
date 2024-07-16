@@ -22,6 +22,11 @@ mkdir bleh && cd bleh
 ```
 
 edit the cmake toolchain file like so (`../platforms/linux/aarch64-gnu.toolchain.cmake`):
+
+> [!CAUTION]
+> Note: make sure to adjust your compiler paths accordingly.
+
+
 ```cmake
 set(CMAKE_SYSTEM_PROCESSOR aarch64)
 set(GCC_COMPILER_VERSION "" CACHE STRING "GCC Compiler version")
@@ -45,7 +50,10 @@ This should compile OpenCV for aarch64.
 ## Building the project
 
 Inside this directory, make a build directory and use `cmake` to build your project like so (make sure you have `cmake` installed and added to your path):
+
+> [!CAUTION]
 > Note: make sure to adjust your compiler paths accordingly.
+
 ```sh
 mkdir build && cd build
 cmake -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE -DCMAKE_C_COMPILER:FILEPATH=/usr/bin/aarch64-linux-gnu-gcc -DCMAKE_CXX_COMPILER:FILEPATH=/usr/bin/aarch64-linux-gnu-g++ --no-warn-unused-cli -S .. -B . -G "Unix Makefiles"
@@ -59,7 +67,8 @@ qemu-aarch64-static ./name_of_your_binary
 
 As of now, the way the project is structured, all the files in the `./utils/` directory get compiled only. The files ending with a `__b` (both cpp files, and their corresponding binaries) signify that these files are being used for benchmarking.
 
-In this repository, the final working file is `./utils/dlr__b.cpp`, and as such, that's the file you should be interested in runing in.
+> [!IMPORTANT]  
+> In this repository, the **final working file** is `./utils/dlr__b.cpp`, and as such, that's the file you should be interested in compiling and executing.
 
 **Usage:**
 ```sh
