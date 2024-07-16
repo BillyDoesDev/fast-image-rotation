@@ -1,0 +1,14 @@
+build/
+.vscode/
+outputs/
+opencv/
+env*/
+tempCodeRunner*
+spam*
+rotated_image.png
+lol.png
+qemu*
+docs/report/*
+!docs/report/*tex
+!docs/report/*pdf
+!docs/report/*bib

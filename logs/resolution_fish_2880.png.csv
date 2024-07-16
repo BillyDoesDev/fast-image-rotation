@@ -1,0 +1,19 @@
+target,execution time in ns
+./build/benchmark_custom__b,3664620533
+./build/benchmark_custom__b,3734982032
+./build/benchmark_custom__b,3687637082
+./build/benchmark_custom__b,3677178830
+./build/benchmark_custom__b,3714220534
+./build/benchmark_custom__b took about 3.696 s on average,
+./build/dlr__b,3219801106
+./build/dlr__b,3177359820
+./build/dlr__b,3216839847
+./build/dlr__b,3138792629
+./build/dlr__b,3162013676
+./build/dlr__b took about 3.183 s on average,
+./build/opencv_benchmark__b,3970055477
+./build/opencv_benchmark__b,3958573682
+./build/opencv_benchmark__b,4003446868
+./build/opencv_benchmark__b,3990016878
+./build/opencv_benchmark__b,4001953672
+./build/opencv_benchmark__b took about 3.985 s on average,
