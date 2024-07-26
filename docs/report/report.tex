@@ -28,7 +28,11 @@
 % \ifCLASSINFOpdf conditional that works the same way.
 % When switching from latex to pdflatex and vice-versa, the compiler may
 % have to be run twice to clear warning/error messages.
-
+\usepackage{enumitem}
+\usepackage{siunitx}
+\usepackage{multicol}
+\usepackage{caption}
+\usepackage{amsfonts}
 
 
 
@@ -185,6 +189,7 @@
 % of both fixltx2e and stfloats:
 %
 % \usepackage{dblfloatfix}
+\usepackage{float}
 % The latest version can be found at:
 % http://www.ctan.org/pkg/dblfloatfix
 
@@ -455,10 +460,71 @@ x' = \cos(\theta) \cdot x - \sin(\theta) \cdot y + t_x
 \[
 y' = \sin(\theta) \cdot x + \cos(\theta) \cdot y + t_y
 \]
-
-\cite{Weisstein_EricW.}
+\\ \\
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+\section{Proposed Method}
+
+The proposed method is a single pass algorithm, which means that it performs the entire image rotation operation at once. The proposed algorithm predominantly affects pixels in the row major (width), or ones in the column major (height), depending on the angle of rotation, $\alpha$ [\ref{col_major_rotation}][\ref{row_major_rotation}]. Accordingly, for rotating the source image, entire row or column vectors of pixels are rotated as a single unit, instead of the more common approach, where each individual pixel is separately mapped. Due to this reason, it is necessary to accurately determine the initial coordinates from which the new row or column vector will begin. The coordinates of the rest of the pixels in the vector can then be determined by simple floating point addition or subtraction, depending on the extent to which each of the said vectors are spread across the coordinate axes.
+
+\subsection{Rotation Of An Image In The Column Major} \label{col_major_rotation}
+
+\begin{figure}[H]
+  \centering
+  \captionsetup{justification=centering,margin=0.7cm}
+  \includegraphics[width=0.4\textwidth]{rotation_example_1.png}
+  \caption{Example demonstrating rotation of an image in the column major. Thus, every column vector of pixels are rotated at once (Represented by the strips in the image).}
+  \label{fig:rotation_example_1}
+\end{figure}
+
+As seen in the example image in figure \ref{fig:rotation_example_1}, for the given angle of rotation, column vectors were rotated (represented by the stripes). Each such vector to be rotated begins from the line $\overrightarrow{A'B'}$. As such, the initial coordinates of each of these vectors can be determined by the equation of the same line, which is given by:
+\begin{equation}
+  \label{start_line_eq}
+  f(i) = \left\lfloor \frac{i}{tan(\alpha)} \right\rfloor \forall \{i \in \mathbb{Z},\> i \in \left[ 0, n \cdot sin(\alpha) \right)\}
+\end{equation}
+Thus, the initial coordinates of the column vectors would be of the type $(f(i), i)$. Next, to determine the coordinates of the rest of the pixels in the column vector, as mentioned previously, we perform floating point addition or subtraction, depending on the extent to which each of the said vectors are spread across the coordinate axes.\\
+In the example in figure \ref{fig:rotation_example_1}, we can see that each column vector is spread through a length of $m \cdot \sin(\alpha)$ in the $x$-axis and through a length of $m \cdot \cos(\alpha)$ in the $y$-axis. It may also be observed that these values are the projections of any line perpendicular to line defined by the function in equation \ref{start_line_eq} on the coordinate axes.\\
+We now define:
+$$\delta x = \left\lvert sin(\alpha)\right\rvert$$
+$$\delta y = \left\lvert cos(\alpha)\right\rvert$$
+The coordinates of the next pixel in the column vector is then given by:
+$$(f(i) + \delta x, i + \delta y)$$
+The coordinates of the pixel following that is determined by adding $\delta x$ and $\delta y$ to the previous coordinates accordingly, and so on, for each of the $m$ pixels in the given column vector. The end-result is that this operation covers all the $m \cdot \sin(\alpha)$ pixels in the $x$-axis and all the $m \cdot \cos(\alpha)$ pixels in the $y$-axis, therefore mapping all of the $m$ pixels in the specific column vector.\\
+This process continues for all of the $n$ column vectors in the image, until the entire image is rotated. The signs for $\delta x$ and $\delta y$ depend on whether, while mapping the column vectors in the rotated image, the values of the $x$-coordinate $y$-coordinate are decreasing or increasing. In the given example in figure \ref{fig:rotation_example_1}, $\delta x$ is negative, but $\delta y$ is positive.\\
+There is a third parameter, defined as:
+$$\delta i = \frac{1}{\delta x}$$
+$\delta i$ determines the rate at which the column vector is changed from one to the next, and its sign depends on the angle of rotation, $\alpha$.
+The calculations for $\delta x$, $\delta y$, and $\delta i$ only happen once per column vector in the image, so the entire image transformation is quite fast, overall.
+
+%%% TODO: DEFINE SUBSECTION FOR THE VERTICAL ROTATION THING
+\subsection{Rotation Of An Image In The Row Major} \label{row_major_rotation}
+
+
+% \begin{enumerate}[label=(\Alph*)]
+% \end{enumerate}
+
+
+% \begin{multicols}{2}
+%   \begin{itemize}
+%     \item \textbf{\textit{Zone 1}}, if $\alpha \in \left [ 0, \frac{\pi}{4} \right ]$
+%     \item \textbf{\textit{Zone 2}}, if $\alpha \in \left ( \frac{\pi}{4}, \frac{\pi}{2} \right ]$
+%     \item \textbf{\textit{Zone 3}}, if $\alpha \in \left ( \frac{\pi}{2}, \frac{3 \pi}{4} \right ]$
+%     \item \textbf{\textit{Zone 4}}, if $\alpha \in \left ( \frac{3 \pi}{4}, \pi \right ]$
+%   \end{itemize}
+%   \vfill\null
+%   \columnbreak
+%   \begin{itemize}
+%     \item \textbf{\textit{Zone 5}}, if $\alpha \in \left ( \pi, \frac{5 \pi}{4} \right ]$
+%     \item \textbf{\textit{Zone 6}}, if $\alpha \in \left ( \frac{5 \pi}{4}, \frac{ 3 \pi}{2} \right ]$
+%     \item \textbf{\textit{Zone 7}}, if $\alpha \in \left ( \frac{3 \pi}{2}, \frac{7 \pi}{4} \right ]$
+%     \item \textbf{\textit{Zone 8}}, if $\alpha \in \left ( \frac{7 \pi}{4}, 2 \pi \right ]$
+%   \end{itemize}
+%   \vfill\null
+%   \end{multicols}
+
+% \subsection{Determining Start Line Equation}
+% The start line equation varies from \textbf{\textit{zone}} to \textbf{\textit{zone}}.
 
 
 \section{Conclusion}

@@ -12,4 +12,5 @@ docs/report/*
 !docs/report/*tex
 !docs/report/*pdf
 !docs/report/*bib
-setup_git.sh
+setup_git_once.sh
+add_ssh_keys.sh
