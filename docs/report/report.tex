@@ -83,7 +83,8 @@
 
 % *** SPECIALIZED LIST PACKAGES ***
 %
-\usepackage{algorithmic}
+% \usepackage{algorithmic}
+\usepackage[linesnumbered,vlined,ruled]{algorithm2e}
 % algorithmic.sty was written by Peter Williams and Rogerio Brito.
 % This package provides an algorithmic environment fo describing algorithms.
 % You can use the algorithmic environment in-text or within a figure
@@ -466,15 +467,19 @@ y' = \sin(\theta) \cdot x + \cos(\theta) \cdot y + t_y
 
 \section{Proposed Method}
 
-The proposed method is a single pass algorithm, which means that it performs the entire image rotation operation at once. The proposed algorithm predominantly affects pixels in the row major (width), or ones in the column major (height), depending on the angle of rotation, $\alpha$ [\ref{col_major_rotation}][\ref{row_major_rotation}]. Accordingly, for rotating the source image, entire row or column vectors of pixels are rotated as a single unit, instead of the more common approach, where each individual pixel is separately mapped. Due to this reason, it is necessary to accurately determine the initial coordinates from which the new row or column vector will begin. The coordinates of the rest of the pixels in the vector can then be determined by simple floating point addition or subtraction, depending on the extent to which each of the said vectors are spread across the coordinate axes.
+The proposed method is a single pass algorithm, which means that it performs the entire image rotation operation at once. The proposed algorithm predominantly affects pixels in the row major (width), or ones in the column major (height), depending on the angle of rotation, $\alpha$.
+
+If $\alpha \in \left ( \frac{\pi}{4}, \frac{3 \pi}{4} \right ] \bigcup \left ( \frac{5 \pi}{4}, \frac{7 \pi}{4} \right ]$, rotation is performed in the \textit{\textbf{column major}}, and it is performed in the \textit{\textbf{row major}} for the rest of the angles. Accordingly, for rotating the source image, entire row or column vectors of pixels are rotated as a single unit, instead of the more common approach, where each individual pixel is separately mapped. Due to this reason, it is necessary to accurately determine the initial coordinates from which the new row or column vector will begin. The coordinates of the rest of the pixels in the vector can then be determined by simple floating point addition or subtraction, depending on the extent to which each of the said vectors are spread across the coordinate axes.
+
+Apart from this, depending on $\alpha$, the pixel processing order changes - i.e., whether the last row or column vector of pixels get processed first, or last. Since it has been found out that these values are very sensitive to $\alpha$, the specific details are broken down in the rotation algorithm described later on in this paper.
 
 \subsection{Rotation Of An Image In The Column Major} \label{col_major_rotation}
 
 \begin{figure}[H]
   \centering
   \captionsetup{justification=centering,margin=0.7cm}
-  \includegraphics[width=0.4\textwidth]{rotation_example_1.png}
-  \caption{Example demonstrating rotation of an image in the column major. Thus, every column vector of pixels are rotated at once (Represented by the strips in the image).}
+  \includegraphics[width=0.5\textwidth]{rotation_example_1.png}
+  \caption{Example demonstrating rotation of an image in the column major. Every column vector of pixels are rotated at once (Represented by the stripes in the image).}
   \label{fig:rotation_example_1}
 \end{figure}
 
@@ -500,6 +505,44 @@ The calculations for $\delta x$, $\delta y$, and $\delta i$ only happen once per
 %%% TODO: DEFINE SUBSECTION FOR THE VERTICAL ROTATION THING
 \subsection{Rotation Of An Image In The Row Major} \label{row_major_rotation}
 
+\begin{figure}[H]
+  \centering
+  \captionsetup{justification=centering,margin=0.7cm}
+  \includegraphics[width=0.5\textwidth]{rotation_example_2.png}
+  \caption{Example demonstrating rotation of an image in the row major. Every row vector of pixels are rotated at once (Represented by the stripes in the image).}
+  \label{fig:rotation_example_2}
+\end{figure}
+
+In the example image in figure \ref{fig:rotation_example_2}, for the given angle of rotation, row vectors were rotated (represented by the stripes). All the calculations and logic is very similar to the one described for rotation in the column major [\ref{col_major_rotation}]. Here, each vector to be rotated begins from the line $\overrightarrow{A'D'}$, whose equation is given by:
+\begin{equation}
+  \label{start_line_eq_2}
+  f(i) = \left\lfloor \frac{i}{tan(\alpha + \frac{\pi}{2})} \right\rfloor \forall \{i \in \mathbb{Z},\> i \in \left[ 0, m \cdot cos(\alpha) \right)\}
+\end{equation}
+Everything else stays the same, except the fact that now, each row vector is spread through a length of $n \cdot \cos(\alpha)$ in the $x$-axis and through a length of $n \cdot \sin(\alpha)$ in the $y$-axis, and accordingly, we have:
+$$\delta x = \left\lvert cos(\alpha)\right\rvert$$
+$$\delta y = \left\lvert sin(\alpha)\right\rvert$$
+
+
+\begin{algorithm}[h]
+  \caption{Algorithm to compute the rotated image, based on input parameters as defined by the angle of rotation, $\alpha$}
+  \label{algo:rotate_matrix}
+  \DontPrintSemicolon
+  \SetKwInOut{algor}{ROTATE\_MATRIX($d, IV, k$)}
+  % \SetKwInOut{Output}{Output}
+  % \SetKwFunction{bin}{BINARY}
+  % \SetKwFunction{bpd}{BIT-PLANE\_DECOMPOSITION}
+  % \algor{}%{$(I,m,n,p)$}
+  % Divide the DNA sequence $d$ into non-overlapping blocks of 64 nucleotides each to obtain $D_0, D_1,...,D_n$\;
+  % If the length of $D_n <64$ pad it with $\mathtt{A}$'s\;
+  % $D_0' = $ \textbf{DNA-XOR($IV, D_0$)}\;
+  % $C_0 = $\textbf{DNA-AES($D_0',k$)}\;%\tcp*{$k$ is the encryption key}
+  % \For{$i = 1$ \KwTo $n$}{
+  %     $D_i' = $ \textbf{DNA-XOR($C_{i-1}, D_i$)}\;
+  %     $C_i = $ \textbf{DNA-AES($D_i',k$)}\;
+  % }
+  % $C = C_0+C_1+...+C_n$\;
+  % \Return $C$\;
+\end{algorithm}
 
 % \begin{enumerate}[label=(\Alph*)]
 % \end{enumerate}
