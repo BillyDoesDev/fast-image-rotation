@@ -2,6 +2,17 @@
 \usepackage{enumitem}
 \usepackage{siunitx}
 \usepackage{multicol}
+% \usepackage{rotating}
+% \usepackage{colortbl}
+% \usepackage{multirow}
+% \usepackage[table]{xcolor}
+% \usepackage{makecell}
+% \newcommand{\myrotcell}[1]{\rotcell{\makebox[0pt][l]{#1}}}
+
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{adjustbox}
+
 \usepackage{caption}
 \usepackage{amsfonts}
 \usepackage{algorithm,algpseudocode}
@@ -226,7 +237,8 @@ The new coordinates \((x', y')\) after applying the affine transformation are:
 \section{Proposed Method}
 The proposed method is a single pass algorithm, which means that it performs the entire image rotation operation at once. The proposed algorithm predominantly affects pixels in the row major (width), or ones in the column major (height), depending on the angle of rotation, $\alpha$.
 If $\alpha \in \left ( \frac{\pi}{4}, \frac{3 \pi}{4} \right ] \bigcup \left ( \frac{5 \pi}{4}, \frac{7 \pi}{4} \right ]$, rotation is performed in the \textit{\textbf{column major}}, and it is performed in the \textit{\textbf{row major}} for the rest of the angles. Accordingly, for rotating the source image, entire row or column vectors of pixels are rotated as a single unit, instead of the more common approach, where each individual pixel is separately mapped. Due to this reason, it is necessary to accurately determine the initial coordinates from which the new row or column vector will begin. The coordinates of the rest of the pixels in the vector can then be determined by simple floating point addition or subtraction, depending on the extent to which each of the said vectors are spread across the coordinate axes.
-Apart from this, depending on $\alpha$, the pixel processing order changes - i.e., whether the last row or column vector of pixels get processed first, or last. Since it has been found out that these values are very sensitive to $\alpha$, the specific details are broken down in the rotation algorithm described later on in this paper.
+
+Apart from this, depending on $\alpha$, the pixel processing order changes - i.e., whether the last row or column vector of pixels get processed first, or last. Since it has been found out that these values are very sensitive to $\alpha$, the specific details of which are discussed in the later parts of this paper.
 \subsection{Rotation Of An Image In The Column Major} \label{col_major_rotation}
 \begin{figure}[H]
     \centering
@@ -248,7 +260,9 @@ $$\delta y = \left\lvert cos(\alpha)\right\rvert$$
 The coordinates of the next pixel in the column vector is then given by:
 $$(f(i) + \delta x, i + \delta y)$$
 The coordinates of the pixel following that is determined by adding $\delta x$ and $\delta y$ to the previous coordinates accordingly, and so on, for each of the $m$ pixels in the given column vector. The end-result is that this operation covers all the $m \cdot \sin(\alpha)$ pixels in the $x$-axis and all the $m \cdot \cos(\alpha)$ pixels in the $y$-axis, therefore mapping all of the $m$ pixels in the specific column vector.\\
-This process continues for all of the $n$ column vectors in the image, until the entire image is rotated. The signs for $\delta x$ and $\delta y$ depend on whether, while mapping the column vectors in the rotated image, the values of the $x$-coordinate $y$-coordinate are decreasing or increasing. In the given example in figure \ref{fig:rotation_example_1}, $\delta x$ is negative, but $\delta y$ is positive.\\
+This process continues for all of the $n$ column vectors in the image, until the entire image is rotated. In practice, each column vector is actually mapped \textbf{twice}. The first mapping happens from the $i\>th$ column vector in $I$ to the $i\>th$ column vector in $R$. The second mapping happens from the $i\>th$ column vector in $I$ to the $(i+1)\>th$ column vector in $R$. Each of these $(i+1)\>th$ column vectors get overwitten in each iteration with a new column vector in $I$; however, this gives a sufficiently accurate issusion of anti-aliasing without losing much quality.
+
+The signs for $\delta x$ and $\delta y$ depend on whether, while mapping the column vectors in the rotated image, the values of the $x$-coordinate $y$-coordinate are decreasing or increasing. In the given example in figure \ref{fig:rotation_example_1}, $\delta x$ is negative, but $\delta y$ is positive.\\
 There is a third parameter, defined as:
 $$\delta i = \frac{1}{\delta x}$$
 $\delta i$ determines the rate at which the column vector is processed from one to the next, and its sign depends on the angle of rotation, $\alpha$.
@@ -360,7 +374,48 @@ The algorithm described above [Algorithm \ref{rotation_alorithm}] rotates image 
 $R$ is Initialized as a blank image of width $n'$ and height $m'$ to fit $R$ in the canvas, where:
 $$m' = \left\lceil \left\lvert m \cdot cos(\alpha) + n \cdot sin(\alpha) \right\rvert \right\rceil $$
 $$n' = \left\lceil \left\lvert m \cdot sin(\alpha) + n \cdot cos(\alpha) \right\rvert \right\rceil $$
-The rotation function is then invoked, with each of the parameters updating depending on the value of $\alpha$, as discussed above. The detailed function call is described in the algorithm for the driver function below:
+The rotation function is then invoked, with each of the parameters updating depending on the value of $\alpha$, as discussed above. The detailed values of each of the parameters are mentioned in [Table \ref{table:rotation_params}].\\ \\
+\textbf{Note:} It has been observed, that for ranges of $\alpha$ which are vertically opposite each other (For example, angles in the range $\left ( \frac{\pi}{4}, \frac{\pi}{2} \right ]$ are vertically opposite angles in the range $\left ( \frac{5 \pi}{4}, \frac{ 3 \pi}{2} \right ]$, and so on), the only parameters of rotation that change are $\delta i$, \texttt{negate}, and \texttt{flip}. As such, the calculations have been generalized for such angles and they have been represented in [Table \ref{table:rotation_params}], with a $(')$ at the end of their names.\\
+
+
+% \begin{table}[h]
+%     \caption{Experiments}
+%     \centering\settowidth{\rotheadsize}{Batchs}
+%         \begin{tabular}{l|l|*{2}{llll|}l}
+%             % \multicolumn{11}{c}{{\cellcolor[HTML]{EFEFEF}}Dataset} \\
+%             \multicolumn{1}{l}{} & \begin{sideways}\end{sideways} & \multicolumn{4}{c}{\raisebox{-3ex}[0pt][0pt] {training}} & & & & & & \\
+%             \multicolumn{2}{l|}{Methods} & acc & auc & acc & auc & \myrotcell{BatchSize} & \myrotcell{RandBat} & \myrotcell{Loss$\mathcal{L}$} & \myrotcell{\#Params} & \myrotcell{ Runtime} \\[-1ex]
+%             \hline
+%             Ours & Direct & 94.17 & 98 & 84.86 & 72 & 1 & & CE & & \\
+%                  & Corr+Conv & 86.13 & 50 & 88.20 & 50 & 1 & & CE & & \\
+%                  & Corr+Convd & 73.30 & 85 & 82.33 & 89 & 4 &x & CE & & \\
+%                  & Corr+Conv3d+$\mathcal{H}$& 27.19 & 71 & 83.61 & 73 & 4 & x & HL & & \\ \hline
+%             Others & Net & & & & 88 & 16 & x & CE & 5 Mio. &
+%         \end{tabular}
+%     \end{table}
+
+\begin{table}[h]
+    \caption{Rotation Parameters, based on $\alpha$}
+    \label{table:rotation_params}
+    \centering
+    \begin{tabular}{ |c|c|c|c|c|c|c|c|c|c||c|c|c| }
+    % \begin{tabular}{ |c|*{12}{c|} }
+    % \begin{tabular}{ |p{0.3cm}|p{0.14cm}|p{0.14cm}|p{0.14cm}|p{0.14cm}|p{0.14cm}|p{0.14cm}|p{0.14cm}|p{0.14cm}|p{0.14cm}||p{0.14cm}|p{0.14cm}|p{0.14cm}| }
+        \hline
+        \raisebox{-1ex}{\multirow{1}{*}{\adjustbox{angle=90}{\textbf{Range of $\alpha$}}}} & \multicolumn{12}{c|}{\textbf{Rotation parameters}}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              \\
+        \cline{2-13}
+                                                                                           & \textbf{$x'$}                                                                                 & \textbf{$y'$}                                                                                 & \textbf{$\delta x$}                                           & \textbf{$\delta y$}                                           & \textbf{$\delta i$}                   & \textbf{$r_o$}                                                                                & \textbf{N}              & \textbf{\adjustbox{angle=90}{\raisebox{-0.5ex}{\texttt{negate }}}} & \textbf{\adjustbox{angle=90}{\raisebox{1ex}{\texttt{flip}}}} & \textbf{$\delta i'$}                 & \textbf{\adjustbox{angle=90}{\raisebox{-0.5ex}{\texttt{negate'}}}} & \textbf{\adjustbox{angle=90}{\raisebox{1ex}{\texttt{flip'}}}} \\
+        \hline
+        \adjustbox{angle=90}{$\left [ 0, \frac{\pi}{4} \right ]$}                          & \adjustbox{angle=90}{$\left\lceil \left\lvert m \cdot sin(\alpha)\right\rvert  \right\rceil$} & \adjustbox{angle=90}{0}                                                                       & \adjustbox{angle=90}{$\left\lvert cos(\alpha)\right\rvert $}  & \adjustbox{angle=90}{$\left\lvert sin(\alpha)\right\rvert $}  & \adjustbox{angle=90}{$1 / \delta x$}  & \adjustbox{angle=90}{$\left\lceil \left\lvert m \cdot cos(\alpha)\right\rvert  \right\rceil$} & \adjustbox{angle=90}{n} & \adjustbox{angle=90}{\texttt{false}}                               & \adjustbox{angle=90}{\texttt{false}}                         & \adjustbox{angle=90}{$1 / \delta x$} & \adjustbox{angle=90}{\texttt{true}}                               & \adjustbox{angle=90}{\texttt{false}}                          \\
+        \hline
+        \adjustbox{angle=90}{$\left ( \frac{\pi}{4}, \frac{\pi}{2} \right ]$}              & \adjustbox{angle=90}{$\left\lceil \left\lvert m \cdot sin(\alpha)\right\rvert  \right\rceil$} & \adjustbox{angle=90}{0}                                                                       & \adjustbox{angle=90}{$-\left\lvert sin(\alpha)\right\rvert $} & \adjustbox{angle=90}{$\left\lvert cos(\alpha)\right\rvert $}  & \adjustbox{angle=90}{$-1 / \delta x$} & \adjustbox{angle=90}{$\left\lceil \left\lvert n \cdot sin(\alpha)\right\rvert  \right\rceil$} & \adjustbox{angle=90}{m} & \adjustbox{angle=90}{\texttt{false}}                               & \adjustbox{angle=90}{\texttt{false}}                         & \adjustbox{angle=90}{$1 / \delta x$} & \adjustbox{angle=90}{\texttt{false}}                               & \adjustbox{angle=90}{\texttt{true}}                          \\
+        \hline
+        \adjustbox{angle=90}{$\left ( \frac{\pi}{2}, \frac{3 \pi}{4} \right ]$}            & \adjustbox{angle=90}{$m'$}                                                                    & \adjustbox{angle=90}{$\left\lceil \left\lvert m \cdot cos(\alpha)\right\rvert  \right\rceil$} & \adjustbox{angle=90}{$-\left\lvert sin(\alpha)\right\rvert $} & \adjustbox{angle=90}{$-\left\lvert cos(\alpha)\right\rvert $} & \adjustbox{angle=90}{$-1 / \delta x$} & \adjustbox{angle=90}{$\left\lceil \left\lvert n \cdot sin(\alpha)\right\rvert  \right\rceil$} & \adjustbox{angle=90}{m} & \adjustbox{angle=90}{\texttt{false}}                               & \adjustbox{angle=90}{\texttt{false}}                         & \adjustbox{angle=90}{$1 / \delta x$} & \adjustbox{angle=90}{\texttt{false}}                               & \adjustbox{angle=90}{\texttt{true}}                          \\
+        \hline
+        \adjustbox{angle=90}{$\left ( \frac{3 \pi}{4}, \pi \right ]$}                      & \adjustbox{angle=90}{$\left\lceil \left\lvert n \cdot cos(\alpha)\right\rvert  \right\rceil$} & \adjustbox{angle=90}{0}                                                                       & \adjustbox{angle=90}{$-\left\lvert cos(\alpha)\right\rvert $} & \adjustbox{angle=90}{$\left\lvert sin(\alpha)\right\rvert $}  & \adjustbox{angle=90}{$1 / \delta x$}  & \adjustbox{angle=90}{$\left\lceil \left\lvert m \cdot cos(\alpha)\right\rvert  \right\rceil$} & \adjustbox{angle=90}{n} & \adjustbox{angle=90}{\texttt{false}}                               & \adjustbox{angle=90}{\texttt{false}}                         & \adjustbox{angle=90}{$1 / \delta x$} & \adjustbox{angle=90}{\texttt{true}}                               & \adjustbox{angle=90}{\texttt{false}}                          \\
+        \hline
+    \end{tabular}
+\end{table}
 
 
 \begin{breakablealgorithm} \label{driver_function}
@@ -382,7 +437,7 @@ The rotation function is then invoked, with each of the parameters updating depe
         \State $N = n$
         \State \texttt{negate = False}
         \State \texttt{flip = False}
-        
+
         \ElsIf {$\frac{\pi}{4} < \alpha \le \frac{\pi}{2}$}
         \State $x' = \left\lceil \left\lvert m \cdot sin(\alpha)\right\rvert  \right\rceil $
         \State $y' = 0$
