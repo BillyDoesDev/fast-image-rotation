@@ -2,16 +2,11 @@
 \usepackage{enumitem}
 \usepackage{siunitx}
 \usepackage{multicol}
-% \usepackage{rotating}
-% \usepackage{colortbl}
-% \usepackage{multirow}
-% \usepackage[table]{xcolor}
-% \usepackage{makecell}
-% \newcommand{\myrotcell}[1]{\rotcell{\makebox[0pt][l]{#1}}}
-
 \usepackage{array}
 \usepackage{multirow}
 \usepackage{adjustbox}
+\usepackage[table]{xcolor}
+\usepackage{colortbl}
 
 \usepackage{caption}
 \usepackage{amsfonts}
@@ -375,47 +370,7 @@ $R$ is Initialized as a blank image of width $n'$ and height $m'$ to fit $R$ in 
 $$m' = \left\lceil \left\lvert m \cdot cos(\alpha) + n \cdot sin(\alpha) \right\rvert \right\rceil $$
 $$n' = \left\lceil \left\lvert m \cdot sin(\alpha) + n \cdot cos(\alpha) \right\rvert \right\rceil $$
 The rotation function is then invoked, with each of the parameters updating depending on the value of $\alpha$, as discussed above. The detailed values of each of the parameters are mentioned in [Table \ref{table:rotation_params}].\\ \\
-\textbf{Note:} It has been observed, that for ranges of $\alpha$ which are vertically opposite each other (For example, angles in the range $\left ( \frac{\pi}{4}, \frac{\pi}{2} \right ]$ are vertically opposite angles in the range $\left ( \frac{5 \pi}{4}, \frac{ 3 \pi}{2} \right ]$, and so on), the only parameters of rotation that change are $\delta i$, \texttt{negate}, and \texttt{flip}. As such, the calculations have been generalized for such angles and they have been represented in [Table \ref{table:rotation_params}], with a $(')$ at the end of their names.\\
-
-
-% \begin{table}[h]
-%     \caption{Experiments}
-%     \centering\settowidth{\rotheadsize}{Batchs}
-%         \begin{tabular}{l|l|*{2}{llll|}l}
-%             % \multicolumn{11}{c}{{\cellcolor[HTML]{EFEFEF}}Dataset} \\
-%             \multicolumn{1}{l}{} & \begin{sideways}\end{sideways} & \multicolumn{4}{c}{\raisebox{-3ex}[0pt][0pt] {training}} & & & & & & \\
-%             \multicolumn{2}{l|}{Methods} & acc & auc & acc & auc & \myrotcell{BatchSize} & \myrotcell{RandBat} & \myrotcell{Loss$\mathcal{L}$} & \myrotcell{\#Params} & \myrotcell{ Runtime} \\[-1ex]
-%             \hline
-%             Ours & Direct & 94.17 & 98 & 84.86 & 72 & 1 & & CE & & \\
-%                  & Corr+Conv & 86.13 & 50 & 88.20 & 50 & 1 & & CE & & \\
-%                  & Corr+Convd & 73.30 & 85 & 82.33 & 89 & 4 &x & CE & & \\
-%                  & Corr+Conv3d+$\mathcal{H}$& 27.19 & 71 & 83.61 & 73 & 4 & x & HL & & \\ \hline
-%             Others & Net & & & & 88 & 16 & x & CE & 5 Mio. &
-%         \end{tabular}
-%     \end{table}
-
-\begin{table}[h]
-    \caption{Rotation Parameters, based on $\alpha$}
-    \label{table:rotation_params}
-    \centering
-    \begin{tabular}{ |c|c|c|c|c|c|c|c|c|c||c|c|c| }
-    % \begin{tabular}{ |c|*{12}{c|} }
-    % \begin{tabular}{ |p{0.3cm}|p{0.14cm}|p{0.14cm}|p{0.14cm}|p{0.14cm}|p{0.14cm}|p{0.14cm}|p{0.14cm}|p{0.14cm}|p{0.14cm}||p{0.14cm}|p{0.14cm}|p{0.14cm}| }
-        \hline
-        \raisebox{-1ex}{\multirow{1}{*}{\adjustbox{angle=90}{\textbf{Range of $\alpha$}}}} & \multicolumn{12}{c|}{\textbf{Rotation parameters}}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              \\
-        \cline{2-13}
-                                                                                           & \textbf{$x'$}                                                                                 & \textbf{$y'$}                                                                                 & \textbf{$\delta x$}                                           & \textbf{$\delta y$}                                           & \textbf{$\delta i$}                   & \textbf{$r_o$}                                                                                & \textbf{N}              & \textbf{\adjustbox{angle=90}{\raisebox{-0.5ex}{\texttt{negate }}}} & \textbf{\adjustbox{angle=90}{\raisebox{1ex}{\texttt{flip}}}} & \textbf{$\delta i'$}                 & \textbf{\adjustbox{angle=90}{\raisebox{-0.5ex}{\texttt{negate'}}}} & \textbf{\adjustbox{angle=90}{\raisebox{1ex}{\texttt{flip'}}}} \\
-        \hline
-        \adjustbox{angle=90}{$\left [ 0, \frac{\pi}{4} \right ]$}                          & \adjustbox{angle=90}{$\left\lceil \left\lvert m \cdot sin(\alpha)\right\rvert  \right\rceil$} & \adjustbox{angle=90}{0}                                                                       & \adjustbox{angle=90}{$\left\lvert cos(\alpha)\right\rvert $}  & \adjustbox{angle=90}{$\left\lvert sin(\alpha)\right\rvert $}  & \adjustbox{angle=90}{$1 / \delta x$}  & \adjustbox{angle=90}{$\left\lceil \left\lvert m \cdot cos(\alpha)\right\rvert  \right\rceil$} & \adjustbox{angle=90}{n} & \adjustbox{angle=90}{\texttt{false}}                               & \adjustbox{angle=90}{\texttt{false}}                         & \adjustbox{angle=90}{$1 / \delta x$} & \adjustbox{angle=90}{\texttt{true}}                               & \adjustbox{angle=90}{\texttt{false}}                          \\
-        \hline
-        \adjustbox{angle=90}{$\left ( \frac{\pi}{4}, \frac{\pi}{2} \right ]$}              & \adjustbox{angle=90}{$\left\lceil \left\lvert m \cdot sin(\alpha)\right\rvert  \right\rceil$} & \adjustbox{angle=90}{0}                                                                       & \adjustbox{angle=90}{$-\left\lvert sin(\alpha)\right\rvert $} & \adjustbox{angle=90}{$\left\lvert cos(\alpha)\right\rvert $}  & \adjustbox{angle=90}{$-1 / \delta x$} & \adjustbox{angle=90}{$\left\lceil \left\lvert n \cdot sin(\alpha)\right\rvert  \right\rceil$} & \adjustbox{angle=90}{m} & \adjustbox{angle=90}{\texttt{false}}                               & \adjustbox{angle=90}{\texttt{false}}                         & \adjustbox{angle=90}{$1 / \delta x$} & \adjustbox{angle=90}{\texttt{false}}                               & \adjustbox{angle=90}{\texttt{true}}                          \\
-        \hline
-        \adjustbox{angle=90}{$\left ( \frac{\pi}{2}, \frac{3 \pi}{4} \right ]$}            & \adjustbox{angle=90}{$m'$}                                                                    & \adjustbox{angle=90}{$\left\lceil \left\lvert m \cdot cos(\alpha)\right\rvert  \right\rceil$} & \adjustbox{angle=90}{$-\left\lvert sin(\alpha)\right\rvert $} & \adjustbox{angle=90}{$-\left\lvert cos(\alpha)\right\rvert $} & \adjustbox{angle=90}{$-1 / \delta x$} & \adjustbox{angle=90}{$\left\lceil \left\lvert n \cdot sin(\alpha)\right\rvert  \right\rceil$} & \adjustbox{angle=90}{m} & \adjustbox{angle=90}{\texttt{false}}                               & \adjustbox{angle=90}{\texttt{false}}                         & \adjustbox{angle=90}{$1 / \delta x$} & \adjustbox{angle=90}{\texttt{false}}                               & \adjustbox{angle=90}{\texttt{true}}                          \\
-        \hline
-        \adjustbox{angle=90}{$\left ( \frac{3 \pi}{4}, \pi \right ]$}                      & \adjustbox{angle=90}{$\left\lceil \left\lvert n \cdot cos(\alpha)\right\rvert  \right\rceil$} & \adjustbox{angle=90}{0}                                                                       & \adjustbox{angle=90}{$-\left\lvert cos(\alpha)\right\rvert $} & \adjustbox{angle=90}{$\left\lvert sin(\alpha)\right\rvert $}  & \adjustbox{angle=90}{$1 / \delta x$}  & \adjustbox{angle=90}{$\left\lceil \left\lvert m \cdot cos(\alpha)\right\rvert  \right\rceil$} & \adjustbox{angle=90}{n} & \adjustbox{angle=90}{\texttt{false}}                               & \adjustbox{angle=90}{\texttt{false}}                         & \adjustbox{angle=90}{$1 / \delta x$} & \adjustbox{angle=90}{\texttt{true}}                               & \adjustbox{angle=90}{\texttt{false}}                          \\
-        \hline
-    \end{tabular}
-\end{table}
+\textbf{Note:} It has been observed, that for ranges of $\alpha$ which are vertically opposite each other (For example, angles in the range $\left ( \frac{\pi}{4}, \frac{\pi}{2} \right ]$ are vertically opposite angles in the range $\left ( \frac{5 \pi}{4}, \frac{ 3 \pi}{2} \right ]$, and so on), the only parameters of rotation that change are $\delta i$, \texttt{negate}, and \texttt{flip}. As such, the calculations have been generalized for such angles and they have been represented in [Table \ref{table:rotation_params}], with a $(')$ at the end of their names (shaded cells).\\
 
 
 \begin{breakablealgorithm} \label{driver_function}
@@ -427,50 +382,37 @@ The rotation function is then invoked, with each of the parameters updating depe
         \State Determine \textit{\textbf{f}}, based on the value of \texttt{row\_major}
         \State Initialize a blank image $R$ with dimensions $(m', n')$
 
-        \If{$0 \le \alpha \le \frac{\pi}{4}$}
-        \State $x' = \left\lceil \left\lvert m \cdot sin(\alpha)\right\rvert  \right\rceil $
-        \State $y' = 0$
-        \State $\delta x = \left\lvert cos(\alpha)\right\rvert $
-        \State $\delta y = \left\lvert sin(\alpha)\right\rvert $
-        \State $\delta i = \frac{1}{\delta x} $
-        \State $r_o = \left\lceil \left\lvert m \cdot cos(\alpha)\right\rvert \right\rceil $
-        \State $N = n$
-        \State \texttt{negate = False}
-        \State \texttt{flip = False}
-
-        \ElsIf {$\frac{\pi}{4} < \alpha \le \frac{\pi}{2}$}
-        \State $x' = \left\lceil \left\lvert m \cdot sin(\alpha)\right\rvert  \right\rceil $
-        \State $y' = 0$
-        \State $\delta x = - \left\lvert sin(\alpha)\right\rvert $
-        \State $\delta y = \left\lvert cos(\alpha)\right\rvert $
-        \State $\delta i = \frac{-1}{\delta x} $
-        \State $r_o = \left\lceil \left\lvert n \cdot sin(\alpha)\right\rvert \right\rceil $
-        \State $N = m$
-        \State \texttt{negate = False}
-        \State \texttt{flip = False}
-
-        % \ElsIf {$\frac{\pi}{4} < \alpha \le \frac{\pi}{2}$}
-        % \State $x' = \left\lceil \left\lvert m \cdot sin(\alpha)\right\rvert  \right\rceil $
-        % \State $y' = 0$
-        % \State $\delta x = - \left\lvert sin(\alpha)\right\rvert $
-        % \State $\delta y = \left\lvert cos(\alpha)\right\rvert $
-        % \State $\delta i = \frac{-1}{\delta x} $
-        % \State $r_o = \left\lceil \left\lvert n \cdot sin(\alpha)\right\rvert \right\rceil $
-        % \State $N = m$
-        % \State \texttt{negate = False}
-        % \State \texttt{flip = False}
-
-        \Else
-        \State $a = px$
-        \State $b = $ \texttt{temp\_i}
-        \EndIf
+        \State Determine the parameters of rotation from [Table \ref{table:rotation_params}]
 
         \State Generate $R$ using [Algorithm \ref{rotation_alorithm}]
         \EndProcedure
     \end{algorithmic}
 \end{breakablealgorithm}
 
+\renewcommand{\arraystretch}{3}  % This sets the row height to 3 cm
+\definecolor{lightgray}{gray}{0.91}
+\begin{table*}[h]
+    \caption{Rotation Parameters, based on $\alpha$}
+    \label{table:rotation_params}
+    \centering
+    \begin{tabular}{ |p{0.8cm}|p{1.53cm}|p{1.53cm}|p{1.1cm}|p{1.1cm}|p{0.67cm}|p{1.53cm}|p{0.1cm}|p{0.87cm}|p{0.87cm}|>{\columncolor{lightgray}}p{0.67cm}|>{\columncolor{lightgray}}p{0.95cm}|>{\columncolor{lightgray}}p{0.8cm}| }
+        \hline
+        \raisebox{0ex}{\multirow{2}{*}{\adjustbox{angle=90}{\textbf{Range of $\alpha$}}}} & \multicolumn{12}{c|}{\textbf{Rotation parameters}}                                                                                                                                                                                                                                                                                                                                                                                                    \\
+        \cline{2-13}
+                                                                                          & \textbf{$x'$}                                                            & \textbf{$y'$}                                                            & \textbf{$\delta x$}                      & \textbf{$\delta y$}                      & \textbf{$\delta i$} & \textbf{$r_o$}                                                           & \textbf{N} & \texttt{negate} & \texttt{flip}  & \textbf{$\delta i'$} & \texttt{negate'} & \texttt{flip'} \\
+        \hline
+        $\left [ 0, \frac{\pi}{4} \right ]$                                               & $\left\lceil \left\lvert m \cdot \sin(\alpha) \right\rvert \right\rceil$ & 0                                                                        & $\left\lvert \cos(\alpha) \right\rvert$  & $\left\lvert \sin(\alpha) \right\rvert$  & $1 / \delta x$      & $\left\lceil \left\lvert m \cdot \cos(\alpha) \right\rvert \right\rceil$ & n          & \texttt{false}  & \texttt{false} & $1 / \delta x$       & \texttt{true}    & \texttt{false} \\
+        \hline
+        $\left ( \frac{\pi}{4}, \frac{\pi}{2} \right ]$                                   & $\left\lceil \left\lvert m \cdot \sin(\alpha) \right\rvert \right\rceil$ & 0                                                                        & $-\left\lvert \sin(\alpha) \right\rvert$ & $\left\lvert \cos(\alpha) \right\rvert$  & $-1 / \delta x$     & $\left\lceil \left\lvert n \cdot \sin(\alpha) \right\rvert \right\rceil$ & m          & \texttt{false}  & \texttt{false} & $1 / \delta x$       & \texttt{false}   & \texttt{true}  \\
+        \hline
+        $\left ( \frac{\pi}{2}, \frac{3 \pi}{4} \right ]$                                 & $m'$                                                                     & $\left\lceil \left\lvert m \cdot \cos(\alpha) \right\rvert \right\rceil$ & $-\left\lvert \sin(\alpha) \right\rvert$ & $-\left\lvert \cos(\alpha) \right\rvert$ & $-1 / \delta x$     & $\left\lceil \left\lvert n \cdot \sin(\alpha) \right\rvert \right\rceil$ & m          & \texttt{false}  & \texttt{false} & $1 / \delta x$       & \texttt{false}   & \texttt{true}  \\
+        \hline
+        $\left ( \frac{3 \pi}{4}, \pi \right ]$                                           & $\left\lceil \left\lvert n \cdot \cos(\alpha) \right\rvert \right\rceil$ & 0                                                                        & $-\left\lvert \cos(\alpha) \right\rvert$ & $\left\lvert \sin(\alpha) \right\rvert$  & $1 / \delta x$      & $\left\lceil \left\lvert m \cdot \cos(\alpha) \right\rvert \right\rceil$ & n          & \texttt{false}  & \texttt{false} & $1 / \delta x$       & \texttt{true}    & \texttt{false} \\
+        \hline
+    \end{tabular}
+\end{table*}
 
+\newpage
 \section{Conclusion}
 The conclusion goes here.
 \section*{Acknowledgment}
