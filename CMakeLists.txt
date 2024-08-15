@@ -8,6 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 file(GLOB SOURCE_FILES
     "utils/*.cpp"
     "existing_algorithms/*.cpp"
+    "existing_algorithms/OpenCV_algorithms/*.cpp"
     "proposed_algorithm/*.cpp"
 )
 

@@ -1,20 +1,22 @@
 import re
 import csv
+import json
 import pickle
 import subprocess
 from datetime import datetime
 from os import path, listdir
 from time import perf_counter_ns
 import matplotlib.pyplot as plt
+import sys
 
 # Gather input images
 input_imgs = [
-    path.join("./assets/real_life/", _)
-    for _ in listdir("./assets/real_life")
+    path.join("./assets/standard_test_images/", _)
+    for _ in listdir("./assets/standard_test_images")
     # if re.findall(r"_\d+\.png", _)
 ]
 # input_imgs.sort(key=lambda x: int(re.findall(r"\d+", x)[0]))
-# input_imgs = input_imgs[-3:]
+input_imgs = input_imgs[:6]
 
 # Gather targets
 targets = [
@@ -25,10 +27,10 @@ targets = [
     and path.isfile(x := path.join("./build/", _))
 ]
 # print(f"{targets = }");exit()
+outputs = []
 
-# angle = 30
-angles = 361
-del_angle = 10
+# angle_range = range(0, 361, 10)
+angle_range = range(360, 361, 10)
 
 # Initialize data collection
 data = {target: {img: [] for img in input_imgs} for target in targets}
@@ -43,17 +45,16 @@ for input_img in input_imgs:
         for target in targets:
             timestamps = []
 
-            for angle in range(0, angles, del_angle):
+            for angle in angle_range:
                 start = perf_counter_ns()
+                output_path = path.join("./outputs/", f"{target.split('/')[-1]}_{input_img.split('/')[-1]}")
+                outputs.append(output_path)
                 r = subprocess.run(
                     [
                         "qemu-aarch64-static",
                         target,
                         input_img,
-                        path.join(
-                            "./outputs/",
-                            f"{target.split('/')[-1]}_{input_img.split('/')[-1]}",
-                        ),
+                        output_path,
                         str(angle), # insert angle here
                     ],
                     capture_output=True,
@@ -85,7 +86,7 @@ for target in targets:
     for input_img in input_imgs:
         times = data[target][input_img]
         if times:
-            x = range(0, angles, del_angle)
+            x = angle_range
             y = [t / 1e9 for t in times]
             ax.plot(x, y)
             ax.text(
@@ -106,5 +107,11 @@ ax.tick_params(axis="both", colors="white")
 
 plt.tight_layout()
 # save the plot for later :D
-pickle.dump(fig, open(f'logs/{datetime.now().strftime('%b%d_%H_%M')}.fig.pickle', 'wb'))
-plt.show()
+if (len(sys.argv) > 1 and sys.argv[1] == "0"):
+    print("[DID NOT SAVE PLOT LOG]\n[NOT DISPLAYING PLOT]")
+else:
+    pickle.dump(fig, open(f'logs/{datetime.now().strftime('%b%d_%H_%M')}.fig.pickle', 'wb'))
+    plt.show()
+
+with open("logs/stuff_tested.json", mode="w", encoding="utf-8") as f:
+    json.dump({"input_images": input_imgs, "binaries": targets, "output_images": outputs}, f)

@@ -1,0 +1,15 @@
+target,execution time in ns
+./build/benchmark_custom__b,101865592
+./build/benchmark_custom__b took about 0.102 s on average,
+./build/benchmark__b,128110098
+./build/benchmark__b took about 0.128 s on average,
+./build/bicubic__b,128781087
+./build/bicubic__b took about 0.129 s on average,
+./build/dlr__b,104982405
+./build/dlr__b took about 0.105 s on average,
+./build/lanczos__b,171631905
+./build/lanczos__b took about 0.172 s on average,
+./build/linear__b,126879306
+./build/linear__b took about 0.127 s on average,
+./build/nearest__b,121333170
+./build/nearest__b took about 0.121 s on average,
