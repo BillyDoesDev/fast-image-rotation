@@ -124,321 +124,50 @@ Subsection text here.
 Subsubsection text here.
 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Literature Survey}
+\section{PREREQUISITES}
 \subsection{Affine Transformation}
-A basic idea in computer graphics and geometry, affine transformation is a linear mapping method that maintains straight lines, planes, and points. The capacity to carry out a variety of geometric operations, including translation, scaling, rotation, shearing, and reflection, is what defines an Affine transformation. These transformations are powerful and adaptable tools with a wide range of applications because they are defined mathematically by combining translations and linear transformations.
 
-\subsubsection{Properties}
+Affine transformation is a fundamental technique in computer graphics and computational geometry 
+that enables the manipulation of images through translation, scaling, rotation, shearing, and 
+reflection. These transformations are mathematically represented by a combination of linear 
+transformations and translations, preserving points, straight lines, and planes. The general 
+form of an affine transformation in two dimensions is expressed as $ y = Ax + b $, where $ A $ 
+is a 2x2 matrix representing the linear transformation and $ b $ is the translation vector. 
+For rotation, the matrix $ A $ is defined by trigonometric functions involving the rotation 
+angle $\theta$. The translation values $ t_x $ and $ t_y $ are calculated to center the rotated 
+image within its new dimensions, ensuring that the image remains centered post-rotation. 
+The transformation is particularly advantageous for its simplicity and ability to preserve 
+the structure of the space.
 
-\begin{itemize}
-  \item Linearity and Translation:  The transformation is composed of a linear transformation  Ax and a translation $\beta$.  This combination allows for a wide range of geometric transformations while preserving the structure of the space.
+\textit{Disadvantages:} Despite its versatility, affine transformation can result in image distortions, particularly when the rotation angle is large or when combined with scaling or shearing. Additionally, it may introduce artifacts such as aliasing or loss of detail due to the discrete nature of digital images.
 
-  \item Preservation of Collinearity and Ratios:  Affine transformations preserve the collinearity of points and the ratios of distances along parallel lines.
-
-  \item Combining Transformations:  Multiple affine transformations can be combined into a single affine transformation by matrix multiplication and vector addition.
-\end{itemize}
-
-\section*{Mathematical Formulation}
-Affine transformations can be described by a combination of linear transformations and translations. The general form of an affine transformation in two dimensions is:
-$$ y=Ax+b $$
-
-where
-\begin{itemize}
-  \item \(x = \begin{bmatrix} x \\ y \end{bmatrix}\) is the input coordinate vector.\\
-  \item \(A\) is a \(2 \times 2\) matrix that represents the linear part of the transformation.\\
-  \item \(b = \begin{bmatrix} t_x \\ t_y \end{bmatrix}\) is the translation vector.\\
-\end{itemize}
-
-
-For a rotation by an angle \(\theta\) around the origin, the matrix \(\mathbf{A}\) is:
-$$
-A = \begin{bmatrix} $$cos(\theta)$$ & - $$sin(\theta)$$ \\ $$sin(\theta)$$ & $$cos(\theta)$$ \end{bmatrix}
-$$
-
-To center the rotated image within its original dimensions, the translation values \(t_x\) and \(t_y\) are calculated as follows:
-
-\section*{Calculations}
-
-\subsection*{New Dimensions}
-The new width and height of the rotated image are determined using trigonometric functions based on the rotation angle:
-$$ newWidth = width \cdot |cos(\theta)| +height  \cdot |sin(\theta)| $$
-$$ newHeight = width \cdot |sin(\theta)| + height \cdot |cos(\theta)| $$
-
-\subsection*{Center Points}
-$$
-c_x = \frac{width}{2}, \quad c_y = \frac{height}{2}
-$$
-$$
-newCx = \frac{newWidth}{2}, \quad newCy = \frac{newHeight}{2}
-$$
-
-\subsection*{Translation Values}
-The translation values to center the rotated image within its new dimensions are:
-$$
-t_x = c_x - (newCx \cdot cos(\theta) - newCy \cdot sin(\theta))
-$$
-$$
-t_y = c_y - (newCx \cdot sin(\theta) + newCy \cdot cos(\theta))
-$$
-
-Thus, the affine transformation matrix that includes rotation and translation is:
-
-$$
-T = \begin{bmatrix}
-cos(\theta) & -sin(\theta) & t_x \\
-sin(\theta) & cos(\theta) & t_y
-\end{bmatrix}
-$$
-
-The new coordinates \((x', y')\) after applying the affine transformation are:
-
-$$
-\begin{bmatrix}
-x' \\
-y'
-\end{bmatrix}
-=
-\begin{bmatrix}
-cos(\theta) & -sin(\theta) & t_x \\
-sin(\theta) & cos(\theta) & t_y
-\end{bmatrix}
-\begin{bmatrix}
-x \\
-y \\
-1
-\end{bmatrix}
-$$
-$$ x' = cos(\theta) \cdot x - sin(\theta) \cdot y + t_x $$
-$$ y' = sin(\theta) \cdot x + cos(\theta) \cdot y + t_y $$
-
-\subsection{Affine Transformation Algorithm}
-The following algorithm demonstrates how to rotate an image by a specified angle using OpenCV:
-\begin{itemize}
-\item Get image dimensions (rows and cols)
-\item Convert the angle from degrees to radians
-\item Calculate new dimensions for the rotated image (new\_cols, new\_rows)
-\item Create a new image (rotated) with the new dimensions, initialized to black
-\end{itemize}
-
-\begin{breakablealgorithm}
-    \caption{Image Rotation using Affine Transformation}
-    \begin{algorithmic}[1]
-        \Procedure{rotate\_affine}{$...$}
-        \State Compute $\alpha = \cos(\text{angle})$ and $\beta = \sin(\text{angle})$
-        \State Compute the center coordinates of the original and new images:
-        \State $c_x = \text{cols} / 2.0$
-        \State $c_y = \text{rows} / 2.0$
-        \State $new\_c\_x = \text{new\_cols} / 2.0$
-        \State $new\_c\_y = \text{new\_rows} / 2.0$
-        \State Define the rotation matrix elements:
-        \State $m_{11} = \alpha$
-        \State $m_{12} = \beta$
-        \State $m_{13} = (1 - \alpha) \cdot \text{new\_c\_x} - \beta \cdot \text{new\_c\_x} + \text{c\_x} - \text{new\_c\_x}$
-        \State $m_{21} = -\beta$
-        \State $m_{22} = \alpha$
-        \State $m_{23} = \beta \cdot \text{new\_c\_x} + (1 - \alpha) \cdot \text{new\_c\_y} + \text{c\_y} - \text{new\_c\_y}$
-
-        \For{each pixel $y$ from 0 to $\text{new\_rows} - 1$}
-            \For{each pixel $x$ from 0 to $\text{new\_cols} - 1$}
-                \State Compute the corresponding coordinates $(x\_, y\_)$ in the original image:
-                \State $x\_ = \text{round}(m_{11} \cdot x + m_{12} \cdot y + m_{13})$
-                \State $y\_ = \text{round}(m_{21} \cdot x + m_{22} \cdot y + m_{23})$
-
-                \If{$(x\_, y\_)$ is within the bounds of the original image}
-                    \State Set the pixel value at $(x, y)$ in the new image to the value at $(x\_, y\_)$ in the original image
-                \EndIf
-            \EndFor
-        \EndFor
-
-        \State \Return{rotated}
-        \EndProcedure
-    \end{algorithmic}
-\end{breakablealgorithm}
 
 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Image Rotation using Hermite Expansion}
+\subsection{Image Rotation Using Hermite Expansion}
 
-\subsection{Hermite Expansion Method}
-The Hermite polynomial expansion is a technique used to approximate functions, including image rotation. By using Hermite polynomials, we can achieve smooth and accurate interpolation, which is especially useful for image processing tasks.
+The Hermite polynomial expansion is a more sophisticated method for image rotation, 
+leveraging the orthogonality of Hermite polynomials to achieve smooth and accurate interpolation. 
+Hermite polynomials are particularly effective in approximating functions, making them suitable for 
+image processing tasks that require high precision. By expanding the image function using 
+two-dimensional Hermite polynomials, the image can be rotated by transforming the coordinates 
+with a rotation matrix. The rotated image is then reconstructed using the inverse Hermite expansion, 
+ensuring smooth transitions and minimal distortion.
 
-\subsubsection{Properties of Hermite Polynomials}
-\begin{itemize}
-    \item Orthogonal polynomials with respect to the weight function $e^{-x^2}$.
-    \item Useful for approximating smooth functions due to their interpolation properties.
-    \item Can handle both function values and derivatives, providing higher accuracy.
-\end{itemize}
-
-\subsection{Mathematical Formulation}
-Hermite polynomials, denoted as $H_n(x)$, are a set of orthogonal polynomials that arise in probability, combinatorics, and numerical analysis. They are defined by the recurrence relation:
-
-$$
-H_{n+1}(x) = 2xH_n(x) - 2nH_{n-1}(x),
-$$ with initial conditions $H_0(x) = 1$ and $H_1(x) = 2x$. 
-These polynomials satisfy the orthogonality condition:
-$$
-\int_{-\infty}^{\infty} H_m(x)H_n(x)e^{-x^2}dx
-$$
-
-\subsection{Hermite Expansion}
-
-A function $f(x)$ can be expanded in terms of Hermite polynomials as:
-$$
-f(x) = \sum_{n=0}^{\infty} c_n H_n(x) e^{-x^2/2},
-$$
-
-where $c_n$ are the expansion coefficients given by:
-$$
-c_n = \frac{1}{\sqrt{2^n n! \sqrt{\pi}}} \int_{-\infty}^{\infty} f(x) H_n(x) e^{-x^2/2} dx.
-$$
-
-
-\subsection{Application of Hermite Expansion in Image Rotation}
-
-The use of Hermite expansion in image rotation leverages the orthogonality of Hermite polynomials to approximate the image function. Given an image $I(x,y)$, it can be expanded using two-dimensional Hermite polynomials $H_{m,n}(x,y)$ as:
-$$
-I(x,y) = \sum_{m=0}^{\infty} \sum_{n=0}^{\infty} c_{m,n} H_m(x) H_n(y) e^{-(x^2 + y^2)/2},
-$$
-where $c_{m,n}$ are the expansion coefficients. These coefficients are computed as:
-$$
-c_{m,n} = \frac{1}{\sqrt{2^{m+n} m! n! \pi}} \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} I(x,y) H_m(x) H_n(y) e^{-(x^2 + y^2)/2} dx dy.
-$$
-
-To rotate the image, the coordinates $(x,y)$ are transformed to $(x', y')$ as previously defined:
-$$
-\begin{bmatrix}
-x' \\
-y'
-\end{bmatrix}
-=
-\begin{bmatrix}
-cos \theta & -sin \theta \\
-sin \theta & cos \theta
-\end{bmatrix}
-\begin{bmatrix}
-x \\
-y
-\end{bmatrix}.
-$$
-
-\subsubsection{Finding Transformed Coordinates Using Hermite Expansion}
-
-To find the transformed coordinates $(x', y')$ using Hermite expansion, we perform the following steps:
-
-Expand the Image Function Using Hermite Polynomials:
-    Given an image $I(x,y)$, we first expand it using the two-dimensional Hermite polynomials $H_{m,n}(x,y)$:
-    $$
-    I(x,y) = \sum_{m=0}^{\infty} \sum_{n=0}^{\infty} c_{m,n} H_m(x) H_n(y) e^{-(x^2 + y^2)/2}
-    $$
-    where the coefficients $c_{m,n}$ are determined using:
-    $$
-    c_{m,n} = \frac{1}{\sqrt{2^{m+n} m! n! \pi}} \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} I(x,y) H_m(x) H_n(y) e^{-(x^2 + y^2)/2} dx dy.
-    $$
-
-Compute the Rotated Coordinates:
-   Using the rotation matrix, we transform the coordinates $(x,y)$ to $(x',y')$:
-   $$
-   \begin{bmatrix}
-   x' \\
-   y'
-   \end{bmatrix}
-   =
-   \begin{bmatrix}
-   cos \theta & -sin \theta \\
-   sin \theta & cos \theta
-   \end{bmatrix}
-   \begin{bmatrix}
-   x \\
-   y
-   \end{bmatrix}.
-   $$
-
-Reconstruct the Rotated Image:
-   The rotated image $I'(x',y')$ is reconstructed using the inverse Hermite expansion:
-   $$
-   I'(x',y') = \sum_{m=0}^{\infty} \sum_{n=0}^{\infty} c_{m,n} H_m(x') H_n(y') e^{-(x'^2 + y'^2)/2},
-   $$
-   where $H_m(x')$ and $H_n(y')$ are the Hermite polynomials evaluated at the transformed coordinates $(x', y')$.
-
-By following these steps, the image can be rotated accurately using the Hermite expansion. This method ensures that the transformation leverages the orthogonality and interpolation properties of Hermite polynomials, resulting in a smooth and precise image rotation.
+\textit{Disadvantages:} The Hermite expansion method, while precise, is computationally 
+intensive due to the need for evaluating and summing multiple polynomial terms. This complexity 
+can make the algorithm slower compared to simpler methods like affine transformation. Additionally,
+ the method may struggle with preserving fine details in images with high-frequency content.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Image Rotation using Double Line Rotation}
+\subsection{Image Rotation Using Double Line Rotation}
+The Double Line Rotation (DLR) method divides the image into eight distinct zones, each governed by specific rotation equations and transformations. This method maps each pixel from the original image to two corresponding pixels in the target image, maintaining a consistent distance ratio between points throughout the rotation. This consistency is crucial for preserving both the intensity and geometric integrity of the pixels, making the DLR method particularly effective for applications that require feature extraction invariance. Each zone handles the image differently, applying horizontal and vertical line transformations, index manipulations, and logical transformations to achieve the desired rotation.
 
-The Double Line Rotation (DLR) method is an innovative algorithm for fast image rotation, 
-introduced to address the inefficiencies in traditional rotation techniques. 
-The DLR method is based on the concept of dividing the image into multiple zones, 
-each processed differently to achieve an efficient and accurate rotation.
+\textit{Disadvantages:} The DLR method can be complex to implement due to the need to manage multiple zones and transformations, each with specific rules. This complexity can lead to inefficiencies, particularly when dealing with high-resolution images. Additionally, the method may introduce distortions at the boundaries between zones, leading to artifacts that can affect the visual quality of the rotated image.
 
-\subsection{Methodology}
-
-The DLR method divides the image into eight distinct zones, each characterized by 
-specific rotation equations and transformations. The main idea is to map each pixel 
-from the original image to two corresponding pixels in the target image, ensuring that 
-the distance ratio between points remains constant throughout the rotation process. 
-This is particularly useful in preserving the intensity and shape of the pixels, 
-making the DLR method suitable for applications requiring invariant feature extraction.
-
-\subsection{Zone Concepts}
-
-The image is divided into the following zones:
-
-\subsubsection{Zone 1}
-In Zone 1, horizontal lines are used for rotation, and the slope of \( f_s(x) \) is positive. Each horizontal line in the original image \( T \) lies in a line with slope \( \tan(\alpha) \) and shears using the line \( f_s(x) = \left(\tan \alpha + \frac{\pi}{2}\right)x \). The size of the rotated image is calculated using:
-\[
-m_{rt} = \gamma_m + m, \quad n_{rt} = \gamma_n + n
-\]
-where \( \gamma_n = f_s(m) \rightarrow \left\| \frac{m}{\tan(\alpha + \frac{\pi}{2})} \right\| \) and \( \gamma_m = f(n) \rightarrow \| n \tan \alpha \| \).
-
-\subsubsection{Zone 2}
-In Zone 2, vertical lines are used for rotation, and the slope of \( f(y) \) is positive. The size of the rotated image is calculated similarly to Zone 1, but the vertical and horizontal lines are interchanged.
-
-\subsubsection{Zone 3}
-In Zone 3, the slope is negative, but the equations are the same as for Zone 2. Vertical lines are used, and the size of the rotated image \( R (m_{rt} \times n_{rt}) \) is calculated as follows:
-\[
-m_{rt} = \gamma_m + n, \quad n_{rt} = \gamma_n + m
-\]
-where \( \gamma_n = |f_s(n)| \rightarrow f_s(y) = \frac{y}{-\tan \alpha} \) and \( \gamma_m = \sqrt{m^2 - AC^2} \) in \( \triangle ABC \).
-
-\subsubsection{Zone 4}
-In Zone 4, horizontal lines are used, and the slope of \( f_s(x) \) is positive, but \( f(x) \) has a negative gradient. This means that lines are moving upwards, the original image's lines are sloping downwards. Each horizontal line in image \( T \) is mapped and similarly to Zone 1. The involves altering the position of each pixel along the horizontal lines according to the function 
-\[
-f_s(x) = \left(\tan \alpha + \frac{\pi}{2}\right)x.
-\]
-
-\subsubsection{Zone 5}
-Zone 5 employs logical transformations on indices to generate the rotated image. These transformations involve manipulation of pixel positions such as swaps, inversionsof indices. The goal is to create a rotated image that retains the original dimensions while applying a different logical structure to the pixel arrangement. All zones are transformed, depending on whether vertical or horizontal lines are used. The size of the rotated image in Zone 1 and Zone 5 are the same, ensuring consistency in image dimensions.
-
-\subsubsection{Zone 6}
-Zone 6 is generated by transforming either Zone 2 or Zone 3. 
-The transformation maintains the size of the rotated image and applies internal line transformations. These internal line transformations may include skewing, scaling, or shifting along specific axes to emphasize certain internal features. 
-
-\subsubsection{Zone 7}
-Zone 7, similar to Zone 6, is a transformation of other zones but uses vertical lines. The vertical line transformations involve modifying the image along the vertical axis, affecting the height of the image without altering its width. This vertical stretching or compressing highlights vertical patterns and structures within the image.
-\subsubsection{Zone 8}
-Zone 8 utilizes transformations from horizontal lines, similar to Zones 1 and 4. These horizontal transformations involve scaling operations that modify the image along the horizontal axis. The transformations in Zone 8 ensure that the overall balance of the image is maintained while providing a comprehensive view of horizontally oriented features.
-
-\subsection{Calculation of the Base-Line, Start-Line, and Target Image Size}
-
-The first step in the DLR method is calculating the target image size. Each zone uses specific equations to determine the size of the target image, ensuring accurate and efficient rotation. For example, in Zone 3:
-\[
-\gamma_n = \left| f_s(n) \right| \rightarrow f_s(y) = \frac{y}{-\tan \alpha}, \quad \gamma_m = \sqrt{m^2 - AC^2}
-\]
-where \( AC = (\cos \phi)m \) and \( \phi = (\pi - \alpha) - \frac{\pi}{2} \).
-
-By dividing the image into zones and applying the DLR method, 
-the rotation process becomes more efficient and accurate, 
-preserving the original image's intensity and shape.
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
-
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \section{Proposed Method}
