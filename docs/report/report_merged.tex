@@ -120,48 +120,30 @@ $$\begin{bmatrix}
     \end{bmatrix}$$
 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{PREREQUISITES}
-\subsection{Affine Transformation}
+\section{Literature Review}
 
-Affine transformation is a fundamental technique in computer graphics and computational geometry 
-that enables the manipulation of images through translation, scaling, rotation, shearing, and 
-reflection. These transformations are mathematically represented by a combination of linear 
-transformations and translations, preserving points, straight lines, and planes. The general 
-form of an affine transformation in two dimensions is expressed as $ y = Ax + b $, where $ A $ 
-is a 2x2 matrix representing the linear transformation and $ b $ is the translation vector. 
-For rotation, the matrix $ A $ is defined by trigonometric functions involving the rotation 
-angle $\theta$. The translation values $ t_x $ and $ t_y $ are calculated to center the rotated 
-image within its new dimensions, ensuring that the image remains centered post-rotation. 
-The transformation is particularly advantageous for its simplicity and ability to preserve 
-the structure of the space.
+Affine transformation is a fundamental technique in computer graphics and computational geometry, 
+extensively used for various image manipulation operations, including translation, scaling, rotation, 
+shearing, and reflection. Mathematically, it is represented as: $ y = Ax + b $
 
-\textit{Disadvantages:} Despite its versatility, affine transformation can result in image distortions, particularly when the rotation angle is large or when combined with scaling or shearing. Additionally, it may introduce artifacts such as aliasing or loss of detail due to the discrete nature of digital images.
+where $A$ is a 2x2 matrix that defines the linear transformation, 
+and $b$ is a translation vector. This formulation ensures the preservation 
+of geometric properties such as points, straight lines, and planes, making it indispensable 
+for numerous graphical applications. In the context of image rotation, the matrix $\mathbf{A}$ 
+is typically determined using trigonometric functions based on the rotation angle $\theta$, 
+while the translation components $t_x$ and $t_y$ are calculated to center the rotated image 
+within its new dimensions. The \texttt{warpAffine} function in OpenCV is widely used to perform 
+such affine transformations efficiently, offering flexibility in handling various interpolation 
+methods like nearest-neighbor, bilinear, and bicubic. These methods are crucial for minimizing 
+distortions and preserving image quality during the transformation. \cite{wang2021panoramic}.
 
+However, affine transformations are not without limitations, 
+particularly when large rotation angles or combined transformations (scaling and shearing) 
+are involved, which can lead to artifacts such as aliasing and loss of detail. 
+To address these issues, more sophisticated methods have been developed. One such method is the Hermite polynomial expansion, which leverages the orthogonality of Hermite polynomials to achieve smooth and accurate interpolation. This technique is particularly effective for image processing tasks that demand high precision. The image function is expanded using two-dimensional Hermite polynomials, and rotation is performed by transforming the coordinates with a rotation matrix. The rotated image is then reconstructed using inverse Hermite expansion, ensuring smooth transitions and minimal distortion. Despite its accuracy, the Hermite expansion method is computationally intensive, requiring the evaluation and summation of multiple polynomial terms, which can lead to slower processing times. Additionally, while the method excels at smooth interpolation, it may struggle to maintain fine details in images with high-frequency content \cite{park2009accurate}.
 
+Another advanced technique is the Double Line Rotation (DLR) method, which is recognized for its ability to maintain geometric and intensity integrity during transformation. The DLR method divides the image into eight distinct zones, each governed by specific rotation equations and transformations. This zonal approach ensures that each pixel in the original image is mapped to two corresponding pixels in the rotated image, maintaining a consistent distance ratio between points. This is crucial for applications that require feature extraction invariance, making the DLR method particularly suitable for pattern recognition and computer vision tasks. However, the complexity of managing multiple zones and corresponding transformations can lead to inefficiencies, especially with high-resolution images. Additionally, distortions may occur at the boundaries between zones, potentially degrading the visual quality of the rotated image \cite{ashtari2015double}.
 
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Image Rotation Using Hermite Expansion}
-
-The Hermite polynomial expansion is a more sophisticated method for image rotation, 
-leveraging the orthogonality of Hermite polynomials to achieve smooth and accurate interpolation. 
-Hermite polynomials are particularly effective in approximating functions, making them suitable for 
-image processing tasks that require high precision. By expanding the image function using 
-two-dimensional Hermite polynomials, the image can be rotated by transforming the coordinates 
-with a rotation matrix. The rotated image is then reconstructed using the inverse Hermite expansion, 
-ensuring smooth transitions and minimal distortion.
-
-\textit{Disadvantages:} The Hermite expansion method, while precise, is computationally 
-intensive due to the need for evaluating and summing multiple polynomial terms. This complexity 
-can make the algorithm slower compared to simpler methods like affine transformation. Additionally,
- the method may struggle with preserving fine details in images with high-frequency content.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\subsection{Image Rotation Using Double Line Rotation}
-The Double Line Rotation (DLR) method divides the image into eight distinct zones, each governed by specific rotation equations and transformations. This method maps each pixel from the original image to two corresponding pixels in the target image, maintaining a consistent distance ratio between points throughout the rotation. This consistency is crucial for preserving both the intensity and geometric integrity of the pixels, making the DLR method particularly effective for applications that require feature extraction invariance. Each zone handles the image differently, applying horizontal and vertical line transformations, index manipulations, and logical transformations to achieve the desired rotation.
-
-\textit{Disadvantages:} The DLR method can be complex to implement due to the need to manage multiple zones and transformations, each with specific rules. This complexity can lead to inefficiencies, particularly when dealing with high-resolution images. Additionally, the method may introduce distortions at the boundaries between zones, leading to artifacts that can affect the visual quality of the rotated image.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -440,4 +422,6 @@ The authors would like to thank...
 
 \bibliography{references}
 \bibliographystyle{ieeetr}
+
+
 \end{document}
