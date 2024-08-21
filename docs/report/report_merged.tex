@@ -123,8 +123,7 @@ $$\begin{bmatrix}
 \section{Literature Review}
 
 Affine transformation is a fundamental technique in computer graphics and computational geometry, 
-extensively used for various image manipulation operations, including translation, scaling, rotation, 
-shearing, and reflection. Mathematically, it is represented as: $ y = Ax + b $
+extensively used for various image manipulation operations, including translation, scaling, rotation, shearing, and reflection. Mathematically, it is represented as: $ y = Ax + b $
 
 where $A$ is a 2x2 matrix that defines the linear transformation, 
 and $b$ is a translation vector. This formulation ensures the preservation 
@@ -132,7 +131,7 @@ of geometric properties such as points, straight lines, and planes, making it in
 for numerous graphical applications. In the context of image rotation, the matrix $\mathbf{A}$ 
 is typically determined using trigonometric functions based on the rotation angle $\theta$, 
 while the translation components $t_x$ and $t_y$ are calculated to center the rotated image 
-within its new dimensions. The \texttt{warpAffine} function in OpenCV is widely used to perform 
+within its new dimensions. The warpAffine function in OpenCV is widely used to perform 
 such affine transformations efficiently, offering flexibility in handling various interpolation 
 methods like nearest-neighbor, bilinear, and bicubic. These methods are crucial for minimizing 
 distortions and preserving image quality during the transformation. \cite{wang2021panoramic}.
