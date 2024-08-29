@@ -14,6 +14,7 @@ input_imgs = [
     path.join("./assets/standard_test_images/", _)
     for _ in listdir("./assets/standard_test_images")
     # if re.findall(r"_\d+\.png", _)
+    if path.isfile(path.join("./assets/standard_test_images", _))
 ]
 # input_imgs.sort(key=lambda x: int(re.findall(r"\d+", x)[0]))
 input_imgs = input_imgs[:6]
@@ -25,20 +26,27 @@ targets = [
     if "__b" in _ # so benchmark only those files with a __b in them
     and not re.findall(r"\.", _)
     and path.isfile(x := path.join("./build/", _))
+
+    and (_ == "benchmark__b" or _ == "dlr__b" or _ == "linear__b")
 ]
 # print(f"{targets = }");exit()
 outputs = []
+input_data = []
+output_data = []
 
 # angle_range = range(0, 361, 10)
-angle_range = range(360, 361, 10)
+angle_range = range(26, 27, 10)
 
 # Initialize data collection
 data = {target: {img: [] for img in input_imgs} for target in targets}
 
 for input_img in input_imgs:
     print(f"\n\n[operating on {input_img}]...")
+    
+    input_path_txt = path.join("./dumps/assets/", f"{input_img.split('/')[-1]}.txt")
+    input_data.append(input_path_txt)
 
-    with open(f"logs/resolution_{input_img.split('/')[-1]}.csv", mode="w", newline="", encoding="utf-8", ) as f:
+    with open(f"logs/{input_img.split('/')[-1]}.csv", mode="w", newline="", encoding="utf-8", ) as f:
         writer = csv.writer(f)
         writer.writerow(["target", "execution time in ns"])
 
@@ -48,7 +56,10 @@ for input_img in input_imgs:
             for angle in angle_range:
                 start = perf_counter_ns()
                 output_path = path.join("./outputs/", f"{target.split('/')[-1]}_{input_img.split('/')[-1]}")
+
+                output_path_txt = path.join("./dumps/out/", f"{target.split('/')[-1]}_{input_img.split('/')[-1]}.txt")
                 outputs.append(output_path)
+                output_data.append(output_path_txt)
                 r = subprocess.run(
                     [
                         "qemu-aarch64-static",
@@ -56,6 +67,10 @@ for input_img in input_imgs:
                         input_img,
                         output_path,
                         str(angle), # insert angle here
+
+                        path.join("assets/tests", f"{input_img.split('/')[-1]}"),
+                        input_path_txt,
+                        output_path_txt
                     ],
                     capture_output=True,
                 )
@@ -114,4 +129,4 @@ else:
     plt.show()
 
 with open("logs/stuff_tested.json", mode="w", encoding="utf-8") as f:
-    json.dump({"input_images": input_imgs, "binaries": targets, "output_images": outputs}, f)
+    json.dump({"input_images": input_data, "binaries": targets, "output_images": output_data}, f)

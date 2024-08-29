@@ -176,7 +176,7 @@ int main(int argc, char const *argv[]) {
     int mrt = ceil(m * cos_alpha + n * sin_alpha);
     int nrt = ceil(m * sin_alpha + n * cos_alpha);
 
-    Mat rot = Mat::zeros(mrt, nrt, img.type());
+    Mat rotated = Mat::zeros(mrt, nrt, img.type());
     // printf("m, n = %d, %d | mrt, nrt = %d, %d\n", m, n, mrt, nrt);
 
     function<double(int)> fs; // returns double, takes in int
@@ -194,7 +194,7 @@ int main(int argc, char const *argv[]) {
 
         outer_limit = ceil(m * cos_alpha);
         last_px = n;
-        rotate(img, rot, m, n, mrt, nrt, x_offset, y_offset, delta_x, delta_y, delta_i, fs, outer_limit, last_px, true, !(0 <= angle && angle <= 45), false);
+        rotate(img, rotated, m, n, mrt, nrt, x_offset, y_offset, delta_x, delta_y, delta_i, fs, outer_limit, last_px, true, !(0 <= angle && angle <= 45), false);
     }
 
     // zone 2 and 6
@@ -208,7 +208,7 @@ int main(int argc, char const *argv[]) {
 
         outer_limit = ceil(n * sin_alpha);
         last_px = m;
-        rotate(img, rot, m, n, mrt, nrt, x_offset, y_offset, delta_x, delta_y, delta_i, fs, outer_limit, last_px, false, false, !(45 < angle && angle <= 90));
+        rotate(img, rotated, m, n, mrt, nrt, x_offset, y_offset, delta_x, delta_y, delta_i, fs, outer_limit, last_px, false, false, !(45 < angle && angle <= 90));
     }
 
     // zone 3 and 7
@@ -222,7 +222,7 @@ int main(int argc, char const *argv[]) {
 
         outer_limit = ceil(n * sin_alpha);
         last_px = m;
-        rotate(img, rot, m, n, mrt, nrt, x_offset, y_offset, delta_x, delta_y, delta_i, fs, outer_limit, last_px, false, false, !(90 < angle && angle <= 135));
+        rotate(img, rotated, m, n, mrt, nrt, x_offset, y_offset, delta_x, delta_y, delta_i, fs, outer_limit, last_px, false, false, !(90 < angle && angle <= 135));
     }
 
     // zone 4 and 8
@@ -237,11 +237,35 @@ int main(int argc, char const *argv[]) {
 
         outer_limit = ceil(m * cos_alpha);
         last_px = n;
-        rotate(img, rot, m, n, mrt, nrt, x_offset, y_offset, delta_x, delta_y, delta_i, fs, outer_limit, last_px, true, !(135 < angle && angle <= 180), false, true);
+        rotate(img, rotated, m, n, mrt, nrt, x_offset, y_offset, delta_x, delta_y, delta_i, fs, outer_limit, last_px, true, !(135 < angle && angle <= 180), false, true);
     }
 
-    cv::imwrite(argv[2], rot);
-    // cv::imwrite("../lol.png", rot);
+    cv::imwrite(argv[2], rotated);
+
+    if (argc > 4) {
+        // file_to_compare input_dump_file output_dump_file
+        img = cv::imread(argv[4]);
+        FILE *fptr;
+        fptr = fopen(argv[5], "w");
+        for (int y = 0; y < img.rows; y++) {
+            for (int x = 0; x < img.cols; x++) {
+                auto px = img.at<cv::Vec3b>(y, x);
+                fprintf(fptr, "%d ", (px[0] + px[1] + px[2]) / 3);
+            }
+            fprintf(fptr, "\n");
+        }
+        fclose(fptr);
+
+        fptr = fopen(argv[6], "w");
+        for (int y = 0; y < rotated.rows; y++) {
+            for (int x = 0; x < rotated.cols; x++) {
+                auto px = rotated.at<cv::Vec3b>(y, x);
+                fprintf(fptr, "%d ", (px[0] + px[1] + px[2]) / 3);
+            }
+            fprintf(fptr, "\n");
+        }
+        fclose(fptr);
+    }
 
     return 0;
 }
