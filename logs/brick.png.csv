@@ -1,0 +1,7 @@
+target,execution time in ns
+./build/benchmark__b,1062705207
+./build/benchmark__b took about 1.063 s on average,
+./build/dlr__b,1043864141
+./build/dlr__b took about 1.044 s on average,
+./build/linear__b,1185591346
+./build/linear__b took about 1.186 s on average,

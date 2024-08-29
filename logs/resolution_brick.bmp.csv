@@ -1,0 +1,17 @@
+target,execution time in ns
+./build/affine_transform__b,137020668
+./build/affine_transform__b took about 0.137 s on average,
+./build/benchmark_custom__b,131686870
+./build/benchmark_custom__b took about 0.132 s on average,
+./build/benchmark__b,200187735
+./build/benchmark__b took about 0.2 s on average,
+./build/bicubic__b,167136645
+./build/bicubic__b took about 0.167 s on average,
+./build/dlr__b,135840572
+./build/dlr__b took about 0.136 s on average,
+./build/lanczos__b,280165093
+./build/lanczos__b took about 0.28 s on average,
+./build/linear__b,191495888
+./build/linear__b took about 0.191 s on average,
+./build/nearest__b,178974855
+./build/nearest__b took about 0.179 s on average,
