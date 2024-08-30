@@ -12,7 +12,7 @@ int main(int argc, char *argv[]) {
 
     Mat img = imread(argv[1]);
 
-    double rot_angle = stod(argv[3]);
+    double rot_angle = -stod(argv[3]);
     Point2f center(img.cols / 2.0, img.rows / 2.0);
 
     Mat rotation_mat = getRotationMatrix2D(center, rot_angle, 1.0);
