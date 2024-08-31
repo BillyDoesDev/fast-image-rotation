@@ -1,9 +1,0 @@
-- min, max, avg of each metric
-- use raw pixel values
-- classify by metric 
-- affine transform use 3*3 matrix for a more general idea
-[
-    x
-    y
-    1
-]

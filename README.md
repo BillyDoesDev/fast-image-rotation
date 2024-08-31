@@ -8,6 +8,11 @@ Install deps</br>
 ```sh
 sudo pacman -Sy aarch64-linux-gnu-gcc glew fmt vtk hdf5 qemu-user-static # or whichever version of the aarch64 gcc compiler you're using
 ```
+> ***Optional***</br>
+*Also install tools for compiling LaTeX and get a PDF viewer with dynamic reloads (zathura in this case):*</br>
+```sh
+sudo pacman -Sy texlive-basic texlive-latex texlive-latexrecommended texlive-latexextra texlive-fontsrecommended texlive-fontsextra texlive-bibtexextra texlive-mathscience texlive-binextra texlive-publishers zathura zathura-djvu zathura-pdf-poppler
+```
 
 **For Debian derivatives:**
 ```sh

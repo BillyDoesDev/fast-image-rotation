@@ -17,7 +17,7 @@ input_imgs = [
     if path.isfile(path.join("./assets/standard_test_images", _))
 ]
 # input_imgs.sort(key=lambda x: int(re.findall(r"\d+", x)[0]))
-# input_imgs = input_imgs[:4]
+# input_imgs = input_imgs[:2]
 test_input_images = [_.replace("standard_test_images", "tests") for _ in input_imgs]
 
 # Gather targets
@@ -31,54 +31,56 @@ targets = [
 # print(f"{targets = }");exit()
 outputs = []
 
-# angle_range = range(0, 361, 10)
-angle_range = range(26, 27, 10)
+angle_range = range(0, 361, 10)
+# angle_range = range(26, 27, 10)
 
 # Initialize data collection
 data = {target: {img: [] for img in input_imgs} for target in targets}
 
+summary = { target:{img:0 for img in input_imgs} for target in targets}
 for input_img in input_imgs:
     print(f"\n\n[operating on {input_img}]...")
 
-    with open(f"logs/log_{input_img.split('/')[-1]}.csv", mode="w", newline="", encoding="utf-8", ) as f:
-        writer = csv.writer(f)
-        writer.writerow(["target", "execution time in ns"])
+    # with open(f"logs/log_{input_img.split('/')[-1]}.csv", mode="w", newline="", encoding="utf-8", ) as f:
+        # writer = csv.writer(f)
+        # writer.writerow(["target", "execution time in ns"])
 
-        for target in targets:
-            timestamps = []
+    for target in targets:
+        timestamps = []
 
-            for angle in angle_range:
-                start = perf_counter_ns()
-                output_path = path.join("./outputs/", f"{target.split('/')[-1]}_{input_img.split('/')[-1]}")
-                outputs.append(output_path)
-                r = subprocess.run(
-                    [
-                        "qemu-aarch64-static",
-                        target,
-                        input_img,
-                        output_path,
-                        str(angle), # insert angle here
-                    ],
-                    capture_output=True,
-                )
-                time_elapsed = perf_counter_ns() - start
-                if r.returncode == 0:
-                    print(f"{target} took {time_elapsed} ns to process {input_img}")
-                    writer.writerow([target, time_elapsed])
-                    timestamps.append(time_elapsed)
-                else:
-                    print("\n" + "ERROR".center(90, "="))
-                    print(r.stderr)
-                    print("="*90 + "\n")
+        for angle in angle_range:
+            start = perf_counter_ns()
+            output_path = path.join("./outputs/", f"{target.split('/')[-1]}_{input_img.split('/')[-1]}")
+            outputs.append(output_path)
+            r = subprocess.run(
+                [
+                    "qemu-aarch64-static",
+                    target,
+                    input_img,
+                    output_path,
+                    str(angle), # insert angle here
+                ],
+                capture_output=True,
+            )
+            time_elapsed = perf_counter_ns() - start
+            if r.returncode == 0:
+                print(f"{target} took {time_elapsed} ns to process {input_img}")
+                # writer.writerow([target, time_elapsed])
+                timestamps.append(time_elapsed)
+            else:
+                print("\n" + "ERROR".center(90, "="))
+                print(r.stderr)
+                print("="*90 + "\n")
 
-            try:
-                avg_time = round((sum(timestamps) / len(timestamps)) / 1e+9, 3)
-                print(f"[{target} took about {avg_time} s on average]\n")
-                writer.writerow([f"{target} took about {avg_time} s on average", ""])
-                ## Store data for plotting
-                data[target][input_img] = timestamps
-            except ZeroDivisionError:
-                pass
+        try:
+            avg_time = round((sum(timestamps) / len(timestamps)) / 1e+9, 3)
+            print(f"[{target} took about {avg_time} s on average]\n")
+            # writer.writerow([f"{target} took about {avg_time} s on average", ""])
+            summary[target][input_img] = avg_time
+            ## Store data for plotting
+            data[target][input_img] = timestamps
+        except ZeroDivisionError:
+            pass
 
 fig, ax = plt.subplots(figsize=(12, 8))
 fig.patch.set_facecolor("#000")
@@ -109,7 +111,7 @@ ax.tick_params(axis="both", colors="white")
 
 plt.tight_layout()
 # save the plot for later :D
-print("="*20)
+print("="*40)
 if (len(sys.argv) > 1 and sys.argv[1] == "0"):
     print("[DID NOT SAVE PLOT LOG]\n[NOT DISPLAYING PLOT]")
 
@@ -122,7 +124,30 @@ else:
 with open("logs/stuff_tested.json", mode="w", encoding="utf-8") as f:
     json.dump({"input_images": test_input_images, "binaries": targets, "output_images": outputs}, f)
 
-print(f"angle range tested: {angle_range}")
-print(f"images tested: {input_imgs}")
+print(f"\nangle range tested: {angle_range}")
+print(f"images tested: {input_imgs}"[:50] + "...")
+print(f"#images tested: {len(input_imgs)}")
+print(f"#targets tested: {len(targets)}")
 print("json output stored at logs/stuff_tested.json")
-print("="*20)
+
+print("\nTest summary:")
+with open("logs/execution_time_summary.csv", encoding="utf-8", mode="w") as f:
+    writer = csv.writer(f)
+    header = ["algorithm"]
+    for target in summary:
+        for img in summary[target]:
+            header.append(img.split("/")[-1])
+        break
+    writer.writerow(header)
+    print(*header)
+
+    for target in summary:
+        row_ = []
+        row_.append(target.split('/')[-1][:-3])
+        for img in summary[target]:
+            row_.append(summary[target][img])
+        print(*row_)
+        writer.writerow(row_)
+
+print("Test summary saved at logs/execution_time_summary.csv")
+print("="*40)
