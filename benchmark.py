@@ -4,21 +4,58 @@ import json
 import pickle
 import subprocess
 from datetime import datetime
-from os import path, listdir
+from os import path, listdir, mkdir
 from time import perf_counter_ns
 import matplotlib.pyplot as plt
 import sys
+import shutil
 
 # Gather input images
+img_dir = "./assets/standard_test_images/"
 input_imgs = [
-    path.join("./assets/standard_test_images/", _)
-    for _ in listdir("./assets/standard_test_images")
+    path.join(img_dir, _)
+    for _ in listdir(img_dir)
     # if re.findall(r"_\d+\.png", _)
-    if path.isfile(path.join("./assets/standard_test_images", _))
+    if path.isfile(path.join(img_dir, _))
 ]
 # input_imgs.sort(key=lambda x: int(re.findall(r"\d+", x)[0]))
-# input_imgs = input_imgs[:2]
-test_input_images = [_.replace("standard_test_images", "tests") for _ in input_imgs]
+input_imgs = input_imgs[:]
+
+# test_input_images = [_.replace("standard_test_images", "tests") for _ in input_imgs]
+
+# angle_range = range(0, 361, 10)
+angle_range = range(26, 27, 10)
+test_input_images = []
+
+if angle_range[0] == angle_range[-1]:
+    img_dir_ = img_dir.strip("/").split("/")[-1]
+    test_img_dir = img_dir.replace(img_dir_, "tests")
+    try:
+        mkdir(test_img_dir)
+    except FileExistsError:
+        shutil.rmtree(test_img_dir)
+        mkdir(test_img_dir)
+
+        for img in input_imgs:
+            out_test_img_path = path.join(test_img_dir, img.split("/")[-1])
+            r = subprocess.run(
+                [
+                    "magick",
+                    img,
+                    "-background",
+                    "black",
+                    "-rotate",
+                    str(angle_range[0]), # insert angle here
+                    out_test_img_path,
+                ],
+                capture_output=True,
+            )
+            test_input_images.append(out_test_img_path)
+
+            if r.returncode != 0:
+                print("\n" + "ERROR".center(90, "="))
+                print(r.stderr)
+                print("="*90 + "\n")
 
 # Gather targets
 targets = [
@@ -31,7 +68,7 @@ targets = [
 # print(f"{targets = }");exit()
 outputs = []
 
-angle_range = range(0, 361, 10)
+# angle_range = range(0, 361, 10)
 # angle_range = range(26, 27, 10)
 
 # Initialize data collection
