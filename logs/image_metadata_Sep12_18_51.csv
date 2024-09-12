@@ -1,0 +1,8 @@
+Image Name        ,Image Size (WxH) ,Channels ,Type ,Resolution (DPI) ,Format
+5am.jpg           ,3024x4032        ,       3 ,RGB  ,72x72            ,MPO
+church_bottom.jpg ,4032x2268        ,       3 ,RGB  ,72x72            ,MPO
+church_wide.jpg   ,4032x2268        ,       3 ,RGB  ,72x72            ,MPO
+corridor.jpg      ,2268x4032        ,       3 ,RGB  ,72x72            ,MPO
+downhill.jpg      ,2268x4032        ,       3 ,RGB  ,72x72            ,MPO
+landscape.jpg     ,1200x1200        ,       3 ,RGB  ,72x72            ,JPEG
+viewpoint.jpg     ,4032x2268        ,       3 ,RGB  ,72x72            ,MPO

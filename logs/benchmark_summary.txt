@@ -1,0 +1,399 @@
+
+
+[operating on assets/imgs_from_opencv/licenseplate_motion.jpg]...
+./build/affine_transform__b took 141907862 ns to process assets/imgs_from_opencv/licenseplate_motion.jpg
+[./build/affine_transform__b took about 0.142 s on average]
+
+./build/benchmark__b took 161722736 ns to process assets/imgs_from_opencv/licenseplate_motion.jpg
+[./build/benchmark__b took about 0.162 s on average]
+
+./build/bicubic__b took 155943097 ns to process assets/imgs_from_opencv/licenseplate_motion.jpg
+[./build/bicubic__b took about 0.156 s on average]
+
+./build/lanczos__b took 231592217 ns to process assets/imgs_from_opencv/licenseplate_motion.jpg
+[./build/lanczos__b took about 0.232 s on average]
+
+./build/linear__b took 162207074 ns to process assets/imgs_from_opencv/licenseplate_motion.jpg
+[./build/linear__b took about 0.162 s on average]
+
+./build/proposed_algorithm__b took 130427459 ns to process assets/imgs_from_opencv/licenseplate_motion.jpg
+[./build/proposed_algorithm__b took about 0.13 s on average]
+
+
+
+[operating on assets/imgs_from_opencv/squirrel_cls.jpg]...
+./build/affine_transform__b took 127363409 ns to process assets/imgs_from_opencv/squirrel_cls.jpg
+[./build/affine_transform__b took about 0.127 s on average]
+
+./build/benchmark__b took 153788632 ns to process assets/imgs_from_opencv/squirrel_cls.jpg
+[./build/benchmark__b took about 0.154 s on average]
+
+./build/bicubic__b took 142240655 ns to process assets/imgs_from_opencv/squirrel_cls.jpg
+[./build/bicubic__b took about 0.142 s on average]
+
+./build/lanczos__b took 231202646 ns to process assets/imgs_from_opencv/squirrel_cls.jpg
+[./build/lanczos__b took about 0.231 s on average]
+
+./build/linear__b took 157341347 ns to process assets/imgs_from_opencv/squirrel_cls.jpg
+[./build/linear__b took about 0.157 s on average]
+
+./build/proposed_algorithm__b took 122336929 ns to process assets/imgs_from_opencv/squirrel_cls.jpg
+[./build/proposed_algorithm__b took about 0.122 s on average]
+
+
+
+[operating on assets/imgs_from_opencv/aero1.jpg]...
+./build/affine_transform__b took 141495375 ns to process assets/imgs_from_opencv/aero1.jpg
+[./build/affine_transform__b took about 0.141 s on average]
+
+./build/benchmark__b took 166647592 ns to process assets/imgs_from_opencv/aero1.jpg
+[./build/benchmark__b took about 0.167 s on average]
+
+./build/bicubic__b took 159694571 ns to process assets/imgs_from_opencv/aero1.jpg
+[./build/bicubic__b took about 0.16 s on average]
+
+./build/lanczos__b took 241987143 ns to process assets/imgs_from_opencv/aero1.jpg
+[./build/lanczos__b took about 0.242 s on average]
+
+./build/linear__b took 162703280 ns to process assets/imgs_from_opencv/aero1.jpg
+[./build/linear__b took about 0.163 s on average]
+
+./build/proposed_algorithm__b took 136931910 ns to process assets/imgs_from_opencv/aero1.jpg
+[./build/proposed_algorithm__b took about 0.137 s on average]
+
+
+
+[operating on assets/imgs_from_opencv/apple.jpg]...
+./build/affine_transform__b took 132133211 ns to process assets/imgs_from_opencv/apple.jpg
+[./build/affine_transform__b took about 0.132 s on average]
+
+./build/benchmark__b took 180984698 ns to process assets/imgs_from_opencv/apple.jpg
+[./build/benchmark__b took about 0.181 s on average]
+
+./build/bicubic__b took 158282252 ns to process assets/imgs_from_opencv/apple.jpg
+[./build/bicubic__b took about 0.158 s on average]
+
+./build/lanczos__b took 229254971 ns to process assets/imgs_from_opencv/apple.jpg
+[./build/lanczos__b took about 0.229 s on average]
+
+./build/linear__b took 162018549 ns to process assets/imgs_from_opencv/apple.jpg
+[./build/linear__b took about 0.162 s on average]
+
+./build/proposed_algorithm__b took 128037634 ns to process assets/imgs_from_opencv/apple.jpg
+[./build/proposed_algorithm__b took about 0.128 s on average]
+
+
+
+[operating on assets/imgs_from_opencv/baboon.jpg]...
+./build/affine_transform__b took 136159359 ns to process assets/imgs_from_opencv/baboon.jpg
+[./build/affine_transform__b took about 0.136 s on average]
+
+./build/benchmark__b took 166321087 ns to process assets/imgs_from_opencv/baboon.jpg
+[./build/benchmark__b took about 0.166 s on average]
+
+./build/bicubic__b took 163669975 ns to process assets/imgs_from_opencv/baboon.jpg
+[./build/bicubic__b took about 0.164 s on average]
+
+./build/lanczos__b took 230605420 ns to process assets/imgs_from_opencv/baboon.jpg
+[./build/lanczos__b took about 0.231 s on average]
+
+./build/linear__b took 168704068 ns to process assets/imgs_from_opencv/baboon.jpg
+[./build/linear__b took about 0.169 s on average]
+
+./build/proposed_algorithm__b took 138498646 ns to process assets/imgs_from_opencv/baboon.jpg
+[./build/proposed_algorithm__b took about 0.138 s on average]
+
+
+
+[operating on assets/imgs_from_opencv/board.jpg]...
+./build/affine_transform__b took 153783416 ns to process assets/imgs_from_opencv/board.jpg
+[./build/affine_transform__b took about 0.154 s on average]
+
+./build/benchmark__b took 172180236 ns to process assets/imgs_from_opencv/board.jpg
+[./build/benchmark__b took about 0.172 s on average]
+
+./build/bicubic__b took 171580838 ns to process assets/imgs_from_opencv/board.jpg
+[./build/bicubic__b took about 0.172 s on average]
+
+./build/lanczos__b took 242825124 ns to process assets/imgs_from_opencv/board.jpg
+[./build/lanczos__b took about 0.243 s on average]
+
+./build/linear__b took 175382185 ns to process assets/imgs_from_opencv/board.jpg
+[./build/linear__b took about 0.175 s on average]
+
+./build/proposed_algorithm__b took 158102898 ns to process assets/imgs_from_opencv/board.jpg
+[./build/proposed_algorithm__b took about 0.158 s on average]
+
+
+
+[operating on assets/imgs_from_opencv/building.jpg]...
+./build/affine_transform__b took 228454597 ns to process assets/imgs_from_opencv/building.jpg
+[./build/affine_transform__b took about 0.228 s on average]
+
+./build/benchmark__b took 229709812 ns to process assets/imgs_from_opencv/building.jpg
+[./build/benchmark__b took about 0.23 s on average]
+
+./build/bicubic__b took 207816349 ns to process assets/imgs_from_opencv/building.jpg
+[./build/bicubic__b took about 0.208 s on average]
+
+./build/lanczos__b took 308017084 ns to process assets/imgs_from_opencv/building.jpg
+[./build/lanczos__b took about 0.308 s on average]
+
+./build/linear__b took 219264384 ns to process assets/imgs_from_opencv/building.jpg
+[./build/linear__b took about 0.219 s on average]
+
+./build/proposed_algorithm__b took 178690152 ns to process assets/imgs_from_opencv/building.jpg
+[./build/proposed_algorithm__b took about 0.179 s on average]
+
+
+
+[operating on assets/imgs_from_opencv/butterfly.jpg]...
+./build/affine_transform__b took 108526289 ns to process assets/imgs_from_opencv/butterfly.jpg
+[./build/affine_transform__b took about 0.109 s on average]
+
+./build/benchmark__b took 145845713 ns to process assets/imgs_from_opencv/butterfly.jpg
+[./build/benchmark__b took about 0.146 s on average]
+
+./build/bicubic__b took 140409598 ns to process assets/imgs_from_opencv/butterfly.jpg
+[./build/bicubic__b took about 0.14 s on average]
+
+./build/lanczos__b took 183150332 ns to process assets/imgs_from_opencv/butterfly.jpg
+[./build/lanczos__b took about 0.183 s on average]
+
+./build/linear__b took 147760136 ns to process assets/imgs_from_opencv/butterfly.jpg
+[./build/linear__b took about 0.148 s on average]
+
+./build/proposed_algorithm__b took 113595395 ns to process assets/imgs_from_opencv/butterfly.jpg
+[./build/proposed_algorithm__b took about 0.114 s on average]
+
+
+
+[operating on assets/imgs_from_opencv/digits.png]...
+./build/affine_transform__b took 683386962 ns to process assets/imgs_from_opencv/digits.png
+[./build/affine_transform__b took about 0.683 s on average]
+
+./build/benchmark__b took 615634387 ns to process assets/imgs_from_opencv/digits.png
+[./build/benchmark__b took about 0.616 s on average]
+
+./build/bicubic__b took 614448796 ns to process assets/imgs_from_opencv/digits.png
+[./build/bicubic__b took about 0.614 s on average]
+
+./build/lanczos__b took 1059182146 ns to process assets/imgs_from_opencv/digits.png
+[./build/lanczos__b took about 1.059 s on average]
+
+./build/linear__b took 645602833 ns to process assets/imgs_from_opencv/digits.png
+[./build/linear__b took about 0.646 s on average]
+
+./build/proposed_algorithm__b took 504856274 ns to process assets/imgs_from_opencv/digits.png
+[./build/proposed_algorithm__b took about 0.505 s on average]
+
+
+
+[operating on assets/imgs_from_opencv/ela_original.jpg]...
+./build/affine_transform__b took 281084824 ns to process assets/imgs_from_opencv/ela_original.jpg
+[./build/affine_transform__b took about 0.281 s on average]
+
+./build/benchmark__b took 274942460 ns to process assets/imgs_from_opencv/ela_original.jpg
+[./build/benchmark__b took about 0.275 s on average]
+
+./build/bicubic__b took 262391269 ns to process assets/imgs_from_opencv/ela_original.jpg
+[./build/bicubic__b took about 0.262 s on average]
+
+./build/lanczos__b took 397785389 ns to process assets/imgs_from_opencv/ela_original.jpg
+[./build/lanczos__b took about 0.398 s on average]
+
+./build/linear__b took 304020721 ns to process assets/imgs_from_opencv/ela_original.jpg
+[./build/linear__b took about 0.304 s on average]
+
+./build/proposed_algorithm__b took 238259042 ns to process assets/imgs_from_opencv/ela_original.jpg
+[./build/proposed_algorithm__b took about 0.238 s on average]
+
+
+
+[operating on assets/imgs_from_opencv/fruits.jpg]...
+./build/affine_transform__b took 125198795 ns to process assets/imgs_from_opencv/fruits.jpg
+[./build/affine_transform__b took about 0.125 s on average]
+
+./build/benchmark__b took 156364697 ns to process assets/imgs_from_opencv/fruits.jpg
+[./build/benchmark__b took about 0.156 s on average]
+
+./build/bicubic__b took 155871131 ns to process assets/imgs_from_opencv/fruits.jpg
+[./build/bicubic__b took about 0.156 s on average]
+
+./build/lanczos__b took 238561819 ns to process assets/imgs_from_opencv/fruits.jpg
+[./build/lanczos__b took about 0.239 s on average]
+
+./build/linear__b took 181232972 ns to process assets/imgs_from_opencv/fruits.jpg
+[./build/linear__b took about 0.181 s on average]
+
+./build/proposed_algorithm__b took 134050189 ns to process assets/imgs_from_opencv/fruits.jpg
+[./build/proposed_algorithm__b took about 0.134 s on average]
+
+
+
+[operating on assets/imgs_from_opencv/lena.jpg]...
+./build/affine_transform__b took 134455073 ns to process assets/imgs_from_opencv/lena.jpg
+[./build/affine_transform__b took about 0.134 s on average]
+
+./build/benchmark__b took 166463208 ns to process assets/imgs_from_opencv/lena.jpg
+[./build/benchmark__b took about 0.166 s on average]
+
+./build/bicubic__b took 173763096 ns to process assets/imgs_from_opencv/lena.jpg
+[./build/bicubic__b took about 0.174 s on average]
+
+./build/lanczos__b took 222323727 ns to process assets/imgs_from_opencv/lena.jpg
+[./build/lanczos__b took about 0.222 s on average]
+
+./build/linear__b took 161756031 ns to process assets/imgs_from_opencv/lena.jpg
+[./build/linear__b took about 0.162 s on average]
+
+./build/proposed_algorithm__b took 133589609 ns to process assets/imgs_from_opencv/lena.jpg
+[./build/proposed_algorithm__b took about 0.134 s on average]
+
+
+
+[operating on assets/imgs_from_opencv/leuvenA.jpg]...
+./build/affine_transform__b took 218436267 ns to process assets/imgs_from_opencv/leuvenA.jpg
+[./build/affine_transform__b took about 0.218 s on average]
+
+./build/benchmark__b took 215006953 ns to process assets/imgs_from_opencv/leuvenA.jpg
+[./build/benchmark__b took about 0.215 s on average]
+
+./build/bicubic__b took 195229306 ns to process assets/imgs_from_opencv/leuvenA.jpg
+[./build/bicubic__b took about 0.195 s on average]
+
+./build/lanczos__b took 286151244 ns to process assets/imgs_from_opencv/leuvenA.jpg
+[./build/lanczos__b took about 0.286 s on average]
+
+./build/linear__b took 199674926 ns to process assets/imgs_from_opencv/leuvenA.jpg
+[./build/linear__b took about 0.2 s on average]
+
+./build/proposed_algorithm__b took 166005598 ns to process assets/imgs_from_opencv/leuvenA.jpg
+[./build/proposed_algorithm__b took about 0.166 s on average]
+
+
+
+[operating on assets/imgs_from_opencv/messi5.jpg]...
+./build/affine_transform__b took 113005772 ns to process assets/imgs_from_opencv/messi5.jpg
+[./build/affine_transform__b took about 0.113 s on average]
+
+./build/benchmark__b took 148167538 ns to process assets/imgs_from_opencv/messi5.jpg
+[./build/benchmark__b took about 0.148 s on average]
+
+./build/bicubic__b took 146968543 ns to process assets/imgs_from_opencv/messi5.jpg
+[./build/bicubic__b took about 0.147 s on average]
+
+./build/lanczos__b took 237515441 ns to process assets/imgs_from_opencv/messi5.jpg
+[./build/lanczos__b took about 0.238 s on average]
+
+./build/linear__b took 141591783 ns to process assets/imgs_from_opencv/messi5.jpg
+[./build/linear__b took about 0.142 s on average]
+
+./build/proposed_algorithm__b took 115812693 ns to process assets/imgs_from_opencv/messi5.jpg
+[./build/proposed_algorithm__b took about 0.116 s on average]
+
+
+
+[operating on assets/imgs_from_opencv/notes.png]...
+./build/affine_transform__b took 124993941 ns to process assets/imgs_from_opencv/notes.png
+[./build/affine_transform__b took about 0.125 s on average]
+
+./build/benchmark__b took 152486721 ns to process assets/imgs_from_opencv/notes.png
+[./build/benchmark__b took about 0.152 s on average]
+
+./build/bicubic__b took 178687945 ns to process assets/imgs_from_opencv/notes.png
+[./build/bicubic__b took about 0.179 s on average]
+
+./build/lanczos__b took 205778619 ns to process assets/imgs_from_opencv/notes.png
+[./build/lanczos__b took about 0.206 s on average]
+
+./build/linear__b took 153128835 ns to process assets/imgs_from_opencv/notes.png
+[./build/linear__b took about 0.153 s on average]
+
+./build/proposed_algorithm__b took 120938025 ns to process assets/imgs_from_opencv/notes.png
+[./build/proposed_algorithm__b took about 0.121 s on average]
+
+
+
+[operating on assets/imgs_from_opencv/pic2.png]...
+./build/affine_transform__b took 102788343 ns to process assets/imgs_from_opencv/pic2.png
+[./build/affine_transform__b took about 0.103 s on average]
+
+./build/benchmark__b took 169144030 ns to process assets/imgs_from_opencv/pic2.png
+[./build/benchmark__b took about 0.169 s on average]
+
+./build/bicubic__b took 182697562 ns to process assets/imgs_from_opencv/pic2.png
+[./build/bicubic__b took about 0.183 s on average]
+
+./build/lanczos__b took 205743955 ns to process assets/imgs_from_opencv/pic2.png
+[./build/lanczos__b took about 0.206 s on average]
+
+./build/linear__b took 149575589 ns to process assets/imgs_from_opencv/pic2.png
+[./build/linear__b took about 0.15 s on average]
+
+./build/proposed_algorithm__b took 115639079 ns to process assets/imgs_from_opencv/pic2.png
+[./build/proposed_algorithm__b took about 0.116 s on average]
+
+
+
+[operating on assets/imgs_from_opencv/starry_night.jpg]...
+./build/affine_transform__b took 201129047 ns to process assets/imgs_from_opencv/starry_night.jpg
+[./build/affine_transform__b took about 0.201 s on average]
+
+./build/benchmark__b took 210467534 ns to process assets/imgs_from_opencv/starry_night.jpg
+[./build/benchmark__b took about 0.21 s on average]
+
+./build/bicubic__b took 224023136 ns to process assets/imgs_from_opencv/starry_night.jpg
+[./build/bicubic__b took about 0.224 s on average]
+
+./build/lanczos__b took 344921565 ns to process assets/imgs_from_opencv/starry_night.jpg
+[./build/lanczos__b took about 0.345 s on average]
+
+./build/linear__b took 225570556 ns to process assets/imgs_from_opencv/starry_night.jpg
+[./build/linear__b took about 0.226 s on average]
+
+./build/proposed_algorithm__b took 189525020 ns to process assets/imgs_from_opencv/starry_night.jpg
+[./build/proposed_algorithm__b took about 0.19 s on average]
+
+
+
+[operating on assets/imgs_from_opencv/sudoku.png]...
+./build/affine_transform__b took 193258876 ns to process assets/imgs_from_opencv/sudoku.png
+[./build/affine_transform__b took about 0.193 s on average]
+
+./build/benchmark__b took 224124317 ns to process assets/imgs_from_opencv/sudoku.png
+[./build/benchmark__b took about 0.224 s on average]
+
+./build/bicubic__b took 260613755 ns to process assets/imgs_from_opencv/sudoku.png
+[./build/bicubic__b took about 0.261 s on average]
+
+./build/lanczos__b took 320326948 ns to process assets/imgs_from_opencv/sudoku.png
+[./build/lanczos__b took about 0.32 s on average]
+
+./build/linear__b took 224466899 ns to process assets/imgs_from_opencv/sudoku.png
+[./build/linear__b took about 0.224 s on average]
+
+./build/proposed_algorithm__b took 188832866 ns to process assets/imgs_from_opencv/sudoku.png
+[./build/proposed_algorithm__b took about 0.189 s on average]
+
+
+
+[operating on assets/imgs_from_opencv/text_defocus.jpg]...
+./build/affine_transform__b took 156622656 ns to process assets/imgs_from_opencv/text_defocus.jpg
+[./build/affine_transform__b took about 0.157 s on average]
+
+./build/benchmark__b took 171725776 ns to process assets/imgs_from_opencv/text_defocus.jpg
+[./build/benchmark__b took about 0.172 s on average]
+
+./build/bicubic__b took 169431325 ns to process assets/imgs_from_opencv/text_defocus.jpg
+[./build/bicubic__b took about 0.169 s on average]
+
+./build/lanczos__b took 279291350 ns to process assets/imgs_from_opencv/text_defocus.jpg
+[./build/lanczos__b took about 0.279 s on average]
+
+./build/linear__b took 172287204 ns to process assets/imgs_from_opencv/text_defocus.jpg
+[./build/linear__b took about 0.172 s on average]
+
+./build/proposed_algorithm__b took 137345908 ns to process assets/imgs_from_opencv/text_defocus.jpg
+[./build/proposed_algorithm__b took about 0.137 s on average]
+

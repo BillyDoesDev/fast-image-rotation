@@ -1,0 +1,13 @@
+Image Name              ,Image Size (WxH) ,Channels ,Type ,Format
+licenseplate_motion.jpg ,600x482          ,       3 ,RGB  ,JPEG
+squirrel_cls.jpg        ,535x426          ,       3 ,RGB  ,JPEG
+aero1.jpg               ,640x480          ,       3 ,RGB  ,JPEG
+apple.jpg               ,512x512          ,       3 ,RGB  ,JPEG
+baboon.jpg              ,512x512          ,       3 ,RGB  ,JPEG
+5am.jpg                 ,3024x4032        ,       3 ,RGB  ,JPEG
+church_bottom.jpg       ,4032x2268        ,       3 ,RGB  ,JPEG
+church_wide.jpg         ,4032x2268        ,       3 ,RGB  ,JPEG
+corridor.jpg            ,2268x4032        ,       3 ,RGB  ,JPEG
+downhill.jpg            ,2268x4032        ,       3 ,RGB  ,JPEG
+landscape.jpg           ,1200x1200        ,       3 ,RGB  ,JPEG
+viewpoint.jpg           ,4032x2268        ,       3 ,RGB  ,JPEG

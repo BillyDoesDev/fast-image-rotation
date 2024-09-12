@@ -1,0 +1,20 @@
+Image Name              ,Image Size (WxH) ,Channels ,Type ,Resolution (DPI) ,Format
+licenseplate_motion.jpg ,600x482          ,       3 ,RGB  ,100x100          ,JPEG
+squirrel_cls.jpg        ,535x426          ,       3 ,RGB  ,-x-              ,JPEG
+aero1.jpg               ,640x480          ,       3 ,RGB  ,-x-              ,JPEG
+apple.jpg               ,512x512          ,       3 ,RGB  ,-x-              ,JPEG
+baboon.jpg              ,512x512          ,       3 ,RGB  ,-x-              ,JPEG
+board.jpg               ,640x480          ,       3 ,RGB  ,-x-              ,JPEG
+building.jpg            ,868x600          ,       3 ,RGB  ,96x96            ,JPEG
+butterfly.jpg           ,493x356          ,       3 ,RGB  ,-x-              ,JPEG
+digits.png              ,2000x1000        ,       1 ,L    ,-x-              ,PNG
+ela_original.jpg        ,902x770          ,       3 ,RGB  ,-x-              ,JPEG
+fruits.jpg              ,512x480          ,       3 ,RGB  ,-x-              ,JPEG
+lena.jpg                ,512x512          ,       3 ,RGB  ,73x73            ,JPEG
+leuvenA.jpg             ,751x563          ,       3 ,RGB  ,-x-              ,JPEG
+messi5.jpg              ,548x342          ,       3 ,RGB  ,-x-              ,JPEG
+notes.png               ,1024x134         ,       3 ,RGB  ,96.012x96.012    ,PNG
+pic2.png                ,400x300          ,       3 ,RGB  ,71.9836x71.9836  ,PNG
+starry_night.jpg        ,752x600          ,       3 ,RGB  ,300x300          ,JPEG
+sudoku.png              ,558x563          ,       3 ,RGB  ,72.009x72.009    ,PNG
+text_defocus.jpg        ,697x472          ,       3 ,RGB  ,-x-              ,JPEG
