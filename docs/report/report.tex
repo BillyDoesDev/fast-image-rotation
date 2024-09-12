@@ -32,6 +32,11 @@
 \usepackage{algorithm,algpseudocode}
 \usepackage{lipsum}
 
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\pgfplotsset{compat=1.18}
+\usepackage{filecontents}
+
 \makeatletter
 \newenvironment{breakablealgorithm}
   {% \begin{breakablealgorithm}
@@ -91,7 +96,8 @@
 }
 \maketitle
 \begin{abstract}
-    This paper presents a novel fast image rotation algorithm that leverages CPU parallelization while maintaining high image quality. The proposed method is a single-pass algorithm, derived from the existing Double-Line Rotation (DLR) method, which reduces computational complexity and generalizes the algorithm. Initially, a baseline for the given image is calculated to determine the starting line, which defines the initial point for each vertical or horizontal line in the image to be rotated. The corresponding pixels to be mapped are identified using floating point arithmetic, and trigonometric calculations are performed only once per line. This approach ensures precise image transformation with minimal computational overhead.
+    This paper presents a novel single-pass algorithm for image rotation that significantly enhances computational efficiency by processing entire rows or columns of pixels as unified vectors rather than mapping individual pixels. The method dynamically selects between row-major and column-major operations based on the angle of rotation, ensuring optimized performance across a broad range of rotation scenarios. By determining the initial coordinates of each pixel vector and employing simple floating-point arithmetic for subsequent pixel positioning, the algorithm reduces the complexity of the rotation process while minimizing interpolation errors. This approach proves especially advantageous for high-resolution images and real-time applications, such as video processing and computer graphics, where both speed and image quality are critical. The proposed method offers a scalable, efficient, and precise solution for image rotation, marking a significant contribution to the field of digital image processing.
+
     \textit{Index terms:} Image rotation, line rotation image transform, double-line rotation (DLR), parallel image rotation.
 \end{abstract}
 \IEEEpeerreviewmaketitle
@@ -118,123 +124,38 @@ $$\begin{bmatrix}
         x' + cx' \\
         y' + cy'
     \end{bmatrix}$$
-\subsection{Subsection Heading Here}
-Subsection text here.
-\subsubsection{Subsubsection Heading Here}
-Subsubsection text here.
-\section{Literature Survey}
-\subsection{Affine Transformation}
-A basic idea in computer graphics and geometry, affine transformation is a linear mapping method that maintains straight lines, planes, and points. The capacity to carry out a variety of geometric operations, including translation, scaling, rotation, shearing, and reflection, is what defines an Affine transformation. These transformations are powerful and adaptable tools with a wide range of applications because they are defined mathematically by combining translations and linear transformations.
-\subsubsection{Properties}
-\begin{itemize}
-    \item Linearity and Translation:  The transformation is composed of a linear transformation  Ax and a translation $\beta$.  This combination allows for a wide range of geometric transformations while preserving the structure of the space.
-    \item Preservation of Collinearity and Ratios:  Affine transformations preserve the collinearity of points and the ratios of distances along parallel lines.
-    \item Combining Transformations:  Multiple affine transformations can be combined into a single affine transformation by matrix multiplication and vector addition.
-\end{itemize}
-\section*{Mathematical Formulation}
-Affine transformations can be described by a combination of linear transformations and translations. The general form of an affine transformation in two dimensions is:
-$$y = Ax + b$$
-where
-\begin{itemize}
-    \item \(\mathbf{x} = \begin{bmatrix} x \\ y \end{bmatrix}\) is the input coordinate vector.\\
-    \item \(\mathbf{A}\) is a \(2 \times 2\) matrix that represents the linear part of the transformation.\\
-    \item \(\mathbf{b} = \begin{bmatrix} t_x \\ t_y \end{bmatrix}\) is the translation vector.\\
-\end{itemize}
-For a rotation by an angle \(\theta\) around the origin, the matrix \(\mathbf{A}\) is:
-\[
-    \mathbf{A} = \begin{bmatrix} \cos(\theta) & -\sin(\theta) \\ \sin(\theta) & \cos(\theta) \end{bmatrix}
-\]
-To center the rotated image within its original dimensions, the translation values \(t_x\) and \(t_y\) are calculated as follows:
-\section*{Calculations}
-\subsection*{New Dimensions}
-The new width and height of the rotated image are determined using trigonometric functions based on the rotation angle:
-\[
-    \text{newWidth} = \lceil \text{width} \cdot |\cos(\theta)| + \text{height} \cdot |\sin(\theta)| \rceil
-\]
-\[
-    \text{newHeight} = \lceil \text{width} \cdot |\sin(\theta)| + \text{height} \cdot |\cos(\theta)| \rceil
-\]
-\subsection*{Center Points}fine transformation matrix that includes rotation and translation is:
-\[
-    \mathbf{T} = \begin{bmatrix}
-        \cos(\theta) & -\sin(\theta) & t_x \\
-        \sin(\theta) & \cos(\theta)  & t_y
-    \end{bmatrix}
-\]
-The new coordinates \((x', y')\) after applying the affine transformation are:
-\[
-    \begin{bmatrix}
-        x' \\
-        y'
-    \end{bmatrix}
-    =
-    \begin{bmatrix}
-        \cos(\theta) & -\sin(\theta) & t_x \\
-        \sin(\theta) & \cos(\theta)  & t_y
-    \end{bmatrix}
-    \begin{bmatrix}
-        x \\
-        y \\
-        1
-    \end{bmatrix}
-\]
-\[
-    x' = \cos(\theta) \cdot x - \sin(\theta) \cdot y + t_x
-\]
-\[
-    y' = \sin(\theta) \cdot x + \cos(\theta) \cdot y + t_y
-\]
-\[
-    c_x = \frac{\text{width}}{2}, \quad c_y = \frac{\text{height}}{2}
-\]
-\[
-    \text{newCx} = \frac{\text{newWidth}}{2}, \quad \text{newCy} = \frac{\text{newHeight}}{2}
-\]
-\subsection*{Translation Values}
-The translation values to center the rotated image within its new dimensions are:
-\[
-    t_x = c_x - (\text{newCx} \cdot \cos(\theta) - \text{newCy} \cdot \sin(\theta))
-\]
-\[
-    t_y = c_y - (\text{newCx} \cdot \sin(\theta) + \text{newCy} \cdot \cos(\theta))
-\]
-Thus, the affine transformation matrix that includes rotation and translation is:
-\[
-    \mathbf{T} = \begin{bmatrix}
-        \cos(\theta) & -\sin(\theta) & t_x \\
-        \sin(\theta) & \cos(\theta)  & t_y
-    \end{bmatrix}
-\]
-The new coordinates \((x', y')\) after applying the affine transformation are:
-\[
-    \begin{bmatrix}
-        x' \\
-        y'
-    \end{bmatrix}
-    =
-    \begin{bmatrix}
-        \cos(\theta) & -\sin(\theta) & t_x \\
-        \sin(\theta) & \cos(\theta)  & t_y
-    \end{bmatrix}
-    \begin{bmatrix}
-        x \\
-        y \\
-        1
-    \end{bmatrix}
-\]
-\[
-    x' = \cos(\theta) \cdot x - \sin(\theta) \cdot y + t_x
-\]
-\[
-    y' = \sin(\theta) \cdot x + \cos(\theta) \cdot y + t_y
-\]
-\\ \\
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{Literature Review}
+
+Affine transformation is a fundamental technique in computer graphics and computational geometry, extensively employed for various image manipulation operations such as translation, scaling, rotation, shearing, and reflection. Mathematically, it is represented as
+$ y = Ax + b $ where $A$ is a $2 \times 2$ matrix that defines the linear transformation, and $b$ is a translation vector. This formulation ensures the preservation of geometric properties such as points, straight lines, and planes, making affine transformation indispensable for numerous graphical applications. In the context of image rotation, the matrix $\mathbf{A}$ is typically determined using trigonometric functions based on the rotation angle $\theta$, while the translation components $t_x$ and $t_y$ are calculated to center the rotated image within its new dimensions. The \texttt{warpAffine} function in OpenCV is widely utilized to perform such affine transformations efficiently, offering flexibility in handling various interpolation methods like nearest-neighbor, bilinear, and bicubic. These interpolation methods are crucial for minimizing distortions and preserving image quality during the transformation \cite{wang2021panoramic}.
+
+However, affine transformations are not without limitations, especially when dealing with large rotation angles or combined transformations, such as scaling and shearing, which can lead to artifacts like aliasing and loss of detail. 
+
+
+To mitigate these issues, more sophisticated methods have been developed. One such method is the Hermite polynomial expansion, which leverages the orthogonality of Hermite polynomials to achieve smooth and accurate interpolation. This technique is particularly effective for image processing tasks requiring high precision. The image function is expanded using two-dimensional Hermite polynomials, and rotation is performed by transforming the coordinates with a rotation matrix. The rotated image is then reconstructed using inverse Hermite expansion, ensuring smooth transitions and minimal distortion. Despite its accuracy, the Hermite expansion method is computationally intensive, requiring the evaluation and summation of multiple polynomial terms, which can result in slower processing times. Additionally, while this method excels at smooth interpolation, it may struggle to maintain fine details in images with high-frequency content \cite{park2009accurate}.
+
+Another advanced technique is the Double Line Rotation (DLR) method, which is recognized for its ability to maintain geometric and intensity integrity during transformation. The DLR method divides the image into eight distinct zones, each governed by specific rotation equations and transformations. This zonal approach ensures that each pixel in the original image is mapped to two corresponding pixels in the rotated image, maintaining a consistent distance ratio between points. This feature is crucial for applications that require feature extraction invariance, making the DLR method particularly suitable for pattern recognition and computer vision tasks. However, the complexity of managing multiple zones and their corresponding transformations can lead to inefficiencies, especially with high-resolution images. Moreover, distortions may occur at the boundaries between zones, potentially degrading the visual quality of the rotated image \cite{ashtari2015double}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 \section{Proposed Method}
 The proposed method is a single pass algorithm, which means that it performs the entire image rotation operation at once. The proposed algorithm predominantly affects pixels in the row major (width), or ones in the column major (height), depending on the angle of rotation, $\alpha$.
 If $\alpha \in \left ( \frac{\pi}{4}, \frac{3 \pi}{4} \right ] \bigcup \left ( \frac{5 \pi}{4}, \frac{7 \pi}{4} \right ]$, rotation is performed in the \textit{\textbf{column major}}, and it is performed in the \textit{\textbf{row major}} for the rest of the angles. Accordingly, for rotating the source image, entire row or column vectors of pixels are rotated as a single unit, instead of the more common approach, where each individual pixel is separately mapped. Due to this reason, it is necessary to accurately determine the initial coordinates from which the new row or column vector will begin. The coordinates of the rest of the pixels in the vector can then be determined by simple floating point addition or subtraction, depending on the extent to which each of the said vectors are spread across the coordinate axes.
 
 Apart from this, depending on $\alpha$, the pixel processing order changes - i.e., whether the last row or column vector of pixels get processed first, or last. Since it has been found out that these values are very sensitive to $\alpha$, the specific details of which are discussed in the later parts of this paper.
 \subsection{Rotation Of An Image In The Column Major} \label{col_major_rotation}
+
+
+
+
+
+% FIGURE
+
 \begin{figure}[H]
     \centering
     \captionsetup{justification=centering,margin=0.7cm}
@@ -242,6 +163,16 @@ Apart from this, depending on $\alpha$, the pixel processing order changes - i.e
     \caption{Example demonstrating rotation of an image in the column major. Every column vector of pixels are rotated at once (Represented by the stripes in the image).}
     \label{fig:rotation_example_1}
 \end{figure}
+
+
+
+
+
+
+
+
+
+
 As seen in the example image in figure \ref{fig:rotation_example_1}, for the given angle of rotation, column vectors were rotated (represented by the stripes). Each such vector to be rotated begins from the line $\overrightarrow{A'B'}$. As such, the initial coordinates of each of these vectors can be determined by the equation of the same line, which is given by:
 \begin{equation}
     \label{start_line_eq}
@@ -313,11 +244,33 @@ $$\delta y = \left\lvert sin(\alpha)\right\rvert$$
 
 \subsection{Implementation}
 
+\renewcommand{\arraystretch}{3}  % This sets the row height to 3 cm
+\definecolor{lightgray}{gray}{0.91}
+\begin{table*}[h]
+    \caption{Rotation Parameters, based on $\alpha$}
+    \label{table:rotation_params}
+    \centering
+    \begin{tabular}{ |p{0.8cm}|p{1.53cm}|p{1.53cm}|p{1.1cm}|p{1.1cm}|p{0.67cm}|p{1.53cm}|p{0.1cm}|p{0.87cm}|p{0.87cm}|>{\columncolor{lightgray}}p{0.67cm}|>{\columncolor{lightgray}}p{0.95cm}|>{\columncolor{lightgray}}p{0.8cm}| }
+        \hline
+        \raisebox{0ex}{\multirow{2}{*}{\adjustbox{angle=90}{\textbf{Range of $\alpha$}}}} & \multicolumn{12}{c|}{\textbf{Rotation parameters}}                                                                                                                                                                                                                                                                                                                                                                                                    \\
+        \cline{2-13}
+                                                                                          & \textbf{$x'$}                                                            & \textbf{$y'$}                                                            & \textbf{$\delta x$}                      & \textbf{$\delta y$}                      & \textbf{$\delta i$} & \textbf{$r_o$}                                                           & \textbf{N} & \texttt{negate} & \texttt{flip}  & \textbf{$\delta i'$} & \texttt{negate'} & \texttt{flip'} \\
+        \hline
+        $\left [ 0, \frac{\pi}{4} \right ]$                                               & $\left\lceil \left\lvert m \cdot \sin(\alpha) \right\rvert \right\rceil$ & 0                                                                        & $\left\lvert \cos(\alpha) \right\rvert$  & $\left\lvert \sin(\alpha) \right\rvert$  & $1 / \delta x$      & $\left\lceil \left\lvert m \cdot \cos(\alpha) \right\rvert \right\rceil$ & n          & \texttt{false}  & \texttt{false} & $1 / \delta x$       & \texttt{true}    & \texttt{false} \\
+        \hline
+        $\left ( \frac{\pi}{4}, \frac{\pi}{2} \right ]$                                   & $\left\lceil \left\lvert m \cdot \sin(\alpha) \right\rvert \right\rceil$ & 0                                                                        & $-\left\lvert \sin(\alpha) \right\rvert$ & $\left\lvert \cos(\alpha) \right\rvert$  & $-1 / \delta x$     & $\left\lceil \left\lvert n \cdot \sin(\alpha) \right\rvert \right\rceil$ & m          & \texttt{false}  & \texttt{false} & $1 / \delta x$       & \texttt{false}   & \texttt{true}  \\
+        \hline
+        $\left ( \frac{\pi}{2}, \frac{3 \pi}{4} \right ]$                                 & $m'$                                                                     & $\left\lceil \left\lvert m \cdot \cos(\alpha) \right\rvert \right\rceil$ & $-\left\lvert \sin(\alpha) \right\rvert$ & $-\left\lvert \cos(\alpha) \right\rvert$ & $-1 / \delta x$     & $\left\lceil \left\lvert n \cdot \sin(\alpha) \right\rvert \right\rceil$ & m          & \texttt{false}  & \texttt{false} & $1 / \delta x$       & \texttt{false}   & \texttt{true}  \\
+        \hline
+        $\left ( \frac{3 \pi}{4}, \pi \right ]$                                           & $\left\lceil \left\lvert n \cdot \cos(\alpha) \right\rvert \right\rceil$ & 0                                                                        & $-\left\lvert \cos(\alpha) \right\rvert$ & $\left\lvert \sin(\alpha) \right\rvert$  & $1 / \delta x$      & $\left\lceil \left\lvert m \cdot \cos(\alpha) \right\rvert \right\rceil$ & n          & \texttt{false}  & \texttt{false} & $1 / \delta x$       & \texttt{true}    & \texttt{false} \\
+        \hline
+    \end{tabular}
+\end{table*}
+
 \begin{breakablealgorithm} \label{rotation_alorithm}
     \caption{Image Rotation Algorithm}
     \begin{algorithmic}[1]
         \Procedure{rotate}{$...$}\Comment{Performs image rotation on $R$}
-
         \State \texttt{src\_i} $ = 0$ \Comment{Initialize internal control variables}
         \State \texttt{S} $ = 1$
         \State $M = [\>]$
@@ -389,31 +342,9 @@ The rotation function is then invoked, with each of the parameters updating depe
     \end{algorithmic}
 \end{breakablealgorithm}
 
-\renewcommand{\arraystretch}{3}  % This sets the row height to 3 cm
-\definecolor{lightgray}{gray}{0.91}
-\begin{table*}[h]
-    \caption{Rotation Parameters, based on $\alpha$}
-    \label{table:rotation_params}
-    \centering
-    \begin{tabular}{ |p{0.8cm}|p{1.53cm}|p{1.53cm}|p{1.1cm}|p{1.1cm}|p{0.67cm}|p{1.53cm}|p{0.1cm}|p{0.87cm}|p{0.87cm}|>{\columncolor{lightgray}}p{0.67cm}|>{\columncolor{lightgray}}p{0.95cm}|>{\columncolor{lightgray}}p{0.8cm}| }
-        \hline
-        \raisebox{0ex}{\multirow{2}{*}{\adjustbox{angle=90}{\textbf{Range of $\alpha$}}}} & \multicolumn{12}{c|}{\textbf{Rotation parameters}}                                                                                                                                                                                                                                                                                                                                                                                                    \\
-        \cline{2-13}
-                                                                                          & \textbf{$x'$}                                                            & \textbf{$y'$}                                                            & \textbf{$\delta x$}                      & \textbf{$\delta y$}                      & \textbf{$\delta i$} & \textbf{$r_o$}                                                           & \textbf{N} & \texttt{negate} & \texttt{flip}  & \textbf{$\delta i'$} & \texttt{negate'} & \texttt{flip'} \\
-        \hline
-        $\left [ 0, \frac{\pi}{4} \right ]$                                               & $\left\lceil \left\lvert m \cdot \sin(\alpha) \right\rvert \right\rceil$ & 0                                                                        & $\left\lvert \cos(\alpha) \right\rvert$  & $\left\lvert \sin(\alpha) \right\rvert$  & $1 / \delta x$      & $\left\lceil \left\lvert m \cdot \cos(\alpha) \right\rvert \right\rceil$ & n          & \texttt{false}  & \texttt{false} & $1 / \delta x$       & \texttt{true}    & \texttt{false} \\
-        \hline
-        $\left ( \frac{\pi}{4}, \frac{\pi}{2} \right ]$                                   & $\left\lceil \left\lvert m \cdot \sin(\alpha) \right\rvert \right\rceil$ & 0                                                                        & $-\left\lvert \sin(\alpha) \right\rvert$ & $\left\lvert \cos(\alpha) \right\rvert$  & $-1 / \delta x$     & $\left\lceil \left\lvert n \cdot \sin(\alpha) \right\rvert \right\rceil$ & m          & \texttt{false}  & \texttt{false} & $1 / \delta x$       & \texttt{false}   & \texttt{true}  \\
-        \hline
-        $\left ( \frac{\pi}{2}, \frac{3 \pi}{4} \right ]$                                 & $m'$                                                                     & $\left\lceil \left\lvert m \cdot \cos(\alpha) \right\rvert \right\rceil$ & $-\left\lvert \sin(\alpha) \right\rvert$ & $-\left\lvert \cos(\alpha) \right\rvert$ & $-1 / \delta x$     & $\left\lceil \left\lvert n \cdot \sin(\alpha) \right\rvert \right\rceil$ & m          & \texttt{false}  & \texttt{false} & $1 / \delta x$       & \texttt{false}   & \texttt{true}  \\
-        \hline
-        $\left ( \frac{3 \pi}{4}, \pi \right ]$                                           & $\left\lceil \left\lvert n \cdot \cos(\alpha) \right\rvert \right\rceil$ & 0                                                                        & $-\left\lvert \cos(\alpha) \right\rvert$ & $\left\lvert \sin(\alpha) \right\rvert$  & $1 / \delta x$      & $\left\lceil \left\lvert m \cdot \cos(\alpha) \right\rvert \right\rceil$ & n          & \texttt{false}  & \texttt{false} & $1 / \delta x$       & \texttt{true}    & \texttt{false} \\
-        \hline
-    \end{tabular}
-\end{table*}
-\newpage
 
-\section{Accuracy Analysis}
+
+\section{Experimental Results and Analysis}
 In this section, we perform an accuracy analysis of the reconstructed images using various error metrics. These metrics quantify the similarity between the original and the processed images, providing insight into the effectiveness of the image processing techniques. The following subsections describe each metric in detail, including their mathematical formulation and interpretation.
 
 % \begin{multicols}{2}
@@ -432,14 +363,91 @@ The Mean Squared Error (MSE) is calculated as:
 
 where \(\text{MAX}_{I}\) represents the maximum possible pixel value (e.g., 255 for 8-bit images), and \(I(i,j)\) and \(K(i,j)\) are the pixel values at position \((i,j)\) in the original and processed images, respectively.
 
+\begin{table}[H]
+    \caption{PSNR Error Analysis of Various Sample Images}
+    \centering
+    \renewcommand{\arraystretch}{1.8} % Adjust row height if needed
+    \resizebox{\columnwidth}{!}{ % Resize the table to fit within the column width
+        \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        \multirow{2}{*}{\centering \textbf{Methods}} & \multicolumn{5}{c|}{\textbf{Images}} \\
+        \cline{2-6}
+        & \textbf{licenseplate\_motion} & \textbf{squirrel\_cls} & \textbf{aero1} & \textbf{apple} & \textbf{baboon} \\
+        \hline
+        affine\_transform   & 28.52 & 25.34 & 24.29 & 29.24 & 24.15 \\
+        \hline
+        benchmark           & 31.49 & 25.22 & 25.94 & 31.65 & 24.60 \\
+        \hline
+        bicubic             & 31.27 & 24.72 & 25.46 & 31.16 & 23.75 \\
+        \hline
+        lanczos             & 31.23 & 24.68 & 25.43 & 30.99 & 23.58 \\
+        \hline
+        linear              & 31.49 & 25.22 & 25.94 & 31.65 & 24.60 \\
+        \hline
+        proposed\_algorithm & 28.71 & 24.49 & 24.92 & 30.06 & 22.85 \\
+        \hline
+        \end{tabular}
+    }
+    \label{tab:psnr_error_analysis}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \captionsetup{justification=centering,margin=0.7cm}
+    \includegraphics[width=0.48\textwidth]{graphs/psnr.png}
+    \caption{PSNR analysis}
+    \label{fig:psnr_analysis}
+\end{figure}
+
+
+
 \subsection{Correlation Coefficient (CC)}
 The Correlation Coefficient (CC) is a statistical measure that quantifies the similarity between two images by assessing the correlation between corresponding pixels. CC ranges from -1 to 1, with 1 indicating perfect positive correlation, -1 indicating perfect negative correlation, and 0 indicating no correlation.
 
 \begin{equation}
-\text{CC} = \frac{\sum_{i=1}^{M} \sum_{j=1}^{N} \left(I(i,j) - \overline{I}\right) \left(K(i,j) - \overline{K}\right)}{\sqrt{\sum_{i=1}^{M} \sum_{j=1}^{N} \left(I(i,j) - \overline{I}\right)^2 \cdot \sum_{i=1}^{M} \sum_{j=1}^{N} \left(K(i,j) - \overline{K}\right)^2}}
+\text{CC} = \frac{\sum_{i=1}^{M} \sum_{j=1}^{N} \left(I(i,j) - \overline{I}\right) \beta}{\sqrt{\sum_{i=1}^{M} \sum_{j=1}^{N} \left(I(i,j) - \overline{I}\right)^2 \cdot \sum_{i=1}^{M} \sum_{j=1}^{N} \beta^2}}
 \end{equation}
+where, $$\beta = \left(K(i,j) - \overline{K}\right)$$
 
 Here, \(\overline{I}\) and \(\overline{K}\) represent the mean pixel values of the original and processed images, respectively.
+
+
+\begin{table}[H]
+    \caption{CC Error Analysis of Various Sample Images}
+    \centering
+    \renewcommand{\arraystretch}{1.8}
+    \resizebox{\columnwidth}{!}{
+        \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        \multirow{2}{*}{\centering \textbf{Methods}} & \multicolumn{5}{c|}{\textbf{Images}} \\
+        \cline{2-6}
+        & \textbf{licenseplate\_motion} & \textbf{squirrel\_cls} & \textbf{aero1} & \textbf{apple} & \textbf{baboon} \\
+        \hline
+        affine\_transform   & 0.9923 & 0.9835 & 0.9813 & 0.9911 & 0.9756 \\
+        \hline
+        benchmark           & 0.9961 & 0.9830 & 0.9871 & 0.9949 & 0.9777 \\
+        \hline
+        bicubic             & 0.9959 & 0.9810 & 0.9857 & 0.9943 & 0.9732 \\
+        \hline
+        lanczos             & 0.9959 & 0.9808 & 0.9856 & 0.9940 & 0.9721 \\
+        \hline
+        linear              & 0.9961 & 0.9830 & 0.9871 & 0.9949 & 0.9777 \\
+        \hline
+        proposed\_algorithm & 0.9926 & 0.9800 & 0.9838 & 0.9926 & 0.9671 \\
+        \hline
+        \end{tabular}
+    }
+    \label{tab:cc_analysis}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \captionsetup{justification=centering,margin=0.7cm}
+    \includegraphics[width=0.48\textwidth]{graphs/cc.png}
+    \caption{CC analysis}
+    \label{fig:cc_analysis}
+\end{figure}
+
 
 \subsection{Laplacian Mean Squared Error (LMSE)}
 Laplacian Mean Squared Error (LMSE) focuses on the high-frequency components of an image, particularly edges. By applying a Laplacian filter to both the original and processed images, LMSE calculates the error in edge details, which is particularly useful for detecting blurring or loss of fine details.
@@ -450,6 +458,43 @@ Laplacian Mean Squared Error (LMSE) focuses on the high-frequency components of 
 
 Lower LMSE values indicate less error in edge preservation, thus implying higher image quality.
 
+\begin{table}[H]
+    \caption{LMSE Error Analysis of Various Sample Images}
+    \centering
+    \renewcommand{\arraystretch}{1.8}
+    \resizebox{\columnwidth}{!}{
+        \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        \multirow{2}{*}{\centering \textbf{Methods}} & \multicolumn{5}{c|}{\textbf{Images}} \\
+        \cline{2-6}
+        & \textbf{licenseplate\_motion} & \textbf{squirrel\_cls} & \textbf{aero1} & \textbf{apple} & \textbf{baboon} \\
+        \hline
+        affine\_transform   & 625.45 & 1473.12 & 1456.74 & 750.48 & 3571.89 \\
+        \hline
+        benchmark           & 317.23 & 913.86  & 769.28  & 423.12 & 2460.18 \\
+        \hline
+        bicubic             & 338.34 & 1119.33 & 901.44  & 489.30 & 3014.56 \\
+        \hline
+        lanczos             & 346.34 & 1177.84 & 946.89  & 513.76 & 3168.34 \\
+        \hline
+        linear              & 317.23 & 913.86  & 769.28  & 423.12 & 2460.18 \\
+        \hline
+        proposed\_algorithm & 636.76 & 1645.89 & 1632.14 & 820.37 & 4638.00 \\
+        \hline
+        \end{tabular}
+    }
+    \label{tab:lmse_analysis}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \captionsetup{justification=centering,margin=0.7cm}
+    \includegraphics[width=0.48\textwidth]{graphs/lmse.png}
+    \caption{LMSE analysis (scale is logarithmic)}
+    \label{fig:lmse_analysis}
+\end{figure}
+
+
 \subsection{Relative Error (Re)}
 Relative Error (Re) quantifies the overall difference between the original and processed images, normalized by the magnitude of the original image's pixel values. This metric is useful for assessing the general accuracy of image reconstruction.
 
@@ -458,6 +503,43 @@ Relative Error (Re) quantifies the overall difference between the original and p
 \end{equation}
 
 Lower values of Re indicate better similarity between the images.
+
+\begin{table}[H]
+    \caption{RE Error Analysis of Various Sample Images}
+    \centering
+    \renewcommand{\arraystretch}{1.8}
+    \resizebox{\columnwidth}{!}{
+        \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        \multirow{2}{*}{\centering \textbf{Methods}} & \multicolumn{5}{c|}{\textbf{Images}} \\
+        \cline{2-6}
+        & \textbf{licenseplate\_motion} & \textbf{squirrel\_cls} & \textbf{aero1} & \textbf{apple} & \textbf{baboon} \\
+        \hline
+        affine\_transform   & 0.0204 & 0.0729 & 0.0723 & 0.0392 & 0.1022 \\
+        \hline
+        benchmark           & 0.0254 & 0.0826 & 0.0672 & 0.0374 & 0.1056 \\
+        \hline
+        bicubic             & 0.0259 & 0.0875 & 0.0718 & 0.0412 & 0.1169 \\
+        \hline
+        lanczos             & 0.0262 & 0.0882 & 0.0721 & 0.0429 & 0.1197 \\
+        \hline
+        linear              & 0.0254 & 0.0826 & 0.0672 & 0.0374 & 0.1056 \\
+        \hline
+        proposed\_algorithm & 0.0266 & 0.0870 & 0.0732 & 0.0437 & 0.1253 \\
+        \hline
+        \end{tabular}
+    }
+    \label{tab:re_analysis}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \captionsetup{justification=centering,margin=0.7cm}
+    \includegraphics[width=0.48\textwidth]{graphs/re.png}
+    \caption{RE analysis}
+    \label{fig:re_analysis}
+\end{figure}
+
 
 \subsection{Structural Similarity Index (SSIM)}
 The Structural Similarity Index (SSIM) measures the perceptual difference between two images. Unlike MSE-based metrics, SSIM considers changes in structural information, luminance, and contrast, making it more aligned with human visual perception. SSIM ranges from -1 to 1, with 1 indicating identical images.
@@ -474,32 +556,138 @@ C_1 = (k_1 L)^2, \quad C_2 = (k_2 L)^2
 
 where \(L\) is the dynamic range of the pixel values (e.g., 255 for 8-bit images), and \(k_1\) and \(k_2\) are small constants (e.g., \(k_1 = 0.01\), \(k_2 = 0.03\)).
 
-% \end{multicols}
-
-\begin{table}[htbp]
-\caption{Error Analysis of Various Sample Images}
-\centering
-\begin{tabular}{|c|c|c|c|c|c|}
-\hline
-\textbf{Image} & \textbf{PSNR (dB)} & \textbf{CC} & \textbf{LMSE} & \textbf{Re} & \textbf{SSIM} \\
-\hline
-Image 1 & 35.6 & 0.98 & 0.002 & 0.05 & 0.95 \\
-\hline
-Image 2 & 33.2 & 0.96 & 0.003 & 0.07 & 0.92 \\
-\hline
-Image 3 & 29.8 & 0.93 & 0.006 & 0.12 & 0.88 \\
-\hline
-Image 4 & 40.1 & 0.99 & 0.001 & 0.03 & 0.97 \\
-\hline
-\end{tabular}
-\label{tab:error_analysis}
+\begin{table}[H]
+    \caption{SSIM Error Analysis of Various Sample Images}
+    \centering
+    \renewcommand{\arraystretch}{1.8}
+    \resizebox{\columnwidth}{!}{
+        \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        \multirow{2}{*}{\centering \textbf{Methods}} & \multicolumn{5}{c|}{\textbf{Images}} \\
+        \cline{2-6}
+        & \textbf{licenseplate\_motion} & \textbf{squirrel\_cls} & \textbf{aero1} & \textbf{apple} & \textbf{baboon} \\
+        \hline
+        affine\_transform   & 0.9722 & 0.8745 & 0.8204 & 0.8836 & 0.8345 \\
+        \hline
+        benchmark           & 0.9689 & 0.8565 & 0.8309 & 0.8803 & 0.8127 \\
+        \hline
+        bicubic             & 0.9674 & 0.8462 & 0.8175 & 0.8638 & 0.7980 \\
+        \hline
+        lanczos             & 0.9670 & 0.8441 & 0.8159 & 0.8567 & 0.7922 \\
+        \hline
+        linear              & 0.9689 & 0.8565 & 0.8309 & 0.8803 & 0.8127 \\
+        \hline
+        proposed\_algorithm & 0.9633 & 0.8380 & 0.8062 & 0.8416 & 0.7619 \\
+        \hline
+        \end{tabular}
+    }
+    \label{tab:ssim_analysis}
 \end{table}
 
+\begin{figure}[H]
+    \centering
+    \captionsetup{justification=centering,margin=0.7cm}
+    \includegraphics[width=0.48\textwidth]{graphs/ssim.png}
+    \caption{SSIM analysis}
+    \label{fig:ssim_analysis}
+\end{figure}
+
+\subsection{Execution Time Analysis}
+
+Table \ref{tab:algorithm_performance} shown below lists out the average execution time (in seconds) of each standard algorithm on various test images of sufficiently high resolutions. Each algorithm was run for a total of \textbf{36 times} - starting from rotaing the image from $\ang{0}$, to $\ang{360}$, in the intervals of $\ang{10}. $It is observed, that the proposed algorithm consistently outperforms the existing techniques.
+
+\begin{table}[H]
+    \caption{Algorithm Performance Across Various Images}
+    \centering
+    \renewcommand{\arraystretch}{1.8} % Adjust row height if needed
+    \resizebox{\columnwidth}{!}{ % Resize the table to fit within the column width
+        \begin{tabular}{|c|c|c|c|c|c|c|c|}
+        \hline
+        \multirow{2}{*}{\textbf{Algorithm}} & \multicolumn{7}{c|}{\textbf{Images}} \\
+        \cline{2-8}
+        & \textbf{5am.jpg} & \textbf{church\_bottom.jpg} & \textbf{church\_wide.jpg} & \textbf{corridor.jpg} & \textbf{downhill.jpg} & \textbf{landscape.jpg} & \textbf{viewpoint.jpg} \\
+        \hline
+        affine\_transform & 2.806 & 2.206 & 2.231 & 2.225 & 2.168 & 0.543 & 2.32 \\
+        \hline
+        benchmark & 2.187 & 1.660 & 1.696 & 1.719 & 1.686 & 0.494 & 1.780 \\
+        \hline
+        bicubic & 2.107 & 1.605 & 1.645 & 1.669 & 1.632 & 0.478 & 1.724 \\
+        \hline
+        lanczos & 4.015 & 3.034 & 3.077 & 3.105 & 3.070 & 0.722 & 3.164 \\
+        \hline
+        linear & 2.278 & 1.720 & 1.748 & 1.775 & 1.783 & 0.502 & 1.831 \\
+        \hline
+        proposed\_algorithm & 1.955 & 1.424 & 1.482 & 1.522 & 1.558 & 0.444 & 1.577 \\
+        \hline
+        \end{tabular}
+    }
+    \label{tab:algorithm_performance}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \captionsetup{justification=centering,margin=0.7cm}
+    \includegraphics[width=0.48\textwidth]{graphs/exec_time.png}
+    \caption{Algorithm Performance Across Various Images (scale is logarithmic)}
+    \label{fig:algorithm_performance}
+\end{figure}
+
+\subsection{Image Data}
+
+The table below contains information about the different images used, for carrying out the experimental analysis.
+
+\begin{table}[H]
+    \caption{Image Specifications}
+    \centering
+    \renewcommand{\arraystretch}{1.8} % Adjust row height if needed
+    \resizebox{\columnwidth}{!}{ % Resize the table to fit within the column width
+        \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        \textbf{Image Name} & \textbf{Image Size (WxH)} & \textbf{Channels} & \textbf{Type} & \textbf{Format} \\
+        \hline
+        licenseplate\_motion.jpg & 600x482 & 3 & RGB & JPEG \\
+        \hline
+        squirrel\_cls.jpg & 535x426 & 3 & RGB & JPEG \\
+        \hline
+        aero1.jpg & 640x480 & 3 & RGB & JPEG \\
+        \hline
+        apple.jpg & 512x512 & 3 & RGB & JPEG \\
+        \hline
+        baboon.jpg & 512x512 & 3 & RGB & JPEG \\
+        \hline
+        5am.jpg & 3024x4032 & 3 & RGB & JPEG \\
+        \hline
+        church\_bottom.jpg & 4032x2268 & 3 & RGB & JPEG \\
+        \hline
+        church\_wide.jpg & 4032x2268 & 3 & RGB & JPEG \\
+        \hline
+        corridor.jpg & 2268x4032 & 3 & RGB & JPEG \\
+        \hline
+        downhill.jpg & 2268x4032 & 3 & RGB & JPEG \\
+        \hline
+        landscape.jpg & 1200x1200 & 3 & RGB & JPEG \\
+        \hline
+        viewpoint.jpg & 4032x2268 & 3 & RGB & JPEG \\
+        \hline
+        \end{tabular}
+    }
+    \label{tab:image_specifications}
+\end{table}
+
+
+
 \section{Conclusion}
-The conclusion goes here.
-\section*{Acknowledgment}
-The authors would like to thank...
+
+The proposed single-pass image rotation algorithm represents a significant advancement in the field of digital image processing by optimizing the way pixels are transformed during rotation. Traditional image rotation methods typically involve mapping each individual pixel to a new location based on the angle of rotation, which can be computationally expensive, especially for high-resolution images. In contrast, the proposed method processes entire rows or columns of pixels at once, greatly improving efficiency.
+
+By treating pixel vectors as cohesive units, this approach reduces the complexity of the rotation operation, making it particularly useful for applications where large-scale image transformations are required in real time, such as video processing, computer graphics, and augmented reality. 
+
+The method's ability to determine the initial coordinates of the rotated vectors with precision and use simple floating-point arithmetic for subsequent pixel placement offers a streamlined and scalable solution. This makes the proposed algorithm not only computationally efficient but also versatile, allowing it to adapt to a wide range of rotation angles without significant performance trade-offs.
+
+
 
 \bibliography{references}
 \bibliographystyle{ieeetr}
+
+
 \end{document}
