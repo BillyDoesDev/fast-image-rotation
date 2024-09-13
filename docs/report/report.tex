@@ -130,8 +130,30 @@ $$\begin{bmatrix}
 
 \section{Literature Review}
 
-Affine transformation is a fundamental technique in computer graphics and computational geometry, extensively employed for various image manipulation operations such as translation, scaling, rotation, shearing, and reflection. Mathematically, it is represented as
-$ y = Ax + b $ where $A$ is a $2 \times 2$ matrix that defines the linear transformation, and $b$ is a translation vector. This formulation ensures the preservation of geometric properties such as points, straight lines, and planes, making affine transformation indispensable for numerous graphical applications. In the context of image rotation, the matrix $\mathbf{A}$ is typically determined using trigonometric functions based on the rotation angle $\theta$, while the translation components $t_x$ and $t_y$ are calculated to center the rotated image within its new dimensions. The \texttt{warpAffine} function in OpenCV is widely utilized to perform such affine transformations efficiently, offering flexibility in handling various interpolation methods like nearest-neighbor, bilinear, and bicubic. These interpolation methods are crucial for minimizing distortions and preserving image quality during the transformation \cite{wang2021panoramic}.
+Affine transformation is a widely used geometric transformation in image processing, which allows for rotation, translation, scaling, and shearing while preserving parallelism and collinearity of lines. It is defined by a 3x3 matrix that is applied to each point in the image. The general formula for applying affine transformation to a point \( (x, y) \) in an image is as follows:
+
+$$
+\begin{bmatrix}
+x' \\
+y' \\
+1
+\end{bmatrix}
+=
+\begin{bmatrix}
+cos(\theta) & -sin(\theta) & t_x \\
+sin(\theta) & cos(\theta) & t_y \\
+0 & 0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+x \\
+y \\
+1
+\end{bmatrix}
+$$
+
+In this transformation matrix, $\theta$  represents the rotation angle, and \( t_x, t_y \) represent translation along the x and y axes, respectively. The first two rows of the matrix determine the rotation and scaling, while the third row is used for homogeneous coordinates, allowing translation.
+
+In the context of image rotation, the matrix $\mathbf{A}$ is typically determined using trigonometric functions based on the rotation angle $\theta$, while the translation components $t_x$ and $t_y$ are calculated to center the rotated image within its new dimensions. The \texttt{warpAffine} function in OpenCV is widely utilized to perform such affine transformations efficiently, offering flexibility in handling various interpolation methods like nearest-neighbor, bilinear, and bicubic. These interpolation methods are crucial for minimizing distortions and preserving image quality during the transformation \cite{wang2021panoramic}.
 
 However, affine transformations are not without limitations, especially when dealing with large rotation angles or combined transformations, such as scaling and shearing, which can lead to artifacts like aliasing and loss of detail. 
 
