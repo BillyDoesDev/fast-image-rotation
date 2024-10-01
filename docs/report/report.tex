@@ -65,44 +65,45 @@
     \textit{School of Computer Engineering} \\
     \textit{Kalinga Institute of Industrial Technology} \\
     Bhubaneswar, India \\
-    22053859@kiit.ac.in \\ \\ \\
+    22053859@kiit.ac.in \\ \\ 
     Sourav Kumar Parida \\
     \textit{School of Computer Engineering} \\
     \textit{Kalinga Institute of Industrial Technology} \\
-    Bhubaneswar, India \\
-    22051032@kiit.ac.in \\ \\
-    Subhadeep Bhadra \\
-    \textit{School of Computer Engineering} \\
-    \textit{Kalinga Institute of Industrial Technology} \\
-    Bhubaneswar, India \\
-    2205336@kiit.ac.in
-    \and
-    Dr. Sujoy Dutta \\
-    \textit{Asst. Prof. \& Asst. CoE} \\
-    \textit{School of Computer Engineering} \\
-    \textit{Kalinga Institute of Industrial Technology} \\
-    Bhubaneswar, India \\
-    sdattafcs@kiit.ac.in \\ \\
-    Chiranjeev Bhaya \\
-    \textit{Lead Engineer (Camera System)} \\
-    \textit{Samsung R\&D Institute} \\
-    Bangalore, India \\
-    c.bhaya@samsung.com \\ \\
-    Chandra Mohan V \\
-    \textit{Architect (Camera System)} \\
-    \textit{Samsung R\&D Institute} \\
-    Bangalore, India \\
-    chandra.mv@samsung.com
+    Bhubaneswar, India \\ 
+    22051032@kiit.ac.in \\ \\ 
+    Subhadeep Bhadra \\ 
+    \textit{School of Computer Engineering} \\ 
+    \textit{Kalinga Institute of Industrial Technology} \\ 
+    Bhubaneswar, India \\ 
+    2205336@kiit.ac.in 
+    \and 
+    Dr. Sujoy Dutta \\ 
+    \textit{Asst. Professor \& Asst. CoE} \\ 
+    \textit{School of Computer Engineering} \\ 
+    \textit{Kalinga Institute of Industrial Technology} \\ 
+    Bhubaneswar, India \\ 
+    sdattafcs@kiit.ac.in \\ \\ 
+    Chiranjeev Bhaya \\ 
+    \textit{Lead Engineer (Camera Systems)} \\ 
+    \textit{Samsung R\&D Institute} \\ 
+    Bangalore, India \\ 
+    c.bhaya@samsung.com \\ \\ 
+    Chandra Mohan V \\ 
+    \textit{Architect (Camera Systems)} \\ 
+    \textit{Samsung R\&D Institute} \\ 
+    Bangalore, India \\ 
+    chandra.mv@samsung.com 
 }
+
 \maketitle
 \begin{abstract}
-    This paper presents a novel single-pass algorithm for image rotation that significantly enhances computational efficiency by processing entire rows or columns of pixels as unified vectors rather than mapping individual pixels. The method dynamically selects between row-major and column-major operations based on the angle of rotation, ensuring optimized performance across a broad range of rotation scenarios. By determining the initial coordinates of each pixel vector and employing simple floating-point arithmetic for subsequent pixel positioning, the algorithm reduces the complexity of the rotation process while minimizing interpolation errors. This approach proves especially advantageous for high-resolution images and real-time applications, such as video processing and computer graphics, where both speed and image quality are critical. The proposed method offers a scalable, efficient, and precise solution for image rotation, marking a significant contribution to the field of digital image processing.
+    This paper introduces an innovative single-pass algorithm for image rotation that greatly improves computational efficiency by treating entire rows or columns of pixels as cohesive vectors instead of mapping each pixel individually. The method dynamically selects between row-major and column-major operations based on the angle of rotation, ensuring optimized performance across a broad range of rotation scenarios. By determining the initial coordinates of each pixel vector and employing simple floating-point arithmetic for subsequent pixel positioning, the algorithm reduces the complexity of the rotation process while minimizing interpolation errors. This approach proves especially advantageous for high-resolution images and real-time applications, such as video processing and computer graphics, where both speed and image quality are critical. The proposed method offers a scalable, efficient, and precise solution for image rotation, marking a significant contribution to the field of digital image processing.
 
-    \textit{Index terms:} Image rotation, line rotation image transform, double-line rotation (DLR), parallel image rotation.
+    \textit{Index terms:} Image rotation, line rotation, image transformation, double-line rotation (DLR), and parallel image rotation.
 \end{abstract}
 \IEEEpeerreviewmaketitle
 \section{Introduction}
-2-D Image Rotation has a number of applications in digital photography and image processing like image matching, alignment, \cite{gaster2012heterogeneous} etc. Highly accurate image rotation is essential for certain image processing tasks such as feature extraction and matching. Whilst there are many state-of-the-art image rotation algorithms, they have limitations in terms of image quality and speed \cite{ashtari2015double} \cite{park2009accurate}.
+2-D Image Rotation has a number of applications in digital photography and image processing like image matching, alignment, \cite{gaster2012heterogeneous} etc. Precise image rotation is critical for specific image processing tasks like feature extraction and matching. Although numerous advanced image rotation algorithms exist, they often face challenges related to image quality and processing speed \cite{ashtari2015double} \cite{park2009accurate}.
 Parallel algorithms for image processing aim to execute faster than sequential algorithms, however designing and scheduling a fast parallel image rotation is a challenge \cite{kwon2016study}.
 The most straightforward, and perhaps the most well known approach to implement image rotation is by using the rotation matrix \cite{evans2001rotations}, as described here
 $$\begin{bmatrix}
@@ -115,8 +116,7 @@ $$\begin{bmatrix}
         cos(\theta) & -sin(\theta) \\
         sin(\theta) & cos(\theta)
     \end{bmatrix}$$\\
-where, $\theta$ is the angle of rotation, $x'$ and $y'$ are the new coordinates of the rotated image, and $(cx, cy)$ is the center of the original image, which is treated as the axis of rotation.\\
-Assuming the centre of rotation of the new image is $(cx', cy')$, the final new coordinates are:
+    Here, $\theta$ represents the rotation angle, while $x'$ and $y'$ denote the transformed coordinates of the rotated image. The point $(cx, cy)$ corresponds to the center of the original image, which serves as the axis of rotation.\ If the center of rotation for the rotated image is given by $(cx', cy')$, the resulting coordinates are:
 $$\begin{bmatrix}
         x' \\
         y'
@@ -130,7 +130,8 @@ $$\begin{bmatrix}
 
 \section{Literature Review}
 
-Affine transformation is a widely used geometric transformation in image processing, which allows for rotation, translation, scaling, and shearing while preserving parallelism and collinearity of lines. It is defined by a 3x3 matrix that is applied to each point in the image. The general formula for applying affine transformation to a point \( (x, y) \) in an image is as follows:
+Affine transformation is a widely used geometric transformation in image processing, which allows for rotation, translation, scaling, and shearing while preserving parallelism and collinearity of lines. It is defined by a 3x3 matrix that is applied to each point in the image. 
+The standard equation for performing an affine transformation on a point \((x,y)\)in an image is given by:
 
 $$
 \begin{bmatrix}
@@ -151,23 +152,32 @@ y \\
 \end{bmatrix}
 $$
 
-In this transformation matrix, $\theta$  represents the rotation angle, and \( t_x, t_y \) represent translation along the x and y axes, respectively. The first two rows of the matrix determine the rotation and scaling, while the third row is used for homogeneous coordinates, allowing translation.
+In this matrix, $\theta$ denotes the rotation angle, while \( t_x and t_y \) indicate the translation along the x-axis and y-axis, respectively. The first two rows of the matrix determine the rotation and scaling, while the third row is used for homogeneous coordinates, allowing translation.
 
-In the context of image rotation, the matrix $\mathbf{A}$ is typically determined using trigonometric functions based on the rotation angle $\theta$, while the translation components $t_x$ and $t_y$ are calculated to center the rotated image within its new dimensions. The \texttt{warpAffine} function in OpenCV is widely utilized to perform such affine transformations efficiently, offering flexibility in handling various interpolation methods like nearest-neighbor, bilinear, and bicubic. These interpolation methods are crucial for minimizing distortions and preserving image quality during the transformation \cite{wang2021panoramic}.
+In the context of image rotation, the matrix $\mathbf{A}$ is typically determined using trigonometric functions based on the rotation angle $\theta$, while the translation components $t_x$ and $t_y$ are calculated to center the rotated image within its new dimensions.
+The \texttt{warpAffine} function in OpenCV is commonly used for performing affine transformations efficiently, providing flexibility in choosing different interpolation techniques such as nearest-neighbor, bilinear, and bicubic. These interpolation methods play a key role in reducing distortions and maintaining image quality during the transformation process\cite{wang2021panoramic}.
 
 However, affine transformations are not without limitations, especially when dealing with large rotation angles or combined transformations, such as scaling and shearing, which can lead to artifacts like aliasing and loss of detail. 
 
 
 To mitigate these issues, more sophisticated methods have been developed. One such method is the Hermite polynomial expansion, which leverages the orthogonality of Hermite polynomials to achieve smooth and accurate interpolation. This technique is particularly effective for image processing tasks requiring high precision. The image function is expanded using two-dimensional Hermite polynomials, and rotation is performed by transforming the coordinates with a rotation matrix. The rotated image is then reconstructed using inverse Hermite expansion, ensuring smooth transitions and minimal distortion. Despite its accuracy, the Hermite expansion method is computationally intensive, requiring the evaluation and summation of multiple polynomial terms, which can result in slower processing times. Additionally, while this method excels at smooth interpolation, it may struggle to maintain fine details in images with high-frequency content \cite{park2009accurate}.
 
-Another advanced technique is the Double Line Rotation (DLR) method, which is recognized for its ability to maintain geometric and intensity integrity during transformation. The DLR method divides the image into eight distinct zones, each governed by specific rotation equations and transformations. This zonal approach ensures that each pixel in the original image is mapped to two corresponding pixels in the rotated image, maintaining a consistent distance ratio between points. This feature is crucial for applications that require feature extraction invariance, making the DLR method particularly suitable for pattern recognition and computer vision tasks. However, the complexity of managing multiple zones and their corresponding transformations can lead to inefficiencies, especially with high-resolution images. Moreover, distortions may occur at the boundaries between zones, potentially degrading the visual quality of the rotated image \cite{ashtari2015double}.
+Another advanced technique is the Double Line Rotation (DLR) method, 
+which is recognized for its ability to maintain geometric and intensity 
+integrity during transformation. The DLR method divides the image into eight 
+distinct zones, each governed by specific rotation equations and transformations. 
+This zonal technique guarantees that every pixel from the original image is mapped to two 
+corresponding pixels in the rotated image, preserving a consistent distance ratio between 
+points. This characteristic is vital for applications requiring feature extraction invariance, 
+making the DLR method highly effective for tasks in pattern recognition and computer vision. 
+However, the complexity of managing multiple zones and their corresponding transformations can lead to inefficiencies, especially with high-resolution images. Moreover, distortions may occur at the boundaries between zones, potentially degrading the visual quality of the rotated image \cite{ashtari2015double}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \section{Proposed Method}
 The proposed method is a single pass algorithm, which means that it performs the entire image rotation operation at once. The proposed algorithm predominantly affects pixels in the row major (width), or ones in the column major (height), depending on the angle of rotation, $\alpha$.
-If $\alpha \in \left ( \frac{\pi}{4}, \frac{3 \pi}{4} \right ] \bigcup \left ( \frac{5 \pi}{4}, \frac{7 \pi}{4} \right ]$, rotation is performed in the \textit{\textbf{column major}}, and it is performed in the \textit{\textbf{row major}} for the rest of the angles. Accordingly, for rotating the source image, entire row or column vectors of pixels are rotated as a single unit, instead of the more common approach, where each individual pixel is separately mapped. Due to this reason, it is necessary to accurately determine the initial coordinates from which the new row or column vector will begin. The coordinates of the rest of the pixels in the vector can then be determined by simple floating point addition or subtraction, depending on the extent to which each of the said vectors are spread across the coordinate axes.
+If $\alpha \in \left ( \frac{\pi}{4}, \frac{3 \pi}{4} \right ] \bigcup \left ( \frac{5 \pi}{4}, \frac{7 \pi}{4} \right ]$, rotation is performed in the \textit{\textbf{column major}}, and it is performed in the \textit{\textbf{row major}} for the rest of the angles. Accordingly, for rotating the source image, entire row or column vectors of pixels are rotated as a single unit, instead of the more common approach, where each individual pixel is separately mapped. For this reason, it is essential to precisely identify the starting coordinates for the new row or column vector. The coordinates of the rest of the pixels in the vector can then be determined by simple floating point addition or subtraction, depending on the extent to which each of the said vectors are spread across the coordinate axes.
 
 Apart from this, depending on $\alpha$, the pixel processing order changes - i.e., whether the last row or column vector of pixels get processed first, or last. Since it has been found out that these values are very sensitive to $\alpha$, the specific details of which are discussed in the later parts of this paper.
 \subsection{Rotation Of An Image In The Column Major} \label{col_major_rotation}
@@ -195,7 +205,7 @@ Apart from this, depending on $\alpha$, the pixel processing order changes - i.e
 
 
 
-As seen in the example image in figure \ref{fig:rotation_example_1}, for the given angle of rotation, column vectors were rotated (represented by the stripes). Each such vector to be rotated begins from the line $\overrightarrow{A'B'}$. As such, the initial coordinates of each of these vectors can be determined by the equation of the same line, which is given by:
+As seen in the example image in figure \ref{fig:rotation_example_1}, for the given angle of rotation, column vectors were rotated (represented by the stripes). Each such vector to be rotated begins from the line $\overrightarrow{A'B'}$. As such, the initial coordinates of each of these vectors can be determined by the equation of the same line, which is expressed as:
 \begin{equation}
     \label{start_line_eq}
     f(i) = \left\lfloor \frac{i}{tan(\alpha)} \right\rfloor \forall \{i \in \mathbb{Z},\> i \in \left[ 0, n \cdot sin(\alpha) \right)\}
@@ -301,9 +311,9 @@ $$\delta y = \left\lvert sin(\alpha)\right\rvert$$
         \EndIf
 
         \If{\texttt{flip}}
-        \State $M = [m_i]\> for\> i=0,1,…,N-1,\>|\> m_i=N-i$
+        \State $M = [m_i]\> for\> i=0,1,2,…,N-1,\>|\> m_i= N-i$
         \Else
-        \State $M = [m_i]\> for\> i=0,1,…,N-1,\>|\> m_i=N$
+        \State $M = [m_i]\> for\> i=0,1,2,…,N-1,\>|\> m_i= N$
         \EndIf
 
         \For{$i=0$ to $r_o$}
@@ -364,26 +374,23 @@ The rotation function is then invoked, with each of the parameters updating depe
     \end{algorithmic}
 \end{breakablealgorithm}
 
-
-
-\section{Experimental Results and Analysis}
-In this section, we perform an accuracy analysis of the reconstructed images using various error metrics. These metrics quantify the similarity between the original and the processed images, providing insight into the effectiveness of the image processing techniques. The following subsections describe each metric in detail, including their mathematical formulation and interpretation.
+\section{Empirical Results and Analysis}
+We conduct an analysis of the accuracy of the reconstructed images through the use of different error metrics. These metrics assess the similarity between the original and processed images, offering valuable insights into the effectiveness of the image processing methods employed. The subsequent subsections provide a detailed explanation of each metric, including their mathematical formulations and interpretations.
 
 % \begin{multicols}{2}
-
 \subsection{Peak Signal-to-Noise Ratio (PSNR)}
-PSNR is a widely used metric for evaluating the quality of reconstructed or compressed images. It quantifies the ratio between the maximum possible pixel value of the image and the mean squared error (MSE) between the original and the processed images. PSNR is expressed in decibels (dB), with higher values indicating better image quality.
+PSNR is a commonly employed metric for assessing the quality of reconstructed or compressed images. It measures the ratio between the highest possible pixel value in the image and the mean squared error (MSE) between the original and processed images. PSNR is represented in decibels (dB), with higher values signifying improved image quality.
 
 \begin{equation}
 \text{PSNR} = 20 \cdot \log_{10}\left(\frac{\text{MAX}_{I}}{\sqrt{\text{MSE}}}\right)
 \end{equation}
 
-The Mean Squared Error (MSE) is calculated as:
+The Mean Squared Error (MSE) is determined using the formula:
 \begin{equation}
 \text{MSE} = \frac{1}{MN} \sum_{i=1}^{M} \sum_{j=1}^{N} \left[I(i,j) - K(i,j)\right]^2
 \end{equation}
 
-where \(\text{MAX}_{I}\) represents the maximum possible pixel value (e.g., 255 for 8-bit images), and \(I(i,j)\) and \(K(i,j)\) are the pixel values at position \((i,j)\) in the original and processed images, respectively.
+where \(\text{MAX}_{I}\) denotes the maximum possible pixel value (e.g., 65,535 for 16-bit images), while \(I(i,j)\) and \(K(i,j)\) represent the pixel values at the position \((i,j)\) in the original and processed images, respectively.
 
 \begin{table}[H]
     \caption{PSNR Error Analysis of Various Sample Images}
@@ -424,14 +431,15 @@ where \(\text{MAX}_{I}\) represents the maximum possible pixel value (e.g., 255 
 
 
 \subsection{Correlation Coefficient (CC)}
-The Correlation Coefficient (CC) is a statistical measure that quantifies the similarity between two images by assessing the correlation between corresponding pixels. CC ranges from -1 to 1, with 1 indicating perfect positive correlation, -1 indicating perfect negative correlation, and 0 indicating no correlation.
+
+The Correlation Coefficient is a statistical measure that assesses the similarity between two images by analyzing the correlation of their corresponding pixels. Its value ranges from -1 to 1, with a value of 1 indicating perfect positive correlation, -1 signifying perfect negative correlation, and 0 representing no correlation whatsoever.
 
 \begin{equation}
 \text{CC} = \frac{\sum_{i=1}^{M} \sum_{j=1}^{N} \left(I(i,j) - \overline{I}\right) \beta}{\sqrt{\sum_{i=1}^{M} \sum_{j=1}^{N} \left(I(i,j) - \overline{I}\right)^2 \cdot \sum_{i=1}^{M} \sum_{j=1}^{N} \beta^2}}
 \end{equation}
 where, $$\beta = \left(K(i,j) - \overline{K}\right)$$
 
-Here, \(\overline{I}\) and \(\overline{K}\) represent the mean pixel values of the original and processed images, respectively.
+Here, \(\overline{I}\) and \(\overline{K}\) denote the average pixel values of the original and processed images, respectively.
 
 
 \begin{table}[H]
@@ -518,7 +526,7 @@ Lower LMSE values indicate less error in edge preservation, thus implying higher
 
 
 \subsection{Relative Error (Re)}
-Relative Error (Re) quantifies the overall difference between the original and processed images, normalized by the magnitude of the original image's pixel values. This metric is useful for assessing the general accuracy of image reconstruction.
+Relative Error (Re) measures the total difference between the original and processed images, normalized by the magnitude of the pixel values in the original image. This metric is valuable for evaluating the overall accuracy of image reconstruction.
 
 \begin{equation}
 \text{Re} = \frac{\sum_{i=1}^{M} \sum_{j=1}^{N} |I(i,j) - K(i,j)|}{\sum_{i=1}^{M} \sum_{j=1}^{N} |I(i,j)|}
@@ -564,19 +572,20 @@ Lower values of Re indicate better similarity between the images.
 
 
 \subsection{Structural Similarity Index (SSIM)}
-The Structural Similarity Index (SSIM) measures the perceptual difference between two images. Unlike MSE-based metrics, SSIM considers changes in structural information, luminance, and contrast, making it more aligned with human visual perception. SSIM ranges from -1 to 1, with 1 indicating identical images.
+The Structural Similarity Index (SSIM) quantifies the perceptual differences between two images. Unlike metrics based on MSE, SSIM takes into account changes in structural information, luminance, and contrast, making it more reflective of human visual perception. SSIM values range from -1 to 1, where 1 indicates that the images are identical.
 
 \begin{equation}
 \text{SSIM}(I, K) = \frac{(2\mu_I \mu_K + C_1)(2\sigma_{IK} + C_2)}{(\mu_I^2 + \mu_K^2 + C_1)(\sigma_I^2 + \sigma_K^2 + C_2)}
 \end{equation}
 
-In this formula, \(\mu_I\) and \(\mu_K\) are the mean values, \(\sigma_I^2\) and \(\sigma_K^2\) are the variances, and \(\sigma_{IK}\) is the covariance of the original and processed images. The constants \(C_1\) and \(C_2\) are used to stabilize the formula when the denominator is close to zero, typically defined as:
+In this equation, \(\mu_I\) and \(\mu_K\) represent the mean values, \(\sigma_I^2\) and \(\sigma_K^2\) denote the variances, and \(\sigma_{IK}\) is the covariance between the original and processed images. The constants \(C_1\) and \(C_2\) are incorporated to ensure stability in the formula when the denominator approaches zero, typically defined as:
 
 \begin{equation}
 C_1 = (k_1 L)^2, \quad C_2 = (k_2 L)^2
 \end{equation}
 
-where \(L\) is the dynamic range of the pixel values (e.g., 255 for 8-bit images), and \(k_1\) and \(k_2\) are small constants (e.g., \(k_1 = 0.01\), \(k_2 = 0.03\)).
+where \(L\) signifies the dynamic range of the pixel values (e.g., 255 for 8-bit images), and \(k_1\) and \(k_2\) are small constants (e.g., \(k_1 = 0.01\), \(k_2 = 0.03\)).
+
 
 \begin{table}[H]
     \caption{SSIM Error Analysis of Various Sample Images}
@@ -616,7 +625,7 @@ where \(L\) is the dynamic range of the pixel values (e.g., 255 for 8-bit images
 
 \subsection{Execution Time Analysis}
 
-Table \ref{tab:algorithm_performance} shown below lists out the average execution time (in seconds) of each standard algorithm on various test images of sufficiently high resolutions. Each algorithm was run for a total of \textbf{36 times} - starting from rotaing the image from $\ang{0}$, to $\ang{360}$, in the intervals of $\ang{10}. $It is observed, that the proposed algorithm consistently outperforms the existing techniques.
+Table \ref{tab:algorithm_performance} shown below lists out the average execution time (in seconds) of each standard algorithm on various test images of sufficiently high resolutions. Each algorithm was run for a total of \textbf{36 times} - starting from rotaing the image from $\ang{0}$, to $\ang{360}$, in the intervals of $\ang{10}. $It has been noted that the proposed algorithm consistently surpasses the performance of existing techniques..
 
 \begin{table}[H]
     \caption{Algorithm Performance Across Various Images}
