@@ -268,7 +268,7 @@ $$\delta y = \left\lvert sin(\alpha)\right\rvert$$
         \end{tabular}
         \begin{tablenotes}
             \small
-            \item \textbf{Note:} The algorithm described in [Algorithm \ref{rotation_alorithm}] follows \textbf{\textit{Python}} style indexing. For example, if \verb|a = [[1, 2, 3], [5, 6]]|, then \verb|a[0][-1]| represents the element \verb|3|.
+            \item The algorithm described in [Algorithm \ref{rotation_alorithm}] follows \textbf{\textit{Python}} style indexing. For example, if \verb|a = [[1, 2, 3], [5, 6]]|, then \verb|a[0][-1]| represents the element \verb|3|.
         \end{tablenotes}
     \end{threeparttable}
 \end{table}
@@ -355,7 +355,7 @@ $R$ is Initialized as a blank image of width $n'$ and height $m'$ to fit $R$ in 
 $$m' = \left\lceil \left\lvert m \cdot cos(\alpha) + n \cdot sin(\alpha) \right\rvert \right\rceil $$
 $$n' = \left\lceil \left\lvert m \cdot sin(\alpha) + n \cdot cos(\alpha) \right\rvert \right\rceil $$
 The rotation function is then invoked, with each of the parameters updating depending on the value of $\alpha$, as discussed above. The detailed values of each of the parameters are mentioned in [Table \ref{table:rotation_params}].\\ \\
-\textbf{Note:} It has been observed, that for ranges of $\alpha$ which are vertically opposite each other (For example, angles in the range $\left ( \frac{\pi}{4}, \frac{\pi}{2} \right ]$ are vertically opposite angles in the range $\left ( \frac{5 \pi}{4}, \frac{ 3 \pi}{2} \right ]$, and so on), the only parameters of rotation that change are $\delta i$, \texttt{negate}, and \texttt{flip}. As such, the calculations have been generalized for such angles and they have been represented in [Table \ref{table:rotation_params}], with a $(')$ at the end of their names (shaded cells).\\
+\textbf It has been observed, that for ranges of $\alpha$ which are vertically opposite each other (For example, angles in the range $\left ( \frac{\pi}{4}, \frac{\pi}{2} \right ]$ are vertically opposite angles in the range $\left ( \frac{5 \pi}{4}, \frac{ 3 \pi}{2} \right ]$, and so on), the only parameters of rotation that change are $\delta i$, \texttt{negate}, and \texttt{flip}. As such, the calculations have been generalized for such angles and they have been represented in [Table \ref{table:rotation_params}], with a $(')$ at the end of their names (shaded cells).\\
 
 
 \begin{breakablealgorithm} \label{driver_function}
@@ -374,11 +374,57 @@ The rotation function is then invoked, with each of the parameters updating depe
     \end{algorithmic}
 \end{breakablealgorithm}
 
-\section{Empirical Results and Analysis}
+\section{Experimental Results and Analysis}
 We conduct an analysis of the accuracy of the reconstructed images through the use of different error metrics. These metrics assess the similarity between the original and processed images, offering valuable insights into the effectiveness of the image processing methods employed. The subsequent subsections provide a detailed explanation of each metric, including their mathematical formulations and interpretations.
 
+
+\subsection{Image Data}
+
+The table below contains information about the different images used, for carrying out the experimental analysis.
+
+\begin{table}[H]
+    \caption{Image Specifications}
+    \centering
+    \renewcommand{\arraystretch}{1.8} % Adjust row height if needed
+    \resizebox{\columnwidth}{!}{ % Resize the table to fit within the column width
+        \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        \textbf{Image Name} & \textbf{Image Size (WxH)} & \textbf{Channels} & \textbf{Type} & \textbf{Format} \\
+        \hline
+        licenseplate\_motion.jpg & 600x482 & 3 & RGB & JPEG \\
+        \hline
+        squirrel\_cls.jpg & 535x426 & 3 & RGB & JPEG \\
+        \hline
+        aero1.jpg & 640x480 & 3 & RGB & JPEG \\
+        \hline
+        apple.jpg & 512x512 & 3 & RGB & JPEG \\
+        \hline
+        baboon.jpg & 512x512 & 3 & RGB & JPEG \\
+        \hline
+        5am.jpg & 3024x4032 & 3 & RGB & JPEG \\
+        \hline
+        church\_bottom.jpg & 4032x2268 & 3 & RGB & JPEG \\
+        \hline
+        church\_wide.jpg & 4032x2268 & 3 & RGB & JPEG \\
+        \hline
+        corridor.jpg & 2268x4032 & 3 & RGB & JPEG \\
+        \hline
+        downhill.jpg & 2268x4032 & 3 & RGB & JPEG \\
+        \hline
+        landscape.jpg & 1200x1200 & 3 & RGB & JPEG \\
+        \hline
+        viewpoint.jpg & 4032x2268 & 3 & RGB & JPEG \\
+        \hline
+        \end{tabular}
+    }
+    \label{tab:image_specifications}
+\end{table}
+
+
 % \begin{multicols}{2}
-\subsection{Peak Signal-to-Noise Ratio (PSNR)}
+
+\subsection{Image quality analysis}
+\subsubsection{Peak Signal-to-Noise Ratio (PSNR)}
 PSNR is a commonly employed metric for assessing the quality of reconstructed or compressed images. It measures the ratio between the highest possible pixel value in the image and the mean squared error (MSE) between the original and processed images. PSNR is represented in decibels (dB), with higher values signifying improved image quality.
 
 \begin{equation}
@@ -430,7 +476,7 @@ where \(\text{MAX}_{I}\) denotes the maximum possible pixel value (e.g., 65,535 
 
 
 
-\subsection{Correlation Coefficient (CC)}
+\subsubsection{Correlation Coefficient (CC)}
 
 The Correlation Coefficient is a statistical measure that assesses the similarity between two images by analyzing the correlation of their corresponding pixels. Its value ranges from -1 to 1, with a value of 1 indicating perfect positive correlation, -1 signifying perfect negative correlation, and 0 representing no correlation whatsoever.
 
@@ -525,7 +571,7 @@ Lower LMSE values indicate less error in edge preservation, thus implying higher
 \end{figure}
 
 
-\subsection{Relative Error (Re)}
+\subsubsection{Relative Error (Re)}
 Relative Error (Re) measures the total difference between the original and processed images, normalized by the magnitude of the pixel values in the original image. This metric is valuable for evaluating the overall accuracy of image reconstruction.
 
 \begin{equation}
@@ -571,7 +617,7 @@ Lower values of Re indicate better similarity between the images.
 \end{figure}
 
 
-\subsection{Structural Similarity Index (SSIM)}
+\subsubsection{Structural Similarity Index (SSIM)}
 The Structural Similarity Index (SSIM) quantifies the perceptual differences between two images. Unlike metrics based on MSE, SSIM takes into account changes in structural information, luminance, and contrast, making it more reflective of human visual perception. SSIM values range from -1 to 1, where 1 indicates that the images are identical.
 
 \begin{equation}
@@ -662,49 +708,6 @@ Table \ref{tab:algorithm_performance} shown below lists out the average executio
     \caption{Algorithm Performance Across Various Images (scale is logarithmic)}
     \label{fig:algorithm_performance}
 \end{figure}
-
-\subsection{Image Data}
-
-The table below contains information about the different images used, for carrying out the experimental analysis.
-
-\begin{table}[H]
-    \caption{Image Specifications}
-    \centering
-    \renewcommand{\arraystretch}{1.8} % Adjust row height if needed
-    \resizebox{\columnwidth}{!}{ % Resize the table to fit within the column width
-        \begin{tabular}{|c|c|c|c|c|}
-        \hline
-        \textbf{Image Name} & \textbf{Image Size (WxH)} & \textbf{Channels} & \textbf{Type} & \textbf{Format} \\
-        \hline
-        licenseplate\_motion.jpg & 600x482 & 3 & RGB & JPEG \\
-        \hline
-        squirrel\_cls.jpg & 535x426 & 3 & RGB & JPEG \\
-        \hline
-        aero1.jpg & 640x480 & 3 & RGB & JPEG \\
-        \hline
-        apple.jpg & 512x512 & 3 & RGB & JPEG \\
-        \hline
-        baboon.jpg & 512x512 & 3 & RGB & JPEG \\
-        \hline
-        5am.jpg & 3024x4032 & 3 & RGB & JPEG \\
-        \hline
-        church\_bottom.jpg & 4032x2268 & 3 & RGB & JPEG \\
-        \hline
-        church\_wide.jpg & 4032x2268 & 3 & RGB & JPEG \\
-        \hline
-        corridor.jpg & 2268x4032 & 3 & RGB & JPEG \\
-        \hline
-        downhill.jpg & 2268x4032 & 3 & RGB & JPEG \\
-        \hline
-        landscape.jpg & 1200x1200 & 3 & RGB & JPEG \\
-        \hline
-        viewpoint.jpg & 4032x2268 & 3 & RGB & JPEG \\
-        \hline
-        \end{tabular}
-    }
-    \label{tab:image_specifications}
-\end{table}
-
 
 
 \section{Conclusion}
