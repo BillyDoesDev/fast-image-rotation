@@ -1,0 +1,204 @@
+
+Algorithm 1 Image Rotation Algorithm
+
+procedure ROTATE(img, rot, m, n, mrt, nrt, x_offset, y_offset, delta_x, delta_y, delta_i, fs, outer_limit, last_px, horizontal, negate_coords, flip_range, z48)
+ - Performs image rotation on img and outputs to rot
+Initialize internal control variables:
+ - a, b, a_, b_, x_, y_, x, y, i_
+
+if z48 then
+     parallel for each i from outer_limit - 1 to 0 do
+       index = i - outer_limit
+       src_i = index * delta_i
+       Set x_ = fs(i) and y_ = i
+        i_ = floor(src_i)
+        for each pixel px from 0 to last_px - 1 do
+          Compute x = floor(x_), y = floor(y_)
+          Set a = abs(i_), b = abs(px)
+          if negate_coords then
+            a_ = mrt - y - y_offset, b_ = nrt - x - x_offset
+          else
+            a_ = y + y_offset, b_ = x + x_offset
+          end if
+          Ensure a and b are within bounds:
+          if a < 0 then a = a + m
+          if b < 0 then b = b + n
+          if coordinates (a_, b_) and (a, b) are valid then
+            Set rot[a_, b_] = img[a, b]
+            if neighboring pixel is valid then set rot[a_ + 1, b_] = img[a, b]
+          Increment x_ by delta_x and y_ by delta_y
+         end for
+     end for
+end if
+
+
+for i = 0 to outer_limit do
+    src_i = i * delta_i
+    x_ = fs(i)
+    y_ = i
+    i_ = floor(src_i)
+    if flip_range then
+        for px = last_px down to 0 do
+            x = floor(x_)
+            y = floor(y_)
+
+            if horizontal then
+                a = i_, b = px
+            else
+                a = px, b = i_
+            end if
+            if negate_coords then
+                a_ = mrt - y - y_offset
+                b_ = nrt - x - x_offset
+            else
+                a_ = y + y_offset
+                b_ = x + x_offset
+            end if
+            
+            if a < 0 then
+                a = a + m
+            end if
+            if b < 0 then
+                b = b + n
+            end if
+            
+            if a_ in [0, mrt] and b_ in [0, nrt] and a in [0, m] and b in [0, n] then
+                rot[a_, b_] = img[a, b] ▷ Update rotated image
+
+                if a_ + horizontal in [0, mrt] and b_ + !horizontal in [0, nrt] then
+                rot[a_ + horizontal, b_ + !horizontal] = img[a, b]
+
+                end if
+            end if
+
+                x_ = x_ + delta_x
+                y_ = y_ + delta_y
+            end for 
+    else
+        for px = 0 to last_px do
+            x = floor(x_)
+            y = floor(y_)
+            if horizontal then
+                a = i_, b = px
+            else
+                a = px, b = i_
+            end if
+            if negate_coords then
+                a_ = mrt - y - y_offset
+                b_ = nrt - x - x_offset
+            else
+                a_ = y + y_offset
+                b_ = x + x_offset
+            end if
+            if a < 0 then
+                a = a + m
+            end if
+            if b < 0 then
+                b = b + n
+            end if
+            if a_ in [0, mrt] and b_ in [0, nrt] and a in [0, m] and b in [0, n] then
+                rot[a_, b_] = img[a, b] ▷ Update rotated image
+                if a_ + horizontal in [0, mrt] and b_ + !horizontal in [0, nrt] then
+                    rot[a_ + horizontal, b_ + !horizontal] = img[a, b]
+                end if
+            end if
+            x_ = x_ + delta_x
+            y_ = y_ + delta_y
+        end for
+    end if
+end for
+
+
+/////////////////////////// Main function ////////////////////////////////////
+
+Algorithm 1: Main Image Rotation Logic
+
+1. Procedure MAIN_ROTATE(input_path, output_path, angle)
+    - Input: 
+        - input_path: Path to the input image file
+        - output_path: Path to save the rotated image
+        - angle: Angle of rotation in degrees
+    - Output: Saves the rotated image in output_path
+    
+2. Initialize:  
+   - img = imread(input_path)  
+   - m = img.rows  
+   - n = img.cols  
+   - angle = normalize(angle)  ⟶ Adjust angle to range [0, 360]  
+   - alpha = (π * angle) / 180  ⟶ Convert angle to radians  
+   - sin_alpha, cos_alpha = |sin(alpha)|, |cos(alpha)|  
+   - mrt = ceil(m * cos_alpha + n * sin_alpha)  
+   - nrt = ceil(m * sin_alpha + n * cos_alpha)  
+   - rotate= zeros(mrt, nrt)  
+
+3. Define rotation zone functions:
+   - tan_alpha = tan(alpha)  
+   - tan_alpha_ = tan(alpha + π/2)
+
+4. Determine Zone and Rotation Parameters:
+   - Zone 1 & 5:  
+      - If (0 ≤ angle ≤ 45) OR (180 < angle ≤ 225):
+          - Set x_offset = ceil(m * sin_alpha)
+          - Set y_offset = 0
+          - fs = y / tan_alpha_
+          - delta_x = cos_alpha, delta_y = sin_alpha
+          - delta_i = 1 / delta_x
+          - outer_limit = ceil(m * cos_alpha)
+          - last_px = n
+          - horizontal = true
+          - negate_coords = !(0 <= angle && angle <= 45)
+          - flip_range = false
+          - z48 = false
+          - Call ROTATE(...)
+  
+   - Zone 2 & 6:  
+      - Else If (45 < angle ≤ 90) OR (225 < angle ≤ 270):
+          - Set x_offset = ceil(m * sin_alpha)
+          - Set y_offset = 0
+          - fs = y / tan_alpha
+          - delta_x = -sin_alpha, delta_y = cos_alpha
+          - delta_i = (45 < angle ≤ 90 ? -1 : 1) / delta_x
+          - outer_limit = ceil(n * sin_alpha)
+          - last_px = m
+          - horizontal = false
+          - negate_coords = false
+          - flip_range = !(45 < angle && angle <= 90)
+          - z48 = false
+          - Call ROTATE(...)
+
+   - Zone 3 & 7:  
+      - Else If (90 < angle ≤ 135) OR (270 < angle ≤ 315):
+          - Set x_offset = nrt
+          - Set y_offset = ceil(m * cos_alpha)
+          - fs = y / tan_alpha
+          - delta_x = -sin_alpha, delta_y = -cos_alpha
+          - delta_i = (90 < angle ≤ 135 ? -1 : 1) / delta_x
+          - outer_limit = ceil(n * sin_alpha)
+          - last_px = m
+          - horizontal = false
+          - negate_coords = false
+          - flip_range = !(90 < angle && angle <= 135)
+          - z48 = false
+          - Call ROTATE(...)
+
+   - Zone 4 & 8:  
+      - Else If (135 < angle ≤ 180) OR (315 < angle ≤ 360):
+          - Set x_offset = ceil(n * cos_alpha)
+          - Set y_offset = 0
+          - fs = y / tan_alpha_
+          - delta_x = -cos_alpha, delta_y = sin_alpha
+          - delta_i = 1 / delta_x
+          - outer_limit = ceil(m * cos_alpha)
+          - last_px = n
+          - horizontal = true
+          - negate_coords = !(135 < angle && angle <= 180)
+          - flip_range = false
+          - z48 = true
+
+          - Call ROTATE(...)
+
+5. Write Rotated Image:  
+   - Save rotated image to output_path.
+
+
+
