@@ -274,6 +274,15 @@ $$\delta y = \left\lvert sin(\alpha)\right\rvert$$
 \end{table}
 
 
+\begin{figure}[H]
+    \centering
+    \captionsetup{justification=centering,margin=0.7cm}
+    \includegraphics[width=0.5\textwidth]{proposedAlgoEg.png}
+    \caption{Example demonstrating the proposed algorithm.}
+    \label{fig:final_example}
+\end{figure}
+
+
 \subsection{Implementation}
 
 \renewcommand{\arraystretch}{3}  % This sets the row height to 3 cm
@@ -375,7 +384,7 @@ The rotation function is then invoked, with each of the parameters updating depe
 \end{breakablealgorithm}
 
 \section{Experimental Results and Analysis}
-We conduct an analysis of the accuracy of the reconstructed images through the use of different error metrics. These metrics assess the similarity between the original and processed images, offering valuable insights into the effectiveness of the image processing methods employed. The subsequent subsections provide a detailed explanation of each metric, including their mathematical formulations and interpretations.
+We conduct an analysis of the accuracy of the reconstructed images through the use of different error metrics. These metrics assess the similarity between the original and processed images, offering valuable insights into the effectiveness of the image processing methods employed. The subsequent subsections provide a detailed explanation of each metric, including their mathematical formulations and interpretations. (All tests mave been measured against a sample image rotated by 26 degrees using GIMP.)
 
 
 \subsection{Image Data}
@@ -671,7 +680,10 @@ where \(L\) signifies the dynamic range of the pixel values (e.g., 255 for 8-bit
 
 \subsection{Execution Time Analysis}
 
-Table \ref{tab:algorithm_performance} shown below lists out the average execution time (in seconds) of each standard algorithm on various test images of sufficiently high resolutions. Each algorithm was run for a total of \textbf{36 times} - starting from rotaing the image from $\ang{0}$, to $\ang{360}$, in the intervals of $\ang{10}. $It has been noted that the proposed algorithm consistently surpasses the performance of existing techniques..
+Table \ref{tab:algorithm_performance} shown below lists out the average execution time (in seconds) of each standard algorithm on various test images of sufficiently high resolutions. Each algorithm was run for a total of \textbf{36 times} - starting from rotaing the image from $\ang{0}$, to $\ang{360}$, in the intervals of $\ang{10}. $ It has been noted that the proposed algorithm consistently surpasses the performance of existing techniques.
+
+All the tests have been run on an \texttt{Intel i7-10750H (12) @ 5.000GHz} machine, with \texttt{16 GB} of RAM. All binaries were compiled for an \texttt{aarch64} device, and run on the same test machine, using \textbf{\texttt{qemu}}.
+
 
 \begin{table}[H]
     \caption{Algorithm Performance Across Various Images}
@@ -708,6 +720,27 @@ Table \ref{tab:algorithm_performance} shown below lists out the average executio
     \caption{Algorithm Performance Across Various Images (scale is logarithmic)}
     \label{fig:algorithm_performance}
 \end{figure}
+
+
+Table \ref{tab:no_computations} presents a comparative analysis of various image rotation methods based on the number of multiplication, addition, and rounding-off operations. The proposed algorithm demonstrates a significantly lower computational burden, indicating its enhanced simplicity, which contributes to a substantial increase in processing speed.
+
+\begin{table}[h!]
+    \centering
+    \captionsetup{justification=centering}
+    \caption{Comparison of the Number of Multiplication, Addition, and Rounding-off Operations in Various Image Rotation Methods}
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+    \textbf{Method}           & \textbf{Multiplication} & \textbf{Addition}   & \textbf{Rounding-off} \\ \hline
+    Affine Transform          & $4n^2$                 & $8n^2$              & none                      \\ \hline
+    Benchmark                 & $4n^2$                 & $4n^2$              & $2n^2$                  \\ \hline
+    Bicubic                   & $68n^2 + 4n$           & $37n^2$             & $2n^2$                  \\ \hline
+    Lanczos                   & $4n^2$                 & $4n^2$              & $2n^2$                  \\ \hline
+    Linear                    & $4n^2 + 2n$            & $4n^2 + 2n^2$       & $2n^2$                  \\ \hline
+    DLR                       & $2n$                   & $4n^2 + 3n + 1$     & $2n^2$                  \\ \hline
+    Proposed                  & $n$                    & $10n^2$             & $2n^2 + n$              \\ \hline
+    \end{tabular}
+    \label{tab:no_computations}
+\end{table}
 
 
 \section{Conclusion}
