@@ -3,6 +3,7 @@
 #include <iostream>
 #include <omp.h>
 #include <opencv2/opencv.hpp>
+#include <chrono>
 
 using cv::Mat;
 using std::floor, std::ceil, std::abs, std::sin, std::cos, std::tan, std::function;
@@ -156,6 +157,9 @@ int main(int argc, char const *argv[]) {
     }
 
     Mat img = cv::imread(argv[1]);
+
+    auto start = std::chrono::high_resolution_clock::now();
+
     // Mat img = cv::imread("../assets/fish_2880.png");
     int m = img.rows;
     int n = img.cols;
@@ -242,30 +246,39 @@ int main(int argc, char const *argv[]) {
 
     cv::imwrite(argv[2], rotated);
 
-    if (argc > 4) {
-        // file_to_compare input_dump_file output_dump_file
-        img = cv::imread(argv[4]);
-        FILE *fptr;
-        fptr = fopen(argv[5], "w");
-        for (int y = 0; y < img.rows; y++) {
-            for (int x = 0; x < img.cols; x++) {
-                auto px = img.at<cv::Vec3b>(y, x);
-                fprintf(fptr, "%d ", (px[0] + px[1] + px[2]) / 3);
-            }
-            fprintf(fptr, "\n");
-        }
-        fclose(fptr);
+    auto end = std::chrono::high_resolution_clock::now();
 
-        fptr = fopen(argv[6], "w");
-        for (int y = 0; y < rotated.rows; y++) {
-            for (int x = 0; x < rotated.cols; x++) {
-                auto px = rotated.at<cv::Vec3b>(y, x);
-                fprintf(fptr, "%d ", (px[0] + px[1] + px[2]) / 3);
-            }
-            fprintf(fptr, "\n");
-        }
-        fclose(fptr);
-    }
+    // Calculate the duration
+    std::chrono::duration<double> duration = end - start;
+
+    // Print the duration in seconds
+    std::cout << "Function took: " << duration.count() << " seconds" << std::endl;
+
+
+    // if (argc > 4) {
+    //     // file_to_compare input_dump_file output_dump_file
+    //     img = cv::imread(argv[4]);
+    //     FILE *fptr;
+    //     fptr = fopen(argv[5], "w");
+    //     for (int y = 0; y < img.rows; y++) {
+    //         for (int x = 0; x < img.cols; x++) {
+    //             auto px = img.at<cv::Vec3b>(y, x);
+    //             fprintf(fptr, "%d ", (px[0] + px[1] + px[2]) / 3);
+    //         }
+    //         fprintf(fptr, "\n");
+    //     }
+    //     fclose(fptr);
+
+    //     fptr = fopen(argv[6], "w");
+    //     for (int y = 0; y < rotated.rows; y++) {
+    //         for (int x = 0; x < rotated.cols; x++) {
+    //             auto px = rotated.at<cv::Vec3b>(y, x);
+    //             fprintf(fptr, "%d ", (px[0] + px[1] + px[2]) / 3);
+    //         }
+    //         fprintf(fptr, "\n");
+    //     }
+    //     fclose(fptr);
+    // }
 
     return 0;
 }
