@@ -79,3 +79,27 @@ The files ending with a `__b` (both cpp files, and their corresponding binaries)
 ```sh
 path/to/dlr__b [path/to/input/image] [path/to/output/image] [angle_in_degrees]
 ```
+
+
+# Important usage update for new users:
+
+> Or, honestly, mostly for me, who keeps coming back to this project every once in a while for various reasons...
+
+1. CMakeLists.txt
+
+For standard compilation on an x86 machine, with opencv installed from your system's repositories, make sure you have the following changes:
+
+```make
+# set(CMAKE_PREFIX_PATH ${PROJECT_SOURCE_DIR}/opencv/bleh/install)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -fopenmp")
+
+```
+
+2. Running benchmarks and testing for errors
+
+If you intend to test for errors, make sure you use only one angle in the benchmark program, to scaffold the necessary files the testing program, `error_tests.ipynb` (it's the last cell, mentioned **--- FINAL EVALUATION ---**) uses. So, in this example, we test for images with a 30 adegree rotation only. I know this is stupid, but I didn't want to make a lot of changes to the existing code just to add a new feature, and unfortunately, as a result of that, I have had to look through the nightmare of a codebase that this has grown into each time.
+
+
+```sh
+python benchmark.py --angle-range 30 31 30 --img-dir assets/kodak-dataset/ --save-log
+```

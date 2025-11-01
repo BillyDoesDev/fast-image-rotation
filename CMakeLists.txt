@@ -12,7 +12,7 @@ file(GLOB SOURCE_FILES
     "proposed_algorithm/proposed_algorithm__b.cpp"
 )
 
-set(CMAKE_PREFIX_PATH ${PROJECT_SOURCE_DIR}/opencv/bleh/install)
+# set(CMAKE_PREFIX_PATH ${PROJECT_SOURCE_DIR}/opencv/bleh/install)
 find_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
 
@@ -24,4 +24,4 @@ foreach(SOURCE_FILE ${SOURCE_FILES})
     target_link_libraries(${TARGET_NAME} ${OpenCV_LIBS})
 endforeach()
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static -O3 -fopenmp")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -fopenmp")

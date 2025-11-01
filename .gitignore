@@ -4,6 +4,7 @@ dumps/
 outputs/
 opencv/
 env*/
+.env/
 tempCodeRunner*
 spam*
 rotated_image.png
@@ -15,3 +16,7 @@ docs/report/*
 !docs/report/*bib
 setup_git_once.sh
 add_ssh_keys.sh
+burner/
+logs/*pickle
+logs/*csv
+logs/*zip

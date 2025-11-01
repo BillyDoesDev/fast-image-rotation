@@ -31,7 +31,7 @@ args = parser.parse_args()
 # Gather input images
 img_dir = args.img_dir
 input_imgs = [path.join(img_dir, _) for _ in listdir(img_dir) if path.isfile(path.join(img_dir, _))]
-
+print(f"{input_imgs=}")
 # Limit number of images if specified
 if args.num_images is not None:
     input_imgs = input_imgs[:args.num_images]
@@ -70,6 +70,7 @@ if angle_range[0] == angle_range[-1]:
 
     for img in input_imgs:
         out_test_img_path = path.join(test_img_dir, img.split("/")[-1])
+        print(f"{out_test_img_path=}")
         r = subprocess.run(
             ["magick", img, "-background", "black", "-rotate", str(angle_range[0]), out_test_img_path],
             capture_output=True,
@@ -106,7 +107,7 @@ with open("logs/benchmark_summary.txt", encoding="utf-8", mode="w") as logfile:
                 output_path = path.join("./outputs/", f"{target.split('/')[-1]}_{input_img.split('/')[-1]}")
                 outputs.append(output_path)
                 r = subprocess.run(
-                    ["qemu-aarch64-static", target, input_img, output_path, str(angle)], capture_output=True,
+                    [target, input_img, output_path, str(angle)], capture_output=True,
                 )
                 time_elapsed = perf_counter_ns() - start
                 if r.returncode == 0:
